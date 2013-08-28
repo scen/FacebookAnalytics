@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/activatedBackgroundIndicator" >
+	<com.facebook.widget.ProfilePictureView
+			android:id="@+id/profilepic"
+			android:layout_marginTop="6dip"
+			android:layout_marginBottom="6dip"
+			android:paddingLeft="10dip"
+			android:layout_centerVertical="true"
+			android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+	<TextView
+	    android:id="@+id/username"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+	    android:gravity="center_vertical"
+	    android:layout_toRightOf="@id/profilepic"
+	    android:paddingLeft="16dp"
+	    android:paddingRight="16dp"
+	    android:textColor="#323232"
+	    android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+</RelativeLayout>
