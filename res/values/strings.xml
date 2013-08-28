@@ -4,5 +4,10 @@
     <string name="app_name">Facebook Analytics</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="app_id">520332458036948</string>
+    <string name="action_help">Help</string>
+    <string name="action_logout">Logout</string>
+	<string name="action_about">About</string>
 </resources>
