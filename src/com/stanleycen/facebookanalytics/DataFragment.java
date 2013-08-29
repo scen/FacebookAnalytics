@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,9 @@ public class DataFragment extends Fragment {
         items.add(new CardUpdate(CardItems.CardUpdateItem.ordinal()));
 
         CardAdapter ca = new CardAdapter(getActivity(), items, CardItems.values().length);
-        list.setAdapter(ca);
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(ca);
+        swingBottomInAnimationAdapter.setAbsListView(list);
+        list.setAdapter(swingBottomInAnimationAdapter);
 
         return root;
     }

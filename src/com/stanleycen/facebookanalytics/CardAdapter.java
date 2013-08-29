@@ -12,13 +12,13 @@ import java.util.List;
  * Created by scen on 8/28/13.
  */
 
-public class CardAdapter extends ArrayAdapter<CardItem> {
+public class CardAdapter extends com.haarman.listviewanimations.ArrayAdapter<CardItem> {
     public LayoutInflater mInflater;
     private Context context;
     private int mNumTypes;
 
     public CardAdapter(Context context, List<CardItem> items, int numTypes) {
-        super(context, 0, items);
+        super(items);
         mInflater = LayoutInflater.from(context);
         this.mNumTypes = numTypes;
         this.context = context;

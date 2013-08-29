@@ -62,7 +62,8 @@ public class MainActivity extends Activity {
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mDrawerList = (ListView)findViewById(R.id.left_drawer);
 
-        mTitle = mDrawerTitle = getActionBar().getTitle();
+        mTitle = mDrawerTitle = getString(R.string.app_name);
+//        Log.d(TAG, (String) mDrawerTitle);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 
         		R.string.drawer_open, R.string.drawer_close) {
