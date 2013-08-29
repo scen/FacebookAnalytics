@@ -1,17 +1,14 @@
 package com.stanleycen.facebookanalytics;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -27,13 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.LoggingBehavior;
-import com.facebook.Request;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.Settings;
 import com.facebook.widget.ProfilePictureView;
 
 
@@ -41,8 +32,25 @@ public class MainActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
+    private ArrayList<DrawerEntry> mEntries;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+
+    private final String TAG = "MAIN";
 	
 	final static int PREFERENCESACTIVITY_CODE = 1;
+
+    public class DrawerEntry {
+        String text;
+        int icon;
+        String fragment;
+
+        public DrawerEntry(String text, int icon, String fragment) {
+            this.text = text;
+            this.icon = icon;
+            this.fragment = fragment;
+        }
+    }
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +63,12 @@ public class MainActivity extends Activity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 
         		R.string.drawer_open, R.string.drawer_close) {
         	public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
         		invalidateOptionsMenu();
         	}
         	
         	public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
         		invalidateOptionsMenu();
         	}
         };
@@ -70,17 +80,31 @@ public class MainActivity extends Activity {
         
         new GetMeTask().execute();
     }
-    
+
+    private ArrayList<String> getStringsFromEntries(ArrayList<DrawerEntry> entries) {
+        ArrayList<String> arr = new ArrayList<String>();
+        for (DrawerEntry entry : entries) {
+            arr.add(entry.text);
+        }
+        return arr;
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
     private class DrawerRowAdapter extends ArrayAdapter<String> {
-    	private ArrayList<String> arr = new ArrayList<String>();
-    	private int[] res;
+    	private ArrayList<DrawerEntry> entries = new ArrayList<DrawerEntry>();
     	Context context;
-    	
-    	public DrawerRowAdapter(Context context, ArrayList<String> arr, int[] res) {
-    		super(context, R.layout.drawer_list_item, arr);
+
+
+
+    	public DrawerRowAdapter(Context context, ArrayList<DrawerEntry> entries) {
+    		super(context, R.layout.drawer_list_item, getStringsFromEntries(entries));
     		this.context = context;
-    		this.arr = arr;
-    		this.res = res;
+            this.entries = entries;
     	}
     	
     	@Override
@@ -89,22 +113,22 @@ public class MainActivity extends Activity {
     		
     		RowHolder holder = new RowHolder();
     		if (convertView == null) {
-    			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    			LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(context);
     			rowView = inflater.inflate(R.layout.drawer_list_item, parent, false);
     			TextView text = (TextView) rowView.findViewById(R.id.text);
     			ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
     			
     			holder.icon = icon;
     			holder.text = text;
-    			
+
     			rowView.setTag(holder);
     		}
     		else {
     			holder = (RowHolder)rowView.getTag();
     		}
-    		
-    		holder.text.setText(arr.get(position));
-    		holder.icon.setImageResource(res[position]);
+
+    		holder.text.setText(entries.get(position).text);
+    		holder.icon.setImageResource(entries.get(position).icon);
 			return rowView;
     	}
     };
@@ -119,14 +143,16 @@ public class MainActivity extends Activity {
         userName.setText(FBAccount.me.getName());
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.addHeaderView(top, null, false);
+
+        mEntries = new ArrayList<DrawerEntry>();
+        mEntries.add(new DrawerEntry("Data collection", R.drawable.ic_action_data, "com.stanleycen.facebookanalytics.DataFragment"));
+        mEntries.add(new DrawerEntry("Overview", R.drawable.ic_action_overview, ""));
+        mEntries.add(new DrawerEntry("Conversations", R.drawable.ic_social_person, ""));
+        mEntries.add(new DrawerEntry("Group chats", R.drawable.ic_social_group, ""));
+
+        mDrawerList.setAdapter(new DrawerRowAdapter(this, mEntries));
         
-        final String[] navText = {"Data collection", "Overview", "Conversations", "Group chats"};
-        final int[] navIcons   = {R.drawable.ic_action_data, R.drawable.ic_action_overview, R.drawable.ic_social_person, R.drawable.ic_social_group};
-        mDrawerList.setAdapter(new DrawerRowAdapter(this, new ArrayList<String>(Arrays.asList(navText)), 
-        		navIcons));
-        
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener() {
-		});
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
     
     private static class RowHolder {
@@ -155,6 +181,7 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			dialog.dismiss();
 			initDrawer();
+            drawerSelect(1);
 			
 			super.onPostExecute(result);
 		}
@@ -221,7 +248,13 @@ public class MainActivity extends Activity {
     
     private void drawerSelect(int position) {
     	mDrawerList.setItemChecked(position, true);
-    	
+        --position; // ignore header
+        if (!mEntries.get(position).fragment.isEmpty()) {
+            Fragment f = Fragment.instantiate(this, mEntries.get(position).fragment);
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
+            setTitle(mEntries.get(position).text);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
     }
     
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
