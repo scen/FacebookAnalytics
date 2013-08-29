@@ -11,10 +11,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Actions"
+        android:text="@string/manage_data"
         android:textColor="@android:color/darker_gray"
         android:textSize="14dip"
-        android:id="@+id/textView"
+        android:id="@+id/status"
         android:layout_above="@+id/progressBar"
         android:layout_alignLeft="@+id/progressBar" />
 
@@ -25,7 +25,8 @@
         android:id="@+id/progressBar"
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
 
     <LinearLayout
         android:orientation="vertical"

@@ -12,7 +12,11 @@ import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnim
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class DataFragment extends Fragment {
     public enum CardItems {
@@ -35,7 +39,13 @@ public class DataFragment extends Fragment {
         ListView list = (ListView)root.findViewById(R.id.listView);
 
         List<CardItem> items = new ArrayList<CardItem>();
-        items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update", "September 11, 2013", "12:12:12 pm"));
+
+        Calendar gc = Calendar.getInstance();
+        gc.setTimeInMillis((long)1377799268 * 1000);
+
+
+        items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update",
+                Util.getDate(gc), Util.getTimeWithTZ(gc)));
         items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Amount of data",
                 (new File(FBAccount.db.getReadableDatabase().getPath()).length() / 1024.0) + "", " kilobytes"));
         items.add(new CardUpdate(CardItems.CardUpdateItem.ordinal()));
@@ -44,6 +54,8 @@ public class DataFragment extends Fragment {
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(ca);
         swingBottomInAnimationAdapter.setAbsListView(list);
         list.setAdapter(swingBottomInAnimationAdapter);
+
+        setRetainInstance(true);
 
         return root;
     }

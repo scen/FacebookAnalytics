@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.SystemClock;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -81,8 +82,7 @@ public class MainActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        
+//        getActionBar().setHomeButtonEnabled(true);
         new GetMeTask().execute();
     }
 
@@ -195,7 +195,6 @@ public class MainActivity extends Activity {
 			dialog.dismiss();
 			initDrawer();
             drawerSelect(1);
-			
 			super.onPostExecute(result);
 		}
 		
