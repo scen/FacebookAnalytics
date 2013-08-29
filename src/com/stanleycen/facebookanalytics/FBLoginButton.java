@@ -1,7 +1,5 @@
 package com.stanleycen.facebookanalytics;
 
-import com.facebook.android.R;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;

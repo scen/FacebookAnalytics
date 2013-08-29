@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FacebookAnalytics.iml" filepath="$PROJECT_DIR$/FacebookAnalytics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/facebook-android-sdk-3.5/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook-android-sdk-3.5/facebook/facebook.iml" />
+    </modules>
+  </component>
+</project>
+
