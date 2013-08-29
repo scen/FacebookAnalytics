@@ -12,10 +12,6 @@
         android:id="@+id/listView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="12dip"
-        android:padding="15dip"
-        android:scrollbars="none"
-        android:listSelector="@android:color/transparent"
-        android:clipToPadding="false"/>
+        style="@style/CardListView"
+        />
 </RelativeLayout>

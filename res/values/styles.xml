@@ -26,5 +26,13 @@
     <color name="com_facebook_blue">#3B5998</color>
     <color name="holo_gray">#323232</color>
     <color name="light_gray_bg">#e5e5e5</color>
+    <style name="CardListView" parent="AppTheme">
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">25dip</item>
+        <item name="android:padding">15dip</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
 
 </resources>
