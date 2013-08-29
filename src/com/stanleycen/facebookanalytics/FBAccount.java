@@ -12,6 +12,7 @@ public class FBAccount {
 	public static Session session;
 	public static GraphUser me;
 	public static boolean initialized = false;
+    public static DatabaseHandler db;
 	
 	static final String TAG = "FBAccount";
 	
@@ -30,7 +31,7 @@ public class FBAccount {
 				Log.d(TAG, me.getId());
 			}
 		}).executeAndWait();
-		
+
 		initialized = true;
 	}
 	

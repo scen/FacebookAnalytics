@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataFragment extends Fragment {
     public enum CardItems {
-        CardValueItem,
+        CardDateTimeItem,
+        CardUpdateItem,
     };
 
     public static Fragment newInstance(Context context) {
@@ -31,15 +33,11 @@ public class DataFragment extends Fragment {
         ListView list = (ListView)root.findViewById(R.id.listView);
 
         List<CardItem> items = new ArrayList<CardItem>();
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "September 11, 2013", "12:12:12 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "March 8, 2013", "1:02:03 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "April 1, 2011", "7:17:40 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "September 11, 2013", "12:12:12 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "March 8, 2013", "1:02:03 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "April 1, 2011", "7:17:40 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "September 11, 2013", "12:12:12 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "March 8, 2013", "1:02:03 pm"));
-        items.add(new CardDateTime(CardItems.CardValueItem.ordinal(), "Last update", "April 1, 2011", "7:17:40 pm"));
+        items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update", "September 11, 2013", "12:12:12 pm"));
+        items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Amount of data",
+                (new File(FBAccount.db.getReadableDatabase().getPath()).length() / 1024.0) + "", " kilobytes"));
+        items.add(new CardUpdate(CardItems.CardUpdateItem.ordinal()));
+
         CardAdapter ca = new CardAdapter(getActivity(), items, CardItems.values().length);
         list.setAdapter(ca);
 

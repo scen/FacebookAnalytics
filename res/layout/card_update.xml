@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/card_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Actions"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14dip"
+        android:id="@+id/textView"
+        android:layout_above="@+id/progressBar"
+        android:layout_alignLeft="@+id/progressBar" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignLeft="@+id/progressBar">
+
+        <Button
+            android:id="@+id/button_update"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="Update message data"
+            android:layout_below="@+id/progressBar"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/progressBar"
+            android:gravity="left|center_vertical"
+            android:drawablePadding="@dimen/icon_button_padding"
+            android:textColor="@color/holo_gray"
+            android:drawableLeft="@drawable/ic_action_download"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray_bg"/>
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="Clear saved data"
+            android:layout_below="@+id/progressBar"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/progressBar"
+            android:gravity="left|center_vertical"
+            android:drawablePadding="@dimen/icon_button_padding"
+            android:textColor="@color/holo_gray"
+            android:drawableLeft="@drawable/ic_action_discard"/>
+    </LinearLayout>
+
+</LinearLayout>

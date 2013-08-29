@@ -3,6 +3,8 @@ package com.stanleycen.facebookanalytics;
 import java.util.ArrayList;
 
 import android.app.Fragment;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -59,7 +61,9 @@ public class MainActivity extends Activity {
         
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mDrawerList = (ListView)findViewById(R.id.left_drawer);
-        
+
+        mTitle = mDrawerTitle = getActionBar().getTitle();
+
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 
         		R.string.drawer_open, R.string.drawer_close) {
         	public void onDrawerClosed(View view) {
@@ -173,7 +177,15 @@ public class MainActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			FBAccount.init();
-			
+			FBAccount.db = new DatabaseHandler(MainActivity.this);
+            String sql = " SELECT name FROM sqlite_master " + " WHERE type='table'";
+
+            Cursor c = FBAccount.db.getReadableDatabase().rawQuery(sql, null);
+            if (c.moveToFirst()) {
+                do {
+                    Log.d(TAG, c.getString(0));
+                } while (c.moveToNext());
+            }
 			return null;
 		}
 		

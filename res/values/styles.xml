@@ -24,5 +24,7 @@
     <color name="com_facebook_loginview_text_color">#FFFFFF</color>
     <dimen name="com_facebook_loginview_text_size">16.0sp</dimen>
     <color name="com_facebook_blue">#3B5998</color>
+    <color name="holo_gray">#323232</color>
+    <color name="light_gray_bg">#e5e5e5</color>
 
 </resources>

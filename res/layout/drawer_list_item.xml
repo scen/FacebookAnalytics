@@ -19,6 +19,6 @@
 	    android:layout_toRightOf="@id/icon"
 	    android:paddingLeft="16dp"
 	    android:paddingRight="16dp"
-	    android:textColor="#323232"
+	    android:textColor="@color/holo_gray"
 	    android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
 </RelativeLayout>
