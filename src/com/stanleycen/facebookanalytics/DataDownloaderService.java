@@ -132,7 +132,6 @@ public class DataDownloaderService extends Service {
                         SystemClock.sleep(UnifiedMessaging.API_WAIT);
                     }
 
-                    lastTimestamp = 0;
 
                     int curIdx = 1;
                     int tot = GlobalApp.get().fb.fbData.threads.size();
@@ -140,6 +139,7 @@ public class DataDownloaderService extends Service {
 
                     for (FBThread fbThread : GlobalApp.get().fb.fbData.threads) {
                         int curThreadMessagesDownloaded = 0;
+                        lastTimestamp = 0;
                         try {
                             while (true) {
                                 updateDownloadProgress("Conversation " + curIdx + " of " + tot + " (" + curThreadMessagesDownloaded + " / " + fbThread.messageCount + ")",
@@ -210,11 +210,11 @@ public class DataDownloaderService extends Service {
                                     JSONArray shares = curMessage.getJSONArray("shares");
                                     if (shares != null && shares.length() > 0) {
                                         if (!curMessage.isNull("share_map")) {
-                                            Log.d(TAG, curMessage.toString(2));
+//                                            Log.d(TAG, curMessage.toString(2));
                                             JSONObject shareMap = curMessage.optJSONObject("share_map");
                                             if (shareMap != null) {
                                                 for (int k = 0; k < shares.length(); k++) {
-                                                    String id = shares.getString(i);
+                                                    String id = shares.getString(k);
                                                     JSONObject shareObj = shareMap.getJSONObject(id);
                                                     if (shareObj != null) {
                                                         if (!shareObj.isNull("sticker_id")) {
