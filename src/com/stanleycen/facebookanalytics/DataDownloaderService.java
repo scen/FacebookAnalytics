@@ -77,7 +77,7 @@ public class DataDownloaderService extends Service {
                     long lastTimestamp = UnifiedMessaging.LARGE_TIMESTAMP;
 
                     int totMessageCount = 0;
-                    int howMany = 1;
+                    int howMany = 20;
                     outer:
                     while (true) {
                         String threadFQL = UnifiedMessaging.getThreadFQL(lastTimestamp);
@@ -117,14 +117,15 @@ public class DataDownloaderService extends Service {
                                     GlobalApp.get().fb.fbData.userMap.put(uid, user);
                                 }
 
-                                JSONArray formerParticipants = jcurThread.getJSONArray("former_participants");
-                                for (int j = 0; j < formerParticipants.length(); j++) {
-                                    JSONObject curp = formerParticipants.getJSONObject(j);
-                                    String uid = curp.getString("user_id");
-                                    FBUser user = new FBUser(uid, curp.getString("name"));
-                                    fbThread.participants.add(uid);
-                                    GlobalApp.get().fb.fbData.userMap.put(uid, user);
-                                }
+                                JSONArray formerParticipants = jcurThread.optJSONArray("former_participants");
+                                if (formerParticipants != null)
+                                    for (int j = 0; j < formerParticipants.length(); j++) {
+                                        JSONObject curp = formerParticipants.getJSONObject(j);
+                                        String uid = curp.getString("user_id");
+                                        FBUser user = new FBUser(uid, curp.getString("name"));
+                                        fbThread.participants.add(uid);
+                                        GlobalApp.get().fb.fbData.userMap.put(uid, user);
+                                    }
                                 GlobalApp.get().fb.fbData.threads.add(fbThread);
                                 lastTimestamp = timestamp;
                                 if (--howMany <= 0) break outer;
@@ -161,7 +162,7 @@ public class DataDownloaderService extends Service {
                                 }
 
                                 JSONObject jobj = res.getGraphObject().getInnerJSONObject();
-                                JSONArray data = jobj.getJSONArray("data");
+                                JSONArray data = jobj.optJSONArray("data");
                                 if (data == null || data.length() == 0) break;
                                 Log.v(TAG, "" + data.length());
                                 for (int i = 0; i < data.length(); i++) {
@@ -189,26 +190,30 @@ public class DataDownloaderService extends Service {
                                     fbMessage.id = curMessage.getString("message_id");
                                     JSONArray attachments = curMessage.optJSONArray("attachments");
                                     if (attachments != null && attachments.length() > 0) {
-                                        JSONObject attachmentMap = curMessage.getJSONObject("attachment_map");
+                                        JSONObject attachmentMap = curMessage.optJSONObject("attachment_map");
                                         if (attachmentMap != null) {
                                             for (int j = 0; j < attachments.length(); j++) {
                                                 String id = attachments.getString(j);
-                                                JSONObject attachmentObj = attachmentMap.getJSONObject(id);
+                                                JSONObject attachmentObj = attachmentMap.optJSONObject(id);
                                                 if (attachmentObj != null) {
-                                                    JSONObject imageData = attachmentObj.getJSONObject("image_data");
+                                                    JSONObject imageData = attachmentObj.optJSONObject("image_data");
                                                     if (imageData != null) {
                                                         FBAttachment fbAttachment = new FBAttachment();
-                                                        fbAttachment.height = imageData.getInt("height");
-                                                        fbAttachment.width = imageData.getInt("width");
-                                                        fbAttachment.mimeType = attachmentObj.getString("mime_type");
-                                                        fbAttachment.url = imageData.getString("url");
-                                                        fbAttachment.previewUrl = imageData.getString("preview_url");
-                                                        fbAttachment.id = id;
-                                                        fbAttachment.type = FBAttachment.Type.IMAGE;
-                                                        fbAttachment.message = fbMessage.id;
-                                                        fbAttachment.thread = fbThread.id;
-                                                        fbMessage.attachments.add(fbAttachment);
-                                                        Log.d(TAG, fbAttachment.url);
+                                                        try {
+                                                            fbAttachment.height = imageData.getInt("height");
+                                                            fbAttachment.width = imageData.getInt("width");
+                                                            fbAttachment.mimeType = attachmentObj.getString("mime_type");
+                                                            fbAttachment.url = imageData.getString("url");
+                                                            fbAttachment.previewUrl = imageData.getString("preview_url");
+                                                            fbAttachment.id = id;
+                                                            fbAttachment.type = FBAttachment.Type.IMAGE;
+                                                            fbAttachment.message = fbMessage.id;
+                                                            fbAttachment.thread = fbThread.id;
+                                                            fbMessage.attachments.add(fbAttachment);
+                                                            Log.d(TAG, fbAttachment.url);
+                                                        } catch (JSONException e) {
+
+                                                        }
                                                     }
                                                 }
                                             }
@@ -235,7 +240,7 @@ public class DataDownloaderService extends Service {
                                             if (shareMap != null) {
                                                 for (int k = 0; k < shares.length(); k++) {
                                                     String id = shares.getString(k);
-                                                    JSONObject shareObj = shareMap.getJSONObject(id);
+                                                    JSONObject shareObj = shareMap.optJSONObject(id);
                                                     if (shareObj != null) {
                                                         if (!shareObj.isNull("sticker_id")) {
                                                             FBAttachment sticker = new FBAttachment();

@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.widget.ProfilePictureView;
 
@@ -63,7 +64,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mDrawerList = (ListView)findViewById(R.id.left_drawer);
 
@@ -273,6 +274,17 @@ public class MainActivity extends Activity {
         if (!mEntries.get(position).fragment.isEmpty()) {
             Fragment f = Fragment.instantiate(this, mEntries.get(position).fragment);
             getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
+            setTitle(mEntries.get(position).text);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
+    }
+
+    public void reloadPosition(int position) {
+        mDrawerList.setItemChecked(position, true);
+        --position; // ignore header
+        if (!mEntries.get(position).fragment.isEmpty()) {
+            Fragment f = Fragment.instantiate(this, mEntries.get(position).fragment);
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commitAllowingStateLoss();
             setTitle(mEntries.get(position).text);
             mDrawerLayout.closeDrawer(mDrawerList);
         }

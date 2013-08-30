@@ -40,6 +40,7 @@ public class CardUpdate extends CardItem {
             holder.update = (Button)v.findViewById(R.id.button_update);
             holder.delete = (Button)v.findViewById(R.id.button_delete);
             holder.bar = (ProgressBar)v.findViewById(R.id.progressBar);
+            holder.context = context;
             v.setTag(holder);
         }
         else {
@@ -94,7 +95,7 @@ public class CardUpdate extends CardItem {
         protected void onPostExecute(Void result) {
             dialog.dismiss();
             super.onPostExecute(result);
-            reloadFragment(ctx);
+            reloadFragment(holder.context);
         }
 
     };
@@ -167,7 +168,7 @@ public class CardUpdate extends CardItem {
                                         else if (msg.what == DataDownloaderService.MessageType.FINISHED_DOWNLOAD.ordinal()) {
                                             GlobalApp.get().updateState.updating = false;
                                             reloadControlState();
-                                            reloadFragment(context);
+                                            reloadFragment(holder.context);
                                         }
                                     }
                                 };
@@ -186,8 +187,12 @@ public class CardUpdate extends CardItem {
     }
 
     private void reloadFragment(Context context) {
-        MainActivity ma = (MainActivity)context;
-        if (ma != null) ma.drawerSelect(MainActivity.DRAWER_DATA_COLLECT);
+        try {
+            MainActivity ma = (MainActivity)context;
+            if (ma != null) ma.reloadPosition(MainActivity.DRAWER_DATA_COLLECT);
+        } catch (Exception e) {
+
+        }
     }
 
     public class CardUpdateHolder {
@@ -195,5 +200,6 @@ public class CardUpdate extends CardItem {
         public Button update;
         public Button delete;
         public ProgressBar bar;
+        public Context context;
     }
 }
