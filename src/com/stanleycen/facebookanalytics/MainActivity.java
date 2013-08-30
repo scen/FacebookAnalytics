@@ -194,7 +194,12 @@ public class MainActivity extends Activity {
             dt.dayOfMonth();
             Log.v(TAG, Util.getTimeWithTZ(dt));
 
-            app.fb.fbData = UnifiedMessaging.readAllFromDatabase();
+            if (app.fb.fbData != null && app.fb.fbData.lastUpdate != null) {
+
+            }
+            else {
+                app.fb.fbData = UnifiedMessaging.readAllFromDatabase();
+            }
 
 			return null;
 		}

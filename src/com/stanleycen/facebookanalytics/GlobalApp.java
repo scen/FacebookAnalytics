@@ -10,6 +10,8 @@ public class GlobalApp extends Application {
     public FBAccount fb;
     public DatabaseHandler db;
 
+    public static final String PREFS_FILE = "PREFS";
+
     public UpdateState updateState = new UpdateState();
 
 

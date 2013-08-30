@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +40,10 @@ public class LoginActivity extends Activity implements OnClickListener {
             finish();
 	    }
 	    else if (session == null) {
+            SharedPreferences prefs = getSharedPreferences(GlobalApp.PREFS_FILE, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("FBID");
+            editor.commit();
             if (savedInstanceState != null) {
                 session = Session.restoreSession(this, null, mStatusCallback, savedInstanceState);
             }
@@ -52,7 +57,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             }
         }
 	}
-	
+
 	@Override
 	public void onClick(View view) {
 		Session session = Session.getActiveSession();

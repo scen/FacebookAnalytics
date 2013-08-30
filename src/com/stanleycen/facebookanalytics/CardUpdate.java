@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-public class CardUpdate extends CardItem {
+public class CardUpdate implements CardItem {
     private int viewType;
     CardUpdateHolder holder;
 

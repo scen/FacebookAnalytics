@@ -10,7 +10,7 @@ import android.widget.TextView;
 /**
  * Created by scen on 8/28/13.
  */
-public class CardDateTime extends CardItem {
+public class CardDateTime implements CardItem {
     private final String title;
     private final String date;
     private final String time;

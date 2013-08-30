@@ -7,9 +7,7 @@ import android.view.View;
 /**
  * Created by scen on 8/28/13.
  */
-public abstract class CardItem {
-    boolean animated = false;
-
+public interface CardItem {
     public abstract int getViewType();
     public abstract View getView(LayoutInflater inflater, View convertView, int position, Context context);
 }
