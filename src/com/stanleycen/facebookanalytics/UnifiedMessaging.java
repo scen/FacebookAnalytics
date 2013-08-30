@@ -156,6 +156,7 @@ public class UnifiedMessaging {
                 commitThread(db, fbThread);
             }
             db.setTransactionSuccessful();
+            GlobalApp.get().fb.fbData = fbData;
         } catch (Exception e) {
         } finally {
             db.endTransaction();

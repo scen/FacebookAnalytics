@@ -38,11 +38,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0587b34f-022d-4281-9661-16136cb9587b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardUpdate.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardUpdate.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataDownloaderService.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataDownloaderService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FacebookAnalytics.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -155,16 +152,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataDownloaderService.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DataDownloaderService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataDownloaderService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="36" selection-start="2091" selection-end="2100" vertical-scroll-proportion="0.11556982" vertical-offset="663" max-vertical-offset="5355">
+            <state line="275" column="57" selection-start="15445" selection-end="15445" vertical-scroll-proportion="-16.615385" vertical-offset="3318" max-vertical-offset="5355">
               <folding>
-                <element signature="e#1940#15676#0" expanded="true" />
-                <element signature="e#15661#15662#0" expanded="true" />
-                <element signature="e#15723#15901#0" expanded="true" />
-                <element signature="e#15886#15887#0" expanded="true" />
+                <element signature="e#1940#15548#0" expanded="true" />
+                <element signature="e#15533#15534#0" expanded="true" />
+                <element signature="e#15595#15773#0" expanded="true" />
+                <element signature="e#15758#15759#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PreferencesFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/PreferencesFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="13" selection-start="227" selection-end="227" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -214,10 +220,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnifiedMessaging.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="UnifiedMessaging.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="124" column="13" selection-start="6100" selection-end="6100" vertical-scroll-proportion="0.0" vertical-offset="1286" max-vertical-offset="3630">
+            <state line="123" column="37" selection-start="6086" selection-end="6086" vertical-scroll-proportion="0.35285053" vertical-offset="1616" max-vertical-offset="3645">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -229,15 +235,6 @@
         <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardUpdate.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="145" column="5" selection-start="4799" selection-end="4799" vertical-scroll-proportion="0.0" vertical-offset="2175" max-vertical-offset="3150">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CardDateTime.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardDateTime.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="13" selection-start="309" selection-end="309" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1035">
               <folding />
             </state>
           </provider>
@@ -275,14 +272,14 @@
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataFragment.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardUpdate.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataDownloaderService.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="87" />
-    <option name="y" value="38" />
+    <option name="x" value="68" />
+    <option name="y" value="44" />
     <option name="width" value="1782" />
     <option name="height" value="1090" />
   </component>
@@ -676,7 +673,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="87" y="38" width="1782" height="1090" extended-state="0" />
+    <frame x="68" y="44" width="1782" height="1090" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -745,13 +742,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBAttachment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="21" selection-start="131" selection-end="131" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardItem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="22" selection-start="199" selection-end="199" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
@@ -822,15 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="13" selection-start="6100" selection-end="6100" vertical-scroll-proportion="0.0" vertical-offset="1286" max-vertical-offset="3630">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="196" column="41" selection-start="6682" selection-end="6682" vertical-scroll-proportion="0.0" vertical-offset="2122" max-vertical-offset="4440">
@@ -854,12 +835,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataDownloaderService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="36" selection-start="2091" selection-end="2100" vertical-scroll-proportion="0.11556982" vertical-offset="663" max-vertical-offset="5355">
+        <state line="275" column="57" selection-start="15445" selection-end="15445" vertical-scroll-proportion="-16.615385" vertical-offset="3318" max-vertical-offset="5355">
           <folding>
-            <element signature="e#1940#15676#0" expanded="true" />
-            <element signature="e#15661#15662#0" expanded="true" />
-            <element signature="e#15723#15901#0" expanded="true" />
-            <element signature="e#15886#15887#0" expanded="true" />
+            <element signature="e#1940#15548#0" expanded="true" />
+            <element signature="e#15533#15534#0" expanded="true" />
+            <element signature="e#15595#15773#0" expanded="true" />
+            <element signature="e#15758#15759#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/PreferencesFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="13" selection-start="227" selection-end="227" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="37" selection-start="6086" selection-end="6086" vertical-scroll-proportion="0.35285053" vertical-offset="1616" max-vertical-offset="3645">
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

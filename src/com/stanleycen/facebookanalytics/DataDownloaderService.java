@@ -114,7 +114,7 @@ public class DataDownloaderService extends Service {
                                     String uid = curp.getString("user_id");
                                     FBUser user = new FBUser(uid, curp.getString("name"));
                                     fbThread.participants.add(uid);
-                                    GlobalApp.get().fb.fbData.userMap.put(uid, user);
+                                    newFbData.userMap.put(uid, user);
                                 }
 
                                 JSONArray formerParticipants = jcurThread.optJSONArray("former_participants");
@@ -124,9 +124,9 @@ public class DataDownloaderService extends Service {
                                         String uid = curp.getString("user_id");
                                         FBUser user = new FBUser(uid, curp.getString("name"));
                                         fbThread.participants.add(uid);
-                                        GlobalApp.get().fb.fbData.userMap.put(uid, user);
+                                        newFbData.userMap.put(uid, user);
                                     }
-                                GlobalApp.get().fb.fbData.threads.add(fbThread);
+                                newFbData.threads.add(fbThread);
                                 lastTimestamp = timestamp;
                                 if (--howMany <= 0) break outer;
                             }
@@ -138,10 +138,10 @@ public class DataDownloaderService extends Service {
 
 
                     int curIdx = 1;
-                    int tot = GlobalApp.get().fb.fbData.threads.size();
+                    int tot = newFbData.threads.size();
                     int messagesDownloaded = 0;
 
-                    for (FBThread fbThread : GlobalApp.get().fb.fbData.threads) {
+                    for (FBThread fbThread : newFbData.threads) {
                         int curThreadMessagesDownloaded = 0;
                         lastTimestamp = 0;
                         try {
@@ -185,7 +185,7 @@ public class DataDownloaderService extends Service {
                                         String uid = curp.getString("user_id");
                                         FBUser user = new FBUser(uid, curp.getString("name"));
                                         fbMessage.from = uid;
-                                        GlobalApp.get().fb.fbData.userMap.put(uid, user);
+                                        newFbData.userMap.put(uid, user);
                                     }
                                     fbMessage.id = curMessage.getString("message_id");
                                     JSONArray attachments = curMessage.optJSONArray("attachments");
@@ -270,10 +270,10 @@ public class DataDownloaderService extends Service {
                         ++curIdx;
                     }
 
-                    GlobalApp.get().fb.fbData.lastUpdate = DateTime.now();
+                    newFbData.lastUpdate = DateTime.now();
 
                     updateDownloadProgress("Committing data", 100, 100, true);
-                    UnifiedMessaging.commitData(GlobalApp.get().fb.fbData);
+                    UnifiedMessaging.commitData(newFbData);
 
                     notifyFinish();
                     stopSelf();
