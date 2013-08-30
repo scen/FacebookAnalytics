@@ -9,14 +9,13 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
 public class FBAccount {
-	public static Session session;
-	public static GraphUser me;
-	public static boolean initialized = false;
-    public static DatabaseHandler db;
+	public Session session;
+	public GraphUser me;
+	public boolean initialized = false;
 	
 	static final String TAG = "FBAccount";
 	
-	public static void init() {
+	public void init() {
 		session = Session.getActiveSession();
 		
 		Request.newMeRequest(session, new GraphUserCallback() {
@@ -35,7 +34,7 @@ public class FBAccount {
 		initialized = true;
 	}
 	
-	public static void logout() {
+	public void logout() {
 		if (!session.isClosed()) {
 			session.closeAndClearTokenInformation();
 		}

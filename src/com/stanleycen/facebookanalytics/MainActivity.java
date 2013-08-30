@@ -142,10 +142,11 @@ public class MainActivity extends Activity {
     	LayoutInflater inflater = getLayoutInflater();
         View top = (View)inflater.inflate(R.layout.profile, mDrawerList, false);
         ProfilePictureView myProfilePic = (ProfilePictureView)top.findViewById(R.id.profilepic);
-        myProfilePic.setProfileId(FBAccount.me.getId());
+        GlobalApp app = (GlobalApp)getApplication();
+        myProfilePic.setProfileId(app.fb.me.getId());
         myProfilePic.setPresetSize(ProfilePictureView.SMALL);
         TextView userName = (TextView)top.findViewById(R.id.username);
-        userName.setText(FBAccount.me.getName());
+        userName.setText(app.fb.me.getName());
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.addHeaderView(top, null, false);
 
@@ -177,11 +178,13 @@ public class MainActivity extends Activity {
 		
 		@Override
 		protected Void doInBackground(Void... arg0) {
-			FBAccount.init();
-			FBAccount.db = new DatabaseHandler(MainActivity.this);
+            GlobalApp app = (GlobalApp)getApplication();
+            if (app.fb == null) app.fb = new FBAccount();
+			app.fb.init();
+			if (app.db == null) app.db = new DatabaseHandler(MainActivity.this);
             String sql = " SELECT name FROM sqlite_master " + " WHERE type='table'";
 
-            Cursor c = FBAccount.db.getReadableDatabase().rawQuery(sql, null);
+            Cursor c = app.db.getReadableDatabase().rawQuery(sql, null);
             if (c.moveToFirst()) {
                 do {
                     Log.d(TAG, c.getString(0));
@@ -215,7 +218,8 @@ public class MainActivity extends Activity {
     }
 
     private void logoutFacebook() {
-    	FBAccount.logout();
+        GlobalApp app = (GlobalApp)getApplication();
+    	app.fb.logout();
 		finish();
 		Intent i = new Intent(this, LoginActivity.class);
 		startActivity(i);
@@ -282,5 +286,19 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        Log.d(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause");
+        super.onPause();
+    }
+
+
     
 }

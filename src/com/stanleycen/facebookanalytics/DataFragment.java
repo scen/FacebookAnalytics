@@ -47,7 +47,7 @@ public class DataFragment extends Fragment {
         items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update",
                 Util.getDate(gc), Util.getTimeWithTZ(gc)));
         items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Amount of data",
-                (new File(FBAccount.db.getReadableDatabase().getPath()).length() / 1024.0) + "", " kilobytes"));
+                (new File(GlobalApp.get().db.getReadableDatabase().getPath()).length() / 1024.0) + "", " kilobytes"));
         items.add(new CardUpdate(CardItems.CardUpdateItem.ordinal()));
 
         CardAdapter ca = new CardAdapter(getActivity(), items, CardItems.values().length);

@@ -21,7 +21,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     private static String getDBName() {
-        return DATABASE_NAME_PREFIX + FBAccount.me.getId() + ".db";
+        return DATABASE_NAME_PREFIX + GlobalApp.get().fb.me.getId() + ".db";
     }
 
     @Override

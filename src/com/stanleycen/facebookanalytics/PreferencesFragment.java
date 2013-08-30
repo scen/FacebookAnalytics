@@ -16,7 +16,7 @@ public class PreferencesFragment extends PreferenceFragment {
 	    addPreferencesFromResource(R.xml.preferences);
 	    
 	    Preference logout = (Preference)findPreference("logout");
-	    logout.setSummary("Logged in as " + FBAccount.me.getName());
+	    logout.setSummary("Logged in as " + GlobalApp.get().fb.me.getName());
 	    logout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			
 			@Override
