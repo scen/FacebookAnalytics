@@ -36,6 +36,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	    if (session != null && session.isOpened()) {
 	    	Intent i = new Intent(this, MainActivity.class);
 	    	startActivity(i);
+            finish();
 	    }
 	    else if (session == null) {
             if (savedInstanceState != null) {
@@ -68,6 +69,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		if (session.isOpened()) {
 			Intent i = new Intent(this, MainActivity.class);
 	    	startActivity(i);
+            finish();
 		}
 	}
 	

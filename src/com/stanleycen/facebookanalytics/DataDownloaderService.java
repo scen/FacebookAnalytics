@@ -22,6 +22,7 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,10 +72,12 @@ public class DataDownloaderService extends Service {
                 public void run() {
                     // Download thread list
 
+                    FBData newFbData = new FBData();
+
                     long lastTimestamp = UnifiedMessaging.LARGE_TIMESTAMP;
 
                     int totMessageCount = 0;
-                    int howMany = 10;
+                    int howMany = 1;
                     outer:
                     while (true) {
                         String threadFQL = UnifiedMessaging.getThreadFQL(lastTimestamp);
@@ -97,7 +100,7 @@ public class DataDownloaderService extends Service {
                                 JSONObject jcurThread = data.getJSONObject(i);
                                 FBThread fbThread = new FBThread();
                                 long timestamp = jcurThread.getLong("timestamp");
-                                fbThread.lastUpdate.setTimeInMillis(timestamp);
+                                fbThread.lastUpdate = new DateTime(timestamp);
                                 fbThread.messageCount = jcurThread.getInt("num_messages");
                                 totMessageCount += fbThread.messageCount;
                                 fbThread.title = jcurThread.getString("title");
@@ -124,7 +127,7 @@ public class DataDownloaderService extends Service {
                                 }
                                 GlobalApp.get().fb.fbData.threads.add(fbThread);
                                 lastTimestamp = timestamp;
-                                if (--howMany < 0) break outer;
+                                if (--howMany <= 0) break outer;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -165,16 +168,18 @@ public class DataDownloaderService extends Service {
                                     JSONObject curMessage = data.getJSONObject(i);
                                     FBMessage fbMessage = new FBMessage();
                                     long ts = curMessage.getLong("timestamp");
-                                    fbMessage.timestamp.setTimeInMillis(ts);
+                                    fbMessage.timestamp = new DateTime(ts);
                                     lastTimestamp = ts;
                                     if (!curMessage.isNull("coordinates")) {
-                                        JSONObject coordinates = curMessage.getJSONObject("coordinates");
-                                        fbMessage.hasCoordinates = true;
-                                        fbMessage.latitude = (float)coordinates.getDouble("latitude");
-                                        fbMessage.longitude = (float)coordinates.getDouble("longitude");
+                                        JSONObject coordinates = curMessage.optJSONObject("coordinates");
+                                        if (coordinates != null) {
+                                            fbMessage.hasCoordinates = true;
+                                            fbMessage.latitude = (float)coordinates.getDouble("latitude");
+                                            fbMessage.longitude = (float)coordinates.getDouble("longitude");
+                                        }
                                     }
                                     fbMessage.body = curMessage.getString("body");
-                                    JSONObject curp = curMessage.getJSONObject("sender");
+                                    JSONObject curp = curMessage.optJSONObject("sender");
                                     if (curp != null) {
                                         String uid = curp.getString("user_id");
                                         FBUser user = new FBUser(uid, curp.getString("name"));
@@ -182,7 +187,7 @@ public class DataDownloaderService extends Service {
                                         GlobalApp.get().fb.fbData.userMap.put(uid, user);
                                     }
                                     fbMessage.id = curMessage.getString("message_id");
-                                    JSONArray attachments = curMessage.getJSONArray("attachments");
+                                    JSONArray attachments = curMessage.optJSONArray("attachments");
                                     if (attachments != null && attachments.length() > 0) {
                                         JSONObject attachmentMap = curMessage.getJSONObject("attachment_map");
                                         if (attachmentMap != null) {
@@ -200,6 +205,8 @@ public class DataDownloaderService extends Service {
                                                         fbAttachment.previewUrl = imageData.getString("preview_url");
                                                         fbAttachment.id = id;
                                                         fbAttachment.type = FBAttachment.Type.IMAGE;
+                                                        fbAttachment.message = fbMessage.id;
+                                                        fbAttachment.thread = fbThread.id;
                                                         fbMessage.attachments.add(fbAttachment);
                                                         Log.d(TAG, fbAttachment.url);
                                                     }
@@ -207,7 +214,20 @@ public class DataDownloaderService extends Service {
                                             }
                                         }
                                     }
-                                    JSONArray shares = curMessage.getJSONArray("shares");
+                                    fbMessage.source = FBMessage.Source.OTHER;
+                                    JSONArray tags = curMessage.optJSONArray("tags");
+                                    if (tags != null && tags.length() > 0) {
+                                        for (int k = 0; k < tags.length(); k++) {
+                                            String tag = tags.getString(k);
+                                            if (tag.startsWith("source:mobile")) {
+                                                fbMessage.source = FBMessage.Source.MOBILE;
+                                            }
+                                            else if (tag.startsWith("source:chat")) {
+                                                fbMessage.source = FBMessage.Source.WEB;
+                                            }
+                                        }
+                                    }
+                                    JSONArray shares = curMessage.optJSONArray("shares");
                                     if (shares != null && shares.length() > 0) {
                                         if (!curMessage.isNull("share_map")) {
 //                                            Log.d(TAG, curMessage.toString(2));
@@ -221,6 +241,8 @@ public class DataDownloaderService extends Service {
                                                             FBAttachment sticker = new FBAttachment();
                                                             sticker.type = FBAttachment.Type.STICKER;
                                                             sticker.url = shareObj.getString("href");
+                                                            sticker.message = fbMessage.id;
+                                                            sticker.thread = fbThread.id;
                                                             Log.v(TAG, sticker.url);
                                                             fbMessage.attachments.add(sticker);
                                                         }
@@ -229,6 +251,7 @@ public class DataDownloaderService extends Service {
                                             }
                                         }
                                     }
+                                    fbMessage.thread = fbThread.id;
                                     fbThread.messages.add(fbMessage);
                                     ++messagesDownloaded;
                                     ++curThreadMessagesDownloaded;
@@ -238,8 +261,14 @@ public class DataDownloaderService extends Service {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        fbThread.messageCount = fbThread.messages.size();
                         ++curIdx;
                     }
+
+                    GlobalApp.get().fb.fbData.lastUpdate = DateTime.now();
+
+                    updateDownloadProgress("Committing data", 100, 100, true);
+                    UnifiedMessaging.commitData(GlobalApp.get().fb.fbData);
 
                     notifyFinish();
                     stopSelf();

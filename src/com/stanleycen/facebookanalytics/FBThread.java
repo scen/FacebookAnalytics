@@ -1,7 +1,8 @@
 package com.stanleycen.facebookanalytics;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 
 /**
@@ -10,7 +11,7 @@ import java.util.HashSet;
 public class FBThread {
     public String id;
     public String title;
-    public Calendar lastUpdate = Calendar.getInstance();
+    public DateTime lastUpdate;
     public boolean isGroupConversation;
     public HashSet<String> participants = new HashSet<String>();
 

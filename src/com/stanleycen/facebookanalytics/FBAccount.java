@@ -9,17 +9,23 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
 public class FBAccount {
-	public Session session;
 	public GraphUser me;
 	public boolean initialized = false;
     public FBData fbData;
 
 	static final String TAG = "FBAccount";
-	
+
+    public Session session() {
+        Session ret =  Session.getActiveSession();
+        if (ret == null || !ret.isOpened()) {
+            Log.wtf("FBAccount", "session null or not open");
+        }
+        return ret;
+    }
+
 	public void init() {
-		session = Session.getActiveSession();
-		
-		Request.newMeRequest(session, new GraphUserCallback() {
+
+		Request.newMeRequest(session(), new GraphUserCallback() {
 			
 			@Override
 			public void onCompleted(GraphUser user, Response response) {
@@ -31,18 +37,13 @@ public class FBAccount {
 				Log.d(TAG, me.getId());
 			}
 		}).executeAndWait();
-        initData();
+
 		initialized = true;
 	}
 
-    public void initData() {
-        fbData = new FBData();
-        fbData.collectionMethod = FBData.CollectionMethod.UNIFIED_API;
-    }
-
 	public void logout() {
-		if (!session.isClosed()) {
-			session.closeAndClearTokenInformation();
+		if (!session().isClosed()) {
+			session().closeAndClearTokenInformation();
 		}
 		initialized = false;
 	}

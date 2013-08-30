@@ -12,6 +12,9 @@ public class FBAttachment {
     public String mimeType;
     public Type type;
 
+    public String thread;
+    public String message;
+
     enum Type {
         IMAGE,
         STICKER

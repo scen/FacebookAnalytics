@@ -1,10 +1,10 @@
 package com.stanleycen.facebookanalytics;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 import android.app.Fragment;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,7 +12,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.SystemClock;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,9 +29,14 @@ import android.widget.TextView;
 
 import com.facebook.widget.ProfilePictureView;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 
 public class MainActivity extends Activity {
-	private DrawerLayout mDrawerLayout;
+    public static final int DRAWER_DATA_COLLECT = 1;
+
+    private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DrawerEntry> mEntries;
@@ -83,7 +87,7 @@ public class MainActivity extends Activity {
         
         getActionBar().setDisplayHomeAsUpEnabled(true);
 //        getActionBar().setHomeButtonEnabled(true);
-        new GetMeTask().execute();
+        new InitializeTask().execute();
     }
 
     private ArrayList<String> getStringsFromEntries(ArrayList<DrawerEntry> entries) {
@@ -166,12 +170,12 @@ public class MainActivity extends Activity {
 		public ImageView icon;
 	}
     
-    private class GetMeTask extends AsyncTask<Void, Void, Void> {
+    private class InitializeTask extends AsyncTask<Void, Void, Void> {
 		ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 		
 		@Override
 		protected void onPreExecute() {
-			dialog.setMessage("Retrieving account info");
+			dialog.setMessage("Initializing");
 			dialog.show();
 			super.onPreExecute();
 		}
@@ -182,14 +186,15 @@ public class MainActivity extends Activity {
             if (app.fb == null) app.fb = new FBAccount();
 			app.fb.init();
 			if (app.db == null) app.db = new DatabaseHandler(MainActivity.this);
-            String sql = " SELECT name FROM sqlite_master " + " WHERE type='table'";
 
-            Cursor c = app.db.getReadableDatabase().rawQuery(sql, null);
-            if (c.moveToFirst()) {
-                do {
-                    Log.d(TAG, c.getString(0));
-                } while (c.moveToNext());
-            }
+            // random code to initialize timezones
+            DateTime dt = DateTime.now();
+            DateTimeZone dtz = DateTimeZone.forTimeZone(TimeZone.getDefault());
+            dt.dayOfMonth();
+            Log.v(TAG, Util.getTimeWithTZ(dt));
+
+            app.fb.fbData = UnifiedMessaging.readAllFromDatabase();
+
 			return null;
 		}
 		
@@ -197,7 +202,7 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			dialog.dismiss();
 			initDrawer();
-            drawerSelect(1);
+            drawerSelect(DRAWER_DATA_COLLECT);
 			super.onPostExecute(result);
 		}
 		
@@ -262,7 +267,7 @@ public class MainActivity extends Activity {
     	}
     }
     
-    private void drawerSelect(int position) {
+    public void drawerSelect(int position) {
     	mDrawerList.setItemChecked(position, true);
         --position; // ignore header
         if (!mEntries.get(position).fragment.isEmpty()) {

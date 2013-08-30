@@ -10,10 +10,11 @@ import android.widget.ListView;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
+import org.joda.time.Instant;
+import org.joda.time.DateTime;
+
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -40,14 +41,25 @@ public class DataFragment extends Fragment {
 
         List<CardItem> items = new ArrayList<CardItem>();
 
-        Calendar gc = Calendar.getInstance();
-        gc.setTimeInMillis((long)1377799268 * 1000);
+        FBData fbData = GlobalApp.get().fb.fbData;
+        String dataAmount = "0";
+        if (fbData.lastUpdate == null) {
+            items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update",
+                    "N/A","Begin by pressing update!"));
+        }
+        else {
+            items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update",
+                    Util.getDate(fbData.lastUpdate), Util.getTimeWithTZ(fbData.lastUpdate)));
+            try {
+                dataAmount = String.valueOf((new File(GlobalApp.get().db.getReadableDatabase().getPath()).length() / 1024.0));
+            } catch (Exception e) {
 
+            }
+        }
 
-        items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update",
-                Util.getDate(gc), Util.getTimeWithTZ(gc)));
         items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Amount of data",
-                (new File(GlobalApp.get().db.getReadableDatabase().getPath()).length() / 1024.0) + "", " kilobytes"));
+                dataAmount, " kilobytes"));
+
         items.add(new CardUpdate(CardItems.CardUpdateItem.ordinal()));
 
         CardAdapter ca = new CardAdapter(getActivity(), items, CardItems.values().length);

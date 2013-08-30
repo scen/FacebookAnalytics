@@ -1,6 +1,7 @@
 package com.stanleycen.facebookanalytics;
 
 import android.app.Application;
+import android.util.Log;
 
 /**
  * Created by scen on 8/29/13.
@@ -16,6 +17,9 @@ public class GlobalApp extends Application {
 
     public GlobalApp() {
         super();
+//        System.setProperty("org.joda.time.DateTimeZone.Provider",
+//                FastDateTimeZoneProvider.class.getCanonicalName());
+        Log.d("GA", FastDateTimeZoneProvider.class.getCanonicalName());
         _inst = this;
     }
 

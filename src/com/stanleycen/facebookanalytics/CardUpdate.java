@@ -1,19 +1,20 @@
 package com.stanleycen.facebookanalytics;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class CardUpdate extends CardItem {
@@ -47,12 +48,77 @@ public class CardUpdate extends CardItem {
 
         GlobalApp.get().updateState.holder = holder;
 
-        setUpdateClickListener(context);
-
         reloadControlState();
         setUpdateClickListener(context);
+        setClearClickListener(context);
 
         return v;
+    }
+
+    private class ClearTask extends AsyncTask<Void, Void, Void> {
+        ProgressDialog dialog;
+        Context ctx;
+
+        public ClearTask(final Context context) {
+            dialog = new ProgressDialog(context);
+            this.ctx = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Clearing data");
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            DatabaseHandler dbHelper = GlobalApp.get().db;
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+            db.beginTransaction();
+            try
+            {
+                dbHelper.clearAllTables(db);
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+            } finally {
+                db.endTransaction();
+            }
+
+            GlobalApp.get().fb.fbData = new FBData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            dialog.dismiss();
+            super.onPostExecute(result);
+            reloadFragment(ctx);
+        }
+
+    };
+
+    private void setClearClickListener(final Context context) {
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(context).setTitle("Clear data?")
+                        .setMessage("This cannot be undone.")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                new ClearTask(context).execute();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+            }
+        });
     }
 
     private void reloadControlState() {
@@ -67,7 +133,7 @@ public class CardUpdate extends CardItem {
             if (pbu != null) {
                 h.status.setText(pbu.content);
                 h.bar.setIndeterminate(pbu.ongoing);
-                if (!pbu.ongoing) h.bar.setProgress((int)((double)pbu.progress / (double)pbu.mx));
+                if (!pbu.ongoing) h.bar.setProgress((int)(100.0F * (double)pbu.progress / (double)pbu.mx));
             }
         }
         else {
@@ -83,7 +149,7 @@ public class CardUpdate extends CardItem {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(context).setTitle("Update data?")
-                        .setMessage("This may take a while and use a lot of data.")
+                        .setMessage("This may take a while.")
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -99,12 +165,9 @@ public class CardUpdate extends CardItem {
                                             reloadControlState();
                                         }
                                         else if (msg.what == DataDownloaderService.MessageType.FINISHED_DOWNLOAD.ordinal()) {
-                                            Toast
-                                                    .makeText(context, (String)msg.obj,
-                                                            Toast.LENGTH_LONG)
-                                                    .show();
                                             GlobalApp.get().updateState.updating = false;
                                             reloadControlState();
+                                            reloadFragment(context);
                                         }
                                     }
                                 };
@@ -120,6 +183,11 @@ public class CardUpdate extends CardItem {
                         }).show();
             }
         });
+    }
+
+    private void reloadFragment(Context context) {
+        MainActivity ma = (MainActivity)context;
+        if (ma != null) ma.drawerSelect(MainActivity.DRAWER_DATA_COLLECT);
     }
 
     public class CardUpdateHolder {
