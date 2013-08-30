@@ -16,6 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.MalformedJsonException;
 
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -73,9 +74,9 @@ public class DataDownloaderService extends Service {
                     long lastTimestamp = UnifiedMessaging.LARGE_TIMESTAMP;
 
                     int totMessageCount = 0;
-                    
+                    int howMany = 10;
+                    outer:
                     while (true) {
-                        if (howMany < 1) break;
                         String threadFQL = UnifiedMessaging.getThreadFQL(lastTimestamp);
                         Bundle opts = new Bundle();
                         opts.putString("q", threadFQL);
@@ -85,8 +86,7 @@ public class DataDownloaderService extends Service {
                         Response res = req.executeAndWait();
 
                         if (res.getError() != null) {
-                            Log.e(TAG, res.getError().getErrorMessage());
-                            Debug.waitForDebugger();
+                            if (handleFBResponseError(res.getError())) continue;
                         }
 
                         JSONObject jobj = res.getGraphObject().getInnerJSONObject();
@@ -124,6 +124,7 @@ public class DataDownloaderService extends Service {
                                 }
                                 GlobalApp.get().fb.fbData.threads.add(fbThread);
                                 lastTimestamp = timestamp;
+                                if (--howMany < 0) break outer;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -153,8 +154,7 @@ public class DataDownloaderService extends Service {
                                 Response res = req.executeAndWait();
 
                                 if (res.getError() != null) {
-                                    Log.e(TAG, res.getError().getErrorMessage());
-                                    Debug.waitForDebugger();
+                                    if (handleFBResponseError(res.getError())) continue;
                                 }
 
                                 JSONObject jobj = res.getGraphObject().getInnerJSONObject();
@@ -256,6 +256,22 @@ public class DataDownloaderService extends Service {
         }
         t.start();
         return START_NOT_STICKY;
+    }
+
+    private boolean handleFBResponseError(FacebookRequestError error) {
+        Log.e(TAG, error.getErrorMessage());
+        int code = error.getErrorCode();
+        switch (code) {
+            case 1:
+            case 2:
+            case 4:
+            case 17:
+                SystemClock.sleep(UnifiedMessaging.API_TIMEOUT_WAIT);
+                return true;
+            default:
+                Debug.waitForDebugger();
+        }
+        return false;
     }
 
     private void notifyFinish() {

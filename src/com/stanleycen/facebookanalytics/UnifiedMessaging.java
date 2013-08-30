@@ -6,9 +6,10 @@ package com.stanleycen.facebookanalytics;
 public class UnifiedMessaging {
     public final static long LARGE_TIMESTAMP = 10000000000000000L;
     public final static int API_WAIT = 1500;
+    public final static int API_TIMEOUT_WAIT = 1000 * 60 * 5;
 
     private final static String GET_THREADS_FQL =
-            "SELECT former_participants,is_group_conversation,title,num_messages,participants,thread_id,timestamp FROM unified_thread WHERE folder=\"inbox\" AND timestamp < %d LIMIT 1";
+            "SELECT former_participants,is_group_conversation,title,num_messages,participants,thread_id,timestamp FROM unified_thread WHERE folder=\"inbox\" AND timestamp < %d LIMIT 500";
     private final static String GET_MESSAGES_FQL =
             "SELECT attachment_map,attachments,body,coordinates,message_id,sender,timestamp,shares,share_map FROM unified_message WHERE thread_id=\"%s\" AND timestamp > %d LIMIT 500";
 
