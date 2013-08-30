@@ -8,12 +8,13 @@ import java.util.Calendar;
  */
 public class FBMessage {
     public String body;
-    public Calendar timestamp;
+    public Calendar timestamp = Calendar.getInstance();
     public String from;
     public String id;
 
+    public boolean hasCoordinates;
     public float latitude;
     public float longitude;
 
-    public ArrayList<FBAttachment> attachments;
+    public ArrayList<FBAttachment> attachments = new ArrayList<FBAttachment>();
 }

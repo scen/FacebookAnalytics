@@ -67,7 +67,7 @@ public class CardUpdate extends CardItem {
             if (pbu != null) {
                 h.status.setText(pbu.content);
                 h.bar.setIndeterminate(pbu.ongoing);
-                if (!pbu.ongoing) h.bar.setProgress(pbu.progress);
+                if (!pbu.ongoing) h.bar.setProgress((int)((double)pbu.progress / (double)pbu.mx));
             }
         }
         else {

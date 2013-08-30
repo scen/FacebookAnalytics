@@ -1,12 +1,9 @@
 package com.stanleycen.facebookanalytics;
 
-import android.*;
 import android.R;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
@@ -17,7 +14,7 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
+import android.util.MalformedJsonException;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -28,12 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
-
 /**
  * Created by scen on 8/29/13.
  */
-public class DataDownloaderService extends Service{
+public class DataDownloaderService extends Service {
     private final static String TAG = "DataDownloader";
     private static final int ONGOING_NOTIFICATION_ID = 42;
 
@@ -42,7 +37,9 @@ public class DataDownloaderService extends Service{
     enum MessageType {
         UPDATE_PROGRESSBAR,
         FINISHED_DOWNLOAD
-    };
+    }
+
+    ;
 
     private Messenger messenger = null;
     private boolean startedDownload = false;
@@ -57,11 +54,9 @@ public class DataDownloaderService extends Service{
 
 
         Bundle extras = intent.getExtras();
-        if (extras != null)
-        {
-            messenger = (Messenger)extras.get(EXTRA_MESSENGER);
-        }
-        else {
+        if (extras != null) {
+            messenger = (Messenger) extras.get(EXTRA_MESSENGER);
+        } else {
             Log.wtf(TAG, "extras null");
         }
 
@@ -69,8 +64,7 @@ public class DataDownloaderService extends Service{
 
         Thread t;
 
-        boolean unifiedMessagingEnabled = true;
-        if (unifiedMessagingEnabled) {
+        if (GlobalApp.get().fb.fbData.collectionMethod == FBData.CollectionMethod.UNIFIED_API) {
             t = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -78,43 +72,180 @@ public class DataDownloaderService extends Service{
 
                     long lastTimestamp = UnifiedMessaging.LARGE_TIMESTAMP;
 
-                    String threadFQL = UnifiedMessaging.getThreadFQL(lastTimestamp);
-                    Bundle opts = new Bundle();
-                    opts.putString("q", threadFQL);
+                    int totMessageCount = 0;
+                    
+                    while (true) {
+                        if (howMany < 1) break;
+                        String threadFQL = UnifiedMessaging.getThreadFQL(lastTimestamp);
+                        Bundle opts = new Bundle();
+                        opts.putString("q", threadFQL);
 
-                    Request req = new Request(Session.getActiveSession(), "/fql",
-                            opts, HttpMethod.GET);
-                    Response res = req.executeAndWait();
+                        Request req = new Request(Session.getActiveSession(), "/fql",
+                                opts, HttpMethod.GET);
+                        Response res = req.executeAndWait();
 
-                    if (res.getError() != null) {
-                        Log.e(TAG, res.getError().getErrorMessage());
-                        Debug.waitForDebugger();
-                    }
-
-                    JSONObject jobj = res.getGraphObject().getInnerJSONObject();
-                    try {
-                        JSONArray data = jobj.getJSONArray("data");
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject jcurThread = data.getJSONObject(i);
-                            FBThread fbThread = new FBThread();
-                            fbThread.lastUpdate = Calendar.getInstance();
-                            fbThread.lastUpdate.setTimeInMillis(jcurThread.getLong("timestamp"));
-                            fbThread.messageCount = jcurThread.getInt("num_messages");
-                            fbThread.title = jcurThread.getString("title");
-                            fbThread.id = jcurThread.getString("thread_id");
-
+                        if (res.getError() != null) {
+                            Log.e(TAG, res.getError().getErrorMessage());
+                            Debug.waitForDebugger();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+
+                        JSONObject jobj = res.getGraphObject().getInnerJSONObject();
+                        try {
+                            JSONArray data = jobj.getJSONArray("data");
+                            if (data == null || data.length() == 0) break;
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject jcurThread = data.getJSONObject(i);
+                                FBThread fbThread = new FBThread();
+                                long timestamp = jcurThread.getLong("timestamp");
+                                fbThread.lastUpdate.setTimeInMillis(timestamp);
+                                fbThread.messageCount = jcurThread.getInt("num_messages");
+                                totMessageCount += fbThread.messageCount;
+                                fbThread.title = jcurThread.getString("title");
+                                Log.d(TAG, fbThread.title);
+                                fbThread.id = jcurThread.getString("thread_id");
+                                fbThread.isGroupConversation = jcurThread.getBoolean("is_group_conversation");
+
+                                JSONArray participants = jcurThread.getJSONArray("participants");
+                                for (int j = 0; j < participants.length(); j++) {
+                                    JSONObject curp = participants.getJSONObject(j);
+                                    String uid = curp.getString("user_id");
+                                    FBUser user = new FBUser(uid, curp.getString("name"));
+                                    fbThread.participants.add(uid);
+                                    GlobalApp.get().fb.fbData.userMap.put(uid, user);
+                                }
+
+                                JSONArray formerParticipants = jcurThread.getJSONArray("former_participants");
+                                for (int j = 0; j < formerParticipants.length(); j++) {
+                                    JSONObject curp = formerParticipants.getJSONObject(j);
+                                    String uid = curp.getString("user_id");
+                                    FBUser user = new FBUser(uid, curp.getString("name"));
+                                    fbThread.participants.add(uid);
+                                    GlobalApp.get().fb.fbData.userMap.put(uid, user);
+                                }
+                                GlobalApp.get().fb.fbData.threads.add(fbThread);
+                                lastTimestamp = timestamp;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SystemClock.sleep(UnifiedMessaging.API_WAIT);
                     }
 
+                    lastTimestamp = 0;
+
+                    int curIdx = 1;
+                    int tot = GlobalApp.get().fb.fbData.threads.size();
+                    int messagesDownloaded = 0;
+
+                    for (FBThread fbThread : GlobalApp.get().fb.fbData.threads) {
+                        int curThreadMessagesDownloaded = 0;
+                        try {
+                            while (true) {
+                                updateDownloadProgress("Conversation " + curIdx + " of " + tot + " (" + curThreadMessagesDownloaded + " / " + fbThread.messageCount + ")",
+                                        messagesDownloaded, totMessageCount, false);
+                                String messagesFQL = UnifiedMessaging.getMessagesFQL(fbThread.id, lastTimestamp);
+
+                                Bundle opts = new Bundle();
+                                opts.putString("q", messagesFQL);
+
+                                Request req = new Request(Session.getActiveSession(), "/fql",
+                                        opts, HttpMethod.GET);
+                                Response res = req.executeAndWait();
+
+                                if (res.getError() != null) {
+                                    Log.e(TAG, res.getError().getErrorMessage());
+                                    Debug.waitForDebugger();
+                                }
+
+                                JSONObject jobj = res.getGraphObject().getInnerJSONObject();
+                                JSONArray data = jobj.getJSONArray("data");
+                                if (data == null || data.length() == 0) break;
+                                Log.v(TAG, "" + data.length());
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject curMessage = data.getJSONObject(i);
+                                    FBMessage fbMessage = new FBMessage();
+                                    long ts = curMessage.getLong("timestamp");
+                                    fbMessage.timestamp.setTimeInMillis(ts);
+                                    lastTimestamp = ts;
+                                    if (!curMessage.isNull("coordinates")) {
+                                        JSONObject coordinates = curMessage.getJSONObject("coordinates");
+                                        fbMessage.hasCoordinates = true;
+                                        fbMessage.latitude = (float)coordinates.getDouble("latitude");
+                                        fbMessage.longitude = (float)coordinates.getDouble("longitude");
+                                    }
+                                    fbMessage.body = curMessage.getString("body");
+                                    JSONObject curp = curMessage.getJSONObject("sender");
+                                    if (curp != null) {
+                                        String uid = curp.getString("user_id");
+                                        FBUser user = new FBUser(uid, curp.getString("name"));
+                                        fbMessage.from = uid;
+                                        GlobalApp.get().fb.fbData.userMap.put(uid, user);
+                                    }
+                                    fbMessage.id = curMessage.getString("message_id");
+                                    JSONArray attachments = curMessage.getJSONArray("attachments");
+                                    if (attachments != null && attachments.length() > 0) {
+                                        JSONObject attachmentMap = curMessage.getJSONObject("attachment_map");
+                                        if (attachmentMap != null) {
+                                            for (int j = 0; j < attachments.length(); j++) {
+                                                String id = attachments.getString(j);
+                                                JSONObject attachmentObj = attachmentMap.getJSONObject(id);
+                                                if (attachmentObj != null) {
+                                                    JSONObject imageData = attachmentObj.getJSONObject("image_data");
+                                                    if (imageData != null) {
+                                                        FBAttachment fbAttachment = new FBAttachment();
+                                                        fbAttachment.height = imageData.getInt("height");
+                                                        fbAttachment.width = imageData.getInt("width");
+                                                        fbAttachment.mimeType = attachmentObj.getString("mime_type");
+                                                        fbAttachment.url = imageData.getString("url");
+                                                        fbAttachment.previewUrl = imageData.getString("preview_url");
+                                                        fbAttachment.id = id;
+                                                        fbAttachment.type = FBAttachment.Type.IMAGE;
+                                                        fbMessage.attachments.add(fbAttachment);
+                                                        Log.d(TAG, fbAttachment.url);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    JSONArray shares = curMessage.getJSONArray("shares");
+                                    if (shares != null && shares.length() > 0) {
+                                        if (!curMessage.isNull("share_map")) {
+                                            Log.d(TAG, curMessage.toString(2));
+                                            JSONObject shareMap = curMessage.optJSONObject("share_map");
+                                            if (shareMap != null) {
+                                                for (int k = 0; k < shares.length(); k++) {
+                                                    String id = shares.getString(i);
+                                                    JSONObject shareObj = shareMap.getJSONObject(id);
+                                                    if (shareObj != null) {
+                                                        if (!shareObj.isNull("sticker_id")) {
+                                                            FBAttachment sticker = new FBAttachment();
+                                                            sticker.type = FBAttachment.Type.STICKER;
+                                                            sticker.url = shareObj.getString("href");
+                                                            Log.v(TAG, sticker.url);
+                                                            fbMessage.attachments.add(sticker);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    fbThread.messages.add(fbMessage);
+                                    ++messagesDownloaded;
+                                    ++curThreadMessagesDownloaded;
+                                }
+                                SystemClock.sleep(UnifiedMessaging.API_WAIT);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ++curIdx;
+                    }
 
                     notifyFinish();
                     stopSelf();
                 }
             });
-        }
-        else {
+        } else {
             t = new Thread(new Runnable() {
                 @Override
                 public void run() {

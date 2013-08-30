@@ -8,11 +8,11 @@ import java.util.HashMap;
  * Created by scen on 8/29/13.
  */
 public class FBData {
-    public Calendar lastUpdate;
+    public Calendar lastUpdate = null;
     public CollectionMethod collectionMethod;
 
-    public ArrayList<FBThread> threads;
-    public HashMap<String, FBUser> userMap;
+    public ArrayList<FBThread> threads = new ArrayList<FBThread>();
+    public HashMap<String, FBUser> userMap = new HashMap<String, FBUser>();
 
     public enum CollectionMethod {
         OLD_API,

@@ -12,7 +12,8 @@ public class FBAccount {
 	public Session session;
 	public GraphUser me;
 	public boolean initialized = false;
-	
+    public FBData fbData;
+
 	static final String TAG = "FBAccount";
 	
 	public void init() {
@@ -30,10 +31,15 @@ public class FBAccount {
 				Log.d(TAG, me.getId());
 			}
 		}).executeAndWait();
-
+        initData();
 		initialized = true;
 	}
-	
+
+    public void initData() {
+        fbData = new FBData();
+        fbData.collectionMethod = FBData.CollectionMethod.UNIFIED_API;
+    }
+
 	public void logout() {
 		if (!session.isClosed()) {
 			session.closeAndClearTokenInformation();

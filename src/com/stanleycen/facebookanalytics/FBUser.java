@@ -6,4 +6,9 @@ package com.stanleycen.facebookanalytics;
 public class FBUser {
     public String id;
     public String name;
+
+    public FBUser(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
