@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,12 +52,10 @@ public class MainActivity extends Activity {
     public class DrawerEntry {
         String text;
         int icon;
-        String fragment;
 
-        public DrawerEntry(String text, int icon, String fragment) {
+        public DrawerEntry(String text, int icon) {
             this.text = text;
             this.icon = icon;
-            this.fragment = fragment;
         }
     }
 	
@@ -144,7 +143,7 @@ public class MainActivity extends Activity {
         if (fbThread == null) return;
 
         Fragment f = ConversationFragment.newInstance(this, fbThread);
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commit();
     }
     
     private void initDrawer() {
@@ -160,10 +159,10 @@ public class MainActivity extends Activity {
         mDrawerList.addHeaderView(top, null, false);
 
         mEntries = new ArrayList<DrawerEntry>();
-        mEntries.add(new DrawerEntry("Data collection", R.drawable.ic_action_data, DataFragment.class.getCanonicalName()));
-        mEntries.add(new DrawerEntry("Overview", R.drawable.ic_action_overview, OverviewFragment.class.getCanonicalName()));
-        mEntries.add(new DrawerEntry("Conversations", R.drawable.ic_social_person, ConversationsFragment.class.getCanonicalName()));
-        mEntries.add(new DrawerEntry("Group chats", R.drawable.ic_social_group, ""));
+        mEntries.add(new DrawerEntry("Data collection", R.drawable.ic_action_data));
+        mEntries.add(new DrawerEntry("Overview", R.drawable.ic_action_overview));
+        mEntries.add(new DrawerEntry("Conversations", R.drawable.ic_social_person));
+        mEntries.add(new DrawerEntry("Group chats", R.drawable.ic_social_group));
 
         mDrawerList.setAdapter(new DrawerRowAdapter(this, mEntries));
         
@@ -278,22 +277,57 @@ public class MainActivity extends Activity {
     		break;
     	}
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() == 0) return;
+        String name = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName();
+        if (name.equals("Data collection")) {
+            mDrawerList.setItemChecked(1, true);
+        }
+        else if (name.equals("Overview")) {
+            mDrawerList.setItemChecked(2, true);
+        }
+        else if (name.equals("Conversations")) {
+            mDrawerList.setItemChecked(3, true);
+        }
+        else if (name.equals("Group chats")) {
+            mDrawerList.setItemChecked(4, true);
+        }
+    }
     
     public void drawerSelect(int position) {
     	mDrawerList.setItemChecked(position, true);
         --position; // ignore header
-        if (!mEntries.get(position).fragment.isEmpty()) {
-            Fragment f = Fragment.instantiate(this, mEntries.get(position).fragment);
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commit();
-            mDrawerLayout.closeDrawer(mDrawerList);
+        DrawerEntry entry = mEntries.get(position);
+        Fragment f = null;
+        if (entry.text.equals("Data collection")) {
+            f = DataFragment.newInstance(this);
         }
+        else if (entry.text.equals("Overview")) {
+            f = OverviewFragment.newInstance(this);
+        }
+        else if (entry.text.equals("Conversations")) {
+            f = ConversationsFragment.newInstance(this);
+        }
+        else if (entry.text.equals("Group chats")) {
+
+        }
+
+        if (f != null) {
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(entry.text).commit();
+        }
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     public void reloadPosition(int position) {
         mDrawerList.setItemChecked(position, true);
         --position; // ignore header
-        if (!mEntries.get(position).fragment.isEmpty()) {
-            Fragment f = Fragment.instantiate(this, mEntries.get(position).fragment);
+        DrawerEntry entry = mEntries.get(position);
+        if (entry.text.equals("Data collection")) {
+            Fragment f = DataFragment.newInstance(this);
             getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
             mDrawerLayout.closeDrawer(mDrawerList);
         }
