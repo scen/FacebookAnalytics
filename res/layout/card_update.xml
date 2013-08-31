@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/manage_data"
         android:fontFamily="sans-serif-thin"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/card_header"
         android:textSize="18dip"
         android:id="@+id/status"
         android:layout_above="@+id/progressBar"

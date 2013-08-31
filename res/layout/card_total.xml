@@ -23,7 +23,7 @@
         android:id="@+id/name"
         android:layout_below="@+id/profilePicture"
         android:layout_alignParentLeft="true"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/card_header"
         android:paddingTop="10dp"
         android:layout_marginLeft="10dp" />
 

@@ -23,7 +23,7 @@
         android:text="Title"
         android:id="@+id/title"
         android:fontFamily="sans-serif-thin"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/card_header"
         android:layout_marginBottom="50dip"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" />

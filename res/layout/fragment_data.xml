@@ -2,9 +2,9 @@
 
 <RelativeLayout
     android:layout_width="fill_parent"
+    style="@style/main_ui_fragment"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/cards_background_color">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListView
         android:layout_width="match_parent"

@@ -19,5 +19,5 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:textSize="32dp"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="@color/card_header" />
 </RelativeLayout>
