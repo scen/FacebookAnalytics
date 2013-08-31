@@ -4,7 +4,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -12,9 +12,14 @@
         -->
     </style>
 
+    <style name="ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">#29000000</item>
+    </style>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!--<item name="android:actionBarStyle">@style/ActionBar</item>-->
     </style>
     <dimen name="com_facebook_loginview_padding_left">12dip</dimen>
     <dimen name="com_facebook_loginview_padding_right">16dp</dimen>
@@ -26,11 +31,12 @@
     <color name="com_facebook_blue">#3B5998</color>
     <color name="lighter_gray">#bbb</color>
     <color name="holo_gray">#323232</color>
+    <color name="cards_background_color">#ffe2e2e2</color>
     <color name="light_gray_bg">#e5e5e5</color>
     <style name="CardListView" parent="AppTheme">
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">20dip</item>
-        <item name="android:padding">15dip</item>
+        <item name="android:padding">8dip</item>
         <item name="android:scrollbarStyle">outsideOverlay</item>
         <item name="android:drawSelectorOnTop">true</item>
         <!--<item name="android:listSelector">@android:color/transparent</item>-->

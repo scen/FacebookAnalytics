@@ -12,8 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/manage_data"
+        android:fontFamily="sans-serif-thin"
         android:textColor="@android:color/darker_gray"
-        android:textSize="14dip"
+        android:textSize="18dip"
         android:id="@+id/status"
         android:layout_above="@+id/progressBar"
         android:layout_alignLeft="@+id/progressBar" />
@@ -52,7 +53,7 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/light_gray_bg"/>
+            android:background="@color/cards_background_color"/>
         <Button
             android:id="@+id/button_delete"
             android:layout_width="fill_parent"

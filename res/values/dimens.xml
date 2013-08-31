@@ -4,6 +4,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="icon_button_padding">8dip</dimen>
-    <dimen name="card_default_padding">8dip</dimen>
+    <dimen name="card_default_padding">16dip</dimen>
 
 </resources>

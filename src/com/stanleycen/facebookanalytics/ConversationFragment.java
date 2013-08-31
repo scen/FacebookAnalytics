@@ -24,7 +24,8 @@ public class ConversationFragment extends Fragment {
     public FBThread fbThread;
 
     public enum CardItems {
-        TOTAL
+        TOTAL,
+        PIE
     };
 
     public static Fragment newInstance(Context context, FBThread fbThread) {
@@ -56,6 +57,7 @@ public class ConversationFragment extends Fragment {
         List<CardItem> items = new ArrayList<CardItem>();
 
         items.add(new CardTotal(CardItems.TOTAL.ordinal(), fbThread));
+        items.add(new CardPieChart(CardItems.PIE.ordinal(), "Messages per day"));
 
 
         final CardAdapter ca = new CardAdapter(getActivity(), items, CardItems.values().length);

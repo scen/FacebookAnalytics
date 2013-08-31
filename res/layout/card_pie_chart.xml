@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/card_bg"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.echo.holographlibrary.PieGraph android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/pie"
+        android:layout_below="@+id/title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Title"
+        android:fontFamily="sans-serif-thin"
+        android:id="@+id/title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:textSize="32dp"
+        android:textColor="@android:color/darker_gray" />
+</RelativeLayout>
