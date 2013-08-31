@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +25,13 @@ public class ConversationsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getActionBar().setTitle("Conversations");
+        getActivity().getActionBar().setSubtitle(null);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         FBData fbData = GlobalApp.get().fb.fbData;
         if (fbData == null || fbData.lastUpdate == null) {
@@ -35,7 +40,7 @@ public class ConversationsFragment extends Fragment {
         //TODO
         // IF FBDATA is BAD/NULL, inflate a different layout with "please collect data"
 
-        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_conversation, null);
+        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_conversations, null);
 
         ListView list = (ListView)root.findViewById(R.id.listView);
 

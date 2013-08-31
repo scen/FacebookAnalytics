@@ -74,13 +74,11 @@ public class MainActivity extends Activity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 
         		R.string.drawer_open, R.string.drawer_close) {
         	public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-        		invalidateOptionsMenu();
+//                getActionBar().setTitle(mTitle);
         	}
         	
         	public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-        		invalidateOptionsMenu();
+//                setTitle(mDrawerTitle);
         	}
         };
         
@@ -101,8 +99,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void setTitle(CharSequence title) {
-        mTitle = title;
-        getActionBar().setTitle(mTitle);
+
     }
 
     private class DrawerRowAdapter extends ArrayAdapter<String> {
@@ -146,6 +143,8 @@ public class MainActivity extends Activity {
     public void openConversationView(FBThread fbThread) {
         if (fbThread == null) return;
 
+        Fragment f = ConversationFragment.newInstance(this, fbThread);
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
     }
     
     private void initDrawer() {
@@ -285,8 +284,7 @@ public class MainActivity extends Activity {
         --position; // ignore header
         if (!mEntries.get(position).fragment.isEmpty()) {
             Fragment f = Fragment.instantiate(this, mEntries.get(position).fragment);
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
-            setTitle(mEntries.get(position).text);
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commit();
             mDrawerLayout.closeDrawer(mDrawerList);
         }
     }
@@ -296,8 +294,7 @@ public class MainActivity extends Activity {
         --position; // ignore header
         if (!mEntries.get(position).fragment.isEmpty()) {
             Fragment f = Fragment.instantiate(this, mEntries.get(position).fragment);
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commitAllowingStateLoss();
-            setTitle(mEntries.get(position).text);
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
             mDrawerLayout.closeDrawer(mDrawerList);
         }
     }

@@ -2,13 +2,13 @@ package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-import com.loopj.android.image.SmartImageView;
 
 import org.joda.time.DateTime;
 
@@ -54,8 +54,8 @@ public class CardConversation implements CardItem {
             holder = (CardConversationHolder)v.getTag();
         }
 
-
-        UrlImageViewHelper.setUrlDrawable(holder.profilePic, "http://graph.facebook.com/" + fbThread.other.id + "/picture?width=800&height=800",R.drawable.default_profile);
+        int w = Math.max(holder.profilePic.getWidth(), 500);
+        UrlImageViewHelper.setUrlDrawable(holder.profilePic, "http://graph.facebook.com/" + fbThread.other.id + "/picture?width="+w+"&height="+w,R.drawable.default_profile);
 //        holder.profilePic.setImageUrl("http://graph.facebook.com/" + fbThread.other.id + "/picture?width=800&height=800",R.drawable.default_profile);
         holder.name.setText((fbThread.other == null) ? ("") : ((fbThread.other.name == null || fbThread.other.name == "") ? "" : fbThread.other.name));
         holder.messages.setText(Util.getFormattedInt(fbThread.messageCount) + " messages sent & received");

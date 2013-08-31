@@ -22,7 +22,12 @@ public class OverviewFragment extends Fragment {
 
         return f;
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getActionBar().setTitle("Overview");
+        getActivity().getActionBar().setSubtitle(null);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         FBData fbData = GlobalApp.get().fb.fbData;

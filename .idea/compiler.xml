@@ -5,6 +5,7 @@
     <excludeFromCompile>
       <directory url="file://$PROJECT_DIR$/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/facebook-android-sdk-3.5/facebook/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../HoloGraphLibrary/HoloGraphLibrary/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>

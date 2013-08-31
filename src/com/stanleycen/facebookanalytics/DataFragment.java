@@ -34,6 +34,13 @@ public class DataFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getActionBar().setTitle("Data collection");
+        getActivity().getActionBar().setSubtitle(null);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_data, null);
 
