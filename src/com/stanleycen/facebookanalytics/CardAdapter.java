@@ -39,4 +39,9 @@ public class CardAdapter extends com.haarman.listviewanimations.ArrayAdapter<Car
         return getItem(position).getView(mInflater, convertView, position, context);
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        return getItem(position).isEnabled();
+    }
+
 }

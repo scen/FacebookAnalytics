@@ -10,4 +10,5 @@ import android.view.View;
 public interface CardItem {
     public abstract int getViewType();
     public abstract View getView(LayoutInflater inflater, View convertView, int position, Context context);
+    public abstract boolean isEnabled();
 }

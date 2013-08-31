@@ -77,7 +77,7 @@ public class DataDownloaderService extends Service {
                     long lastTimestamp = UnifiedMessaging.LARGE_TIMESTAMP;
 
                     int totMessageCount = 0;
-                    int howMany = 20;
+//                    int howMany = 20;
                     outer:
                     while (true) {
                         String threadFQL = UnifiedMessaging.getThreadFQL(lastTimestamp);
@@ -128,7 +128,7 @@ public class DataDownloaderService extends Service {
                                     }
                                 newFbData.threads.add(fbThread);
                                 lastTimestamp = timestamp;
-                                if (--howMany <= 0) break outer;
+//                                if (--howMany <= 0) break outer;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -274,6 +274,9 @@ public class DataDownloaderService extends Service {
 
                     updateDownloadProgress("Committing data", 100, 100, true);
                     UnifiedMessaging.commitData(newFbData);
+
+                    updateDownloadProgress("Crunching data", 100, 100, true);
+                    newFbData.computeHighLevelThreadStats();
 
                     notifyFinish();
                     stopSelf();

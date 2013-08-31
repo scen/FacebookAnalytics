@@ -27,6 +27,11 @@ public class CardDateTime implements CardItem {
     }
 
     @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    @Override
     public View getView(LayoutInflater inflater, View convertView, int position, Context context) {
         View v = convertView;
 

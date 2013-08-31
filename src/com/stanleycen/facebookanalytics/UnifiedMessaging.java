@@ -129,6 +129,8 @@ public class UnifiedMessaging {
 
         Log.w("k", "READ");
 
+        fbData.computeHighLevelThreadStats();
+
         return fbData;
     }
 

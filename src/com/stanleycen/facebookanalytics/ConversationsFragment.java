@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
@@ -27,6 +28,9 @@ public class ConversationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         FBData fbData = GlobalApp.get().fb.fbData;
+        if (fbData == null || fbData.lastUpdate == null) {
+            return (ViewGroup)inflater.inflate(R.layout.fragment_error_data, null);
+        }
         //TODO
         // IF FBDATA is BAD/NULL, inflate a different layout with "please collect data"
 
@@ -45,6 +49,13 @@ public class ConversationsFragment extends Fragment {
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(ca);
         swingBottomInAnimationAdapter.setAbsListView(list);
         list.setAdapter(swingBottomInAnimationAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
 
         setRetainInstance(true);
 

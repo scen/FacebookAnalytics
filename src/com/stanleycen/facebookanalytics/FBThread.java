@@ -17,4 +17,8 @@ public class FBThread {
 
     public ArrayList<FBMessage> messages = new ArrayList<FBMessage>();
     public int messageCount;
+
+    // Statistics computed post-load
+    public int charCount;
+    FBUser other;
 }

@@ -28,7 +28,10 @@ public class CardUpdate implements CardItem {
     public CardUpdate(int viewType) {
         this.viewType = viewType;
     }
-
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
     @Override
     public View getView(LayoutInflater inflater, View convertView, int position, final Context context) {
         View v = convertView;

@@ -15,6 +15,23 @@ public class FBData {
     public ArrayList<FBThread> threads = new ArrayList<FBThread>();
     public HashMap<String, FBUser> userMap = new HashMap<String, FBUser>();
 
+    public void computeHighLevelThreadStats() {
+        for (FBThread fbThread : threads) {
+            fbThread.charCount = 0;
+            for (FBMessage fbMessage : fbThread.messages) {
+                fbThread.charCount += fbMessage.body.length();
+            }
+            if (!fbThread.isGroupConversation) {
+                for (FBUser person : fbThread.participants) {
+                    if (!person.id.equals(GlobalApp.get().fb.me.getId())) {
+                        fbThread.other = person;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     public enum CollectionMethod {
         OLD_API,
         UNIFIED_API

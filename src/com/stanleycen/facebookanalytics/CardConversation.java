@@ -1,11 +1,14 @@
 package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
+
+import org.joda.time.DateTime;
 
 /**
  * Created by scen on 8/30/13.
@@ -23,6 +26,11 @@ public class CardConversation implements CardItem {
     }
 
     @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public View getView(LayoutInflater inflater, View convertView, int position, Context context) {
         View v = convertView;
 
@@ -34,6 +42,9 @@ public class CardConversation implements CardItem {
 
             holder.name = (TextView)v.findViewById(R.id.name);
             holder.profilePic = (SmartImageView)v.findViewById(R.id.profilePicture);
+            holder.messages = (TextView)v.findViewById(R.id.messages);
+            holder.chars = (TextView)v.findViewById(R.id.chars);
+            holder.last = (TextView)v.findViewById(R.id.last);
 
             v.setTag(holder);
         }
@@ -41,19 +52,13 @@ public class CardConversation implements CardItem {
             holder = (CardConversationHolder)v.getTag();
         }
 
-        FBUser other = null;
-        for (FBUser person : fbThread.participants) {
-            if (!person.id.equals(GlobalApp.get().fb.me.getId())) {
-                other = person;
-                break;
-            }
-        }
 
-//        holder.profilePic.setProfileId(other == null ? "" : other.id);
-//        holder.profilePic.setPresetSize(ProfilePictureView.LARGE);
-//        holder.profilePic.setCropped(true);
-        holder.profilePic.setImageUrl("http://graph.facebook.com/" + other.id + "/picture?width=1000&height=1000",R.drawable.default_profile);
-        holder.name.setText((other == null) ? ("") : ((other.name == null || other.name == "") ? "" : other.name));
+        holder.profilePic.setImageUrl("http://graph.facebook.com/" + fbThread.other.id + "/picture?width=800&height=800",R.drawable.default_profile);
+        holder.name.setText((fbThread.other == null) ? ("") : ((fbThread.other.name == null || fbThread.other.name == "") ? "" : fbThread.other.name));
+        holder.messages.setText(Util.getFormattedInt(fbThread.messageCount) + " messages sent & received");
+        holder.chars.setText(Util.getFormattedInt(fbThread.charCount) + " characters sent & received");
+        holder.last.setText("Last action " + DateUtils.getRelativeTimeSpanString(fbThread.lastUpdate.getMillis(),
+                DateTime.now().getMillis(), DateUtils.MINUTE_IN_MILLIS, 0));
 
         return v;
     }
@@ -61,5 +66,8 @@ public class CardConversation implements CardItem {
     private class CardConversationHolder {
         public SmartImageView profilePic;
         public TextView name;
+        public TextView messages;
+        public TextView chars;
+        public TextView last;
     }
 }
