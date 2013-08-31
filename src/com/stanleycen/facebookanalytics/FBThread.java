@@ -13,7 +13,7 @@ public class FBThread {
     public String title;
     public DateTime lastUpdate;
     public boolean isGroupConversation;
-    public HashSet<String> participants = new HashSet<String>();
+    public HashSet<FBUser> participants = new HashSet<FBUser>();
 
     public ArrayList<FBMessage> messages = new ArrayList<FBMessage>();
     public int messageCount;

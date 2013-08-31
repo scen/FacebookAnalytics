@@ -73,7 +73,7 @@ public class UnifiedMessaging {
                     JSONArray jsonParticipants = new JSONArray(threadCursor.getString(4));
                     if (jsonParticipants != null) {
                         for (int i = 0; i < jsonParticipants.length(); i++) {
-                            fbThread.participants.add(jsonParticipants.getString(i));
+                            fbThread.participants.add(fbData.userMap.get(jsonParticipants.getString(i)));
                         }
                     }
                 } catch (JSONException e) {
@@ -177,8 +177,8 @@ public class UnifiedMessaging {
         cv.put(DatabaseHandler.COLUMN_ISGROUP, fbThread.isGroupConversation);
 
         JSONArray participantsArray = new JSONArray();
-        for (String userId : fbThread.participants) {
-            participantsArray.put(userId);
+        for (FBUser user : fbThread.participants) {
+            participantsArray.put(user.id);
         }
 
         cv.put(DatabaseHandler.COLUMN_PARTICIPANTS, participantsArray.toString());

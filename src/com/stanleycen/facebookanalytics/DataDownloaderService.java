@@ -113,8 +113,8 @@ public class DataDownloaderService extends Service {
                                     JSONObject curp = participants.getJSONObject(j);
                                     String uid = curp.getString("user_id");
                                     FBUser user = new FBUser(uid, curp.getString("name"));
-                                    fbThread.participants.add(uid);
                                     newFbData.userMap.put(uid, user);
+                                    fbThread.participants.add(newFbData.userMap.get(uid));
                                 }
 
                                 JSONArray formerParticipants = jcurThread.optJSONArray("former_participants");
@@ -123,8 +123,8 @@ public class DataDownloaderService extends Service {
                                         JSONObject curp = formerParticipants.getJSONObject(j);
                                         String uid = curp.getString("user_id");
                                         FBUser user = new FBUser(uid, curp.getString("name"));
-                                        fbThread.participants.add(uid);
                                         newFbData.userMap.put(uid, user);
+                                        fbThread.participants.add(newFbData.userMap.get(uid));
                                     }
                                 newFbData.threads.add(fbThread);
                                 lastTimestamp = timestamp;

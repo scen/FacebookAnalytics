@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.widget.ProfilePictureView;
+import com.loopj.android.image.SmartImageView;
 
 /**
  * Created by scen on 8/30/13.
@@ -26,36 +26,40 @@ public class CardConversation implements CardItem {
     public View getView(LayoutInflater inflater, View convertView, int position, Context context) {
         View v = convertView;
 
-        CardDateTimeHolder holder = new CardDateTimeHolder();
+        CardConversationHolder holder = new CardConversationHolder();
 
         if (v == null) {
             v = (View)inflater.inflate(R.layout.card_conversation, null);
 
 
             holder.name = (TextView)v.findViewById(R.id.name);
-            holder.profilePic = (ProfilePictureView)v.findViewById(R.id.profilepic);
+            holder.profilePic = (SmartImageView)v.findViewById(R.id.profilePicture);
 
             v.setTag(holder);
         }
         else {
-            holder = (CardDateTimeHolder)v.getTag();
+            holder = (CardConversationHolder)v.getTag();
         }
 
-        FBUser other;
-        for (String id : fbThread.participants) {
-
+        FBUser other = null;
+        for (FBUser person : fbThread.participants) {
+            if (!person.id.equals(GlobalApp.get().fb.me.getId())) {
+                other = person;
+                break;
+            }
         }
 
-        holder.profilePic.setProfileId();
-        holder.profilePic.setPresetSize(ProfilePictureView.CUSTOM);
-        holder.profilePic.setCropped(true);
-        holder.name.setText(title);
+//        holder.profilePic.setProfileId(other == null ? "" : other.id);
+//        holder.profilePic.setPresetSize(ProfilePictureView.LARGE);
+//        holder.profilePic.setCropped(true);
+        holder.profilePic.setImageUrl("http://graph.facebook.com/" + other.id + "/picture?width=1000&height=1000",R.drawable.default_profile);
+        holder.name.setText((other == null) ? ("") : ((other.name == null || other.name == "") ? "" : other.name));
 
         return v;
     }
 
-    private class CardDateTimeHolder {
-        public ProfilePictureView profilePic;
+    private class CardConversationHolder {
+        public SmartImageView profilePic;
         public TextView name;
     }
 }

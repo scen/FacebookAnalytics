@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
 
         mEntries = new ArrayList<DrawerEntry>();
         mEntries.add(new DrawerEntry("Data collection", R.drawable.ic_action_data, "com.stanleycen.facebookanalytics.DataFragment"));
-        mEntries.add(new DrawerEntry("Overview", R.drawable.ic_action_overview, ""));
+        mEntries.add(new DrawerEntry("Overview", R.drawable.ic_action_overview, "com.stanleycen.facebookanalytics.ConversationsFragment"));
         mEntries.add(new DrawerEntry("Conversations", R.drawable.ic_social_person, ""));
         mEntries.add(new DrawerEntry("Group chats", R.drawable.ic_social_group, ""));
 

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="200dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/card_bg">
-    <com.facebook.widget.ProfilePictureView
-        android:id="@+id/profilepic"
-        android:paddingLeft="10dip"
+    <com.loopj.android.image.SmartImageView
+        android:id="@+id/profilePicture"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true" />
@@ -19,9 +18,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/name"
-        android:layout_below="@+id/profilepic"
+        android:layout_below="@+id/profilePicture"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:textColor="@android:color/darker_gray"
         android:paddingTop="10dp" />
+
 </RelativeLayout>
