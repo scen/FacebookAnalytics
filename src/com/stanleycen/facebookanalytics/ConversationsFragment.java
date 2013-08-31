@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
@@ -46,14 +47,14 @@ public class ConversationsFragment extends Fragment {
         }
 
         CardAdapter ca = new CardAdapter(getActivity(), items, 1);
-        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(ca);
-        swingBottomInAnimationAdapter.setAbsListView(list);
-        list.setAdapter(swingBottomInAnimationAdapter);
+//        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(ca);
+//        swingBottomInAnimationAdapter.setAbsListView(list);
+        list.setAdapter(ca);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Toast.makeText(getActivity(), "" + i, Toast.LENGTH_SHORT).show();
             }
         });
 

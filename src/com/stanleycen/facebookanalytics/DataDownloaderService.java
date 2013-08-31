@@ -39,9 +39,7 @@ public class DataDownloaderService extends Service {
     enum MessageType {
         UPDATE_PROGRESSBAR,
         FINISHED_DOWNLOAD
-    }
-
-    ;
+    };
 
     private Messenger messenger = null;
     private boolean startedDownload = false;
