@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FacebookAnalytics.iml" filepath="$PROJECT_DIR$/FacebookAnalytics.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../HoloGraphLibrary/HoloGraphLibrary/HoloGraphLibrary.iml" filepath="$PROJECT_DIR$/../HoloGraphLibrary/HoloGraphLibrary/HoloGraphLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/facebook-android-sdk-3.5/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook-android-sdk-3.5/facebook/facebook.iml" />
     </modules>
   </component>

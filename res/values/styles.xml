@@ -27,7 +27,7 @@
     <color name="cards_background_color">#ffe2e2e2</color>
     <color name="light_gray_bg">#e5e5e5</color>
     <color name="card_header">#ff707070</color>
-    <style name="CardListView" parent="AppTheme">
+    <style name="CardListView" parent="MyAppTheme">
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">@dimen/card_sep_height</item>
         <item name="android:padding">4dip</item>
@@ -39,5 +39,45 @@
     <style name="main_ui_fragment">
         <item name="android:background">@color/cards_background_color</item>
     </style>
+
+    <integer-array name="colors">
+        <item>-15292969</item>
+        <item>-8145408</item>
+        <item>-20968</item>
+        <item>-1035983</item>
+        <item>-4557348</item>
+        <item>-9841945</item>
+        <item>-817616</item>
+        <item>-366336</item>
+        <item>-11181456</item>
+        <item>-11612732</item>
+        <item>-38037</item>
+        <item>-10924209</item>
+        <item>-11241088</item>
+        <item>-162301</item>
+        <item>-2157286</item>
+        <item>-16725017</item>
+        <item>-4204242</item>
+        <item>-7292913</item>
+        <item>-10054655</item>
+        <item>-13604094</item>
+        <item>-16009229</item>
+        <item>-14709290</item>
+        <item>-15312993</item>
+        <item>-16111543</item>
+        <item>-16774877</item>
+        <item>-15285816</item>
+        <item>-11940660</item>
+        <item>-8595505</item>
+        <item>-5316141</item>
+        <item>-21757</item>
+        <item>-229629</item>
+        <item>-247549</item>
+        <item>-3079602</item>
+        <item>-5897620</item>
+        <item>-3394753</item>
+        <item>-1349567</item>
+        <item>-1193647</item>
+    </integer-array>
 
 </resources>

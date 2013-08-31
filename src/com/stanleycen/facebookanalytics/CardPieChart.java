@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.echo.holographlibrary.PieGraph;
-import com.echo.holographlibrary.PieSlice;
+import com.stanleycen.facebookanalytics.graph.PieGraph;
+import com.stanleycen.facebookanalytics.graph.PieSlice;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 /**

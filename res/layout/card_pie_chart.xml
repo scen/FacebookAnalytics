@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/card_bg"
     android:layout_width="match_parent" android:layout_height="match_parent">
-    <com.echo.holographlibrary.PieGraph android:layout_width="match_parent"
+    <com.stanleycen.facebookanalytics.graph.PieGraph android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:id="@+id/pie"
