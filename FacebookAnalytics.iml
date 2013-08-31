@@ -19,6 +19,7 @@
     <orderEntry type="library" name="nineoldandroids-2.4.0" level="project" />
     <orderEntry type="library" name="joda-time-2.3" level="project" />
     <orderEntry type="library" name="android-smart-image-view-1.0.0" level="project" />
+    <orderEntry type="library" name="urlimageviewhelper-1.0.4" level="project" />
   </component>
 </module>
 

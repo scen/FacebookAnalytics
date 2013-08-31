@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/card_bg"
     android:paddingBottom="@dimen/card_default_padding">
-    <com.loopj.android.image.SmartImageView
+    <ImageView
         android:id="@+id/profilePicture"
         android:layout_width="match_parent"
         android:layout_height="150dp"

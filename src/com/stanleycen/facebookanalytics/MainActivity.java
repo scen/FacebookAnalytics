@@ -142,6 +142,11 @@ public class MainActivity extends Activity {
 			return rowView;
     	}
     };
+
+    public void openConversationView(FBThread fbThread) {
+        if (fbThread == null) return;
+
+    }
     
     private void initDrawer() {
     	LayoutInflater inflater = getLayoutInflater();
@@ -177,6 +182,8 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			dialog.setMessage("Initializing");
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
 			dialog.show();
 			super.onPreExecute();
 		}

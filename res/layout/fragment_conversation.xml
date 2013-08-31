@@ -12,6 +12,7 @@
         android:id="@+id/listView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:scrollingCache="false"
         style="@style/CardListView"
         />
 </RelativeLayout>

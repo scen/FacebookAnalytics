@@ -4,8 +4,10 @@ import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.loopj.android.image.SmartImageView;
 
 import org.joda.time.DateTime;
@@ -14,7 +16,7 @@ import org.joda.time.DateTime;
  * Created by scen on 8/30/13.
  */
 public class CardConversation implements CardItem {
-    private final FBThread fbThread;
+    public final FBThread fbThread;
     private int viewType;
 
     public int getViewType() {
@@ -41,7 +43,7 @@ public class CardConversation implements CardItem {
 
 
             holder.name = (TextView)v.findViewById(R.id.name);
-            holder.profilePic = (SmartImageView)v.findViewById(R.id.profilePicture);
+            holder.profilePic = (ImageView)v.findViewById(R.id.profilePicture);
             holder.messages = (TextView)v.findViewById(R.id.messages);
             holder.chars = (TextView)v.findViewById(R.id.chars);
             holder.last = (TextView)v.findViewById(R.id.last);
@@ -53,7 +55,8 @@ public class CardConversation implements CardItem {
         }
 
 
-        holder.profilePic.setImageUrl("http://graph.facebook.com/" + fbThread.other.id + "/picture?width=800&height=800",R.drawable.default_profile);
+        UrlImageViewHelper.setUrlDrawable(holder.profilePic, "http://graph.facebook.com/" + fbThread.other.id + "/picture?width=800&height=800",R.drawable.default_profile);
+//        holder.profilePic.setImageUrl("http://graph.facebook.com/" + fbThread.other.id + "/picture?width=800&height=800",R.drawable.default_profile);
         holder.name.setText((fbThread.other == null) ? ("") : ((fbThread.other.name == null || fbThread.other.name == "") ? "" : fbThread.other.name));
         holder.messages.setText(Util.getFormattedInt(fbThread.messageCount) + " messages sent & received");
         holder.chars.setText(Util.getFormattedInt(fbThread.charCount) + " characters sent & received");
@@ -64,7 +67,7 @@ public class CardConversation implements CardItem {
     }
 
     private class CardConversationHolder {
-        public SmartImageView profilePic;
+        public ImageView profilePic;
         public TextView name;
         public TextView messages;
         public TextView chars;

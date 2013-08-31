@@ -46,15 +46,15 @@ public class ConversationsFragment extends Fragment {
             }
         }
 
-        CardAdapter ca = new CardAdapter(getActivity(), items, 1);
-//        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(ca);
-//        swingBottomInAnimationAdapter.setAbsListView(list);
-        list.setAdapter(ca);
+        final CardAdapter ca = new CardAdapter(getActivity(), items, 1);
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(ca);
+        swingBottomInAnimationAdapter.setAbsListView(list);
+        list.setAdapter(swingBottomInAnimationAdapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), "" + i, Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).openConversationView(((CardConversation)ca.getItem(i)).fbThread);
             }
         });
 
