@@ -43,6 +43,7 @@ public class ConversationsFragment extends Fragment {
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_conversations, null);
 
         ListView list = (ListView)root.findViewById(R.id.listView);
+        Util.addSeparatingHeaderView(getActivity(), inflater, list);
 
         List<CardItem> items = new ArrayList<CardItem>();
         for (FBThread fbThread : fbData.threads) {
@@ -59,7 +60,8 @@ public class ConversationsFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ((MainActivity)getActivity()).openConversationView(((CardConversation)ca.getItem(i)).fbThread);
+                if (i == 0) return; // this is the header item
+                ((MainActivity)getActivity()).openConversationView(((CardConversation)ca.getItem(i - 1)).fbThread);
             }
         });
 

@@ -53,6 +53,8 @@ public class ConversationFragment extends Fragment {
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_conversation, null);
 
         ListView list = (ListView)root.findViewById(R.id.listView);
+        Util.addSeparatingHeaderView(getActivity(), inflater, list);
+
 
         List<CardItem> items = new ArrayList<CardItem>();
 

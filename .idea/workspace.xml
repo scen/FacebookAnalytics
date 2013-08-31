@@ -38,17 +38,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0587b34f-022d-4281-9661-16136cb9587b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/res/values-v11/styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/card_bg_old.9.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/ic_action_date.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/card_bg_old.9.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/ic_action_date.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/card_bg_old.9.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/ic_action_date.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/card_conversation.xml" afterPath="$PROJECT_DIR$/res/layout/card_conversation.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/card_date_time.xml" afterPath="$PROJECT_DIR$/res/layout/card_date_time.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/card_pie_chart.xml" afterPath="$PROJECT_DIR$/res/layout/card_pie_chart.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/card_total.xml" afterPath="$PROJECT_DIR$/res/layout/card_total.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationsFragment.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationsFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataFragment.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/res/layout/activity_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/card_update.xml" afterPath="$PROJECT_DIR$/res/layout/card_update.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_conversation.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_conversation.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_conversations.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_conversations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_data.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_data.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_error_data.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_error_data.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/dimens.xml" afterPath="$PROJECT_DIR$/res/values/dimens.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-v14/styles.xml" afterPath="$PROJECT_DIR$/res/values-v14/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -120,7 +124,7 @@
             <file leaf-file-name="colors.xml" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$USER_HOME$/Downloads/com.androidappetizers.whatstat-1/res/values/colors.xml">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state line="9" column="24" selection-start="603" selection-end="610" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+                  <state line="5" column="38" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
                     <folding />
                   </state>
                 </provider>
@@ -129,7 +133,16 @@
             <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="true">
               <entry file="file://$USER_HOME$/Downloads/com.androidappetizers.whatstat-1/res/values/styles.xml">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state line="582" column="0" selection-start="41307" selection-end="41307" vertical-scroll-proportion="0.8873592" vertical-offset="8021" max-vertical-offset="8820">
+                  <state line="527" column="45" selection-start="38445" selection-end="38445" vertical-scroll-proportion="0.5272727" vertical-offset="7470" max-vertical-offset="8820">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="activity_cards.xml" pinned="false" current="false" current-in-tab="false">
+              <entry file="file://$USER_HOME$/Downloads/com.androidappetizers.whatstat-1/res/layout/activity_cards.xml">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="10" column="19" selection-start="935" selection-end="935" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
                     <folding />
                   </state>
                 </provider>
@@ -146,58 +159,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="UnifiedMessaging.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="13" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3525">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="9" selection-start="1736" selection-end="1736" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1110">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="35" selection-start="1793" selection-end="1793" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_error_data.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/fragment_error_data.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="35" selection-start="150" selection-end="150" vertical-scroll-proportion="-1.6666666" vertical-offset="0" max-vertical-offset="675">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="card_total.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/card_total.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="44" selection-start="1001" selection-end="1001" vertical-scroll-proportion="-13.888889" vertical-offset="0" max-vertical-offset="1035">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_data.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/fragment_data.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="35" selection-start="130" selection-end="130" vertical-scroll-proportion="-2.2222223" vertical-offset="0" max-vertical-offset="330">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_conversations.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/fragment_conversations.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="17" selection-start="568" selection-end="568" vertical-scroll-proportion="-9.444445" vertical-offset="0" max-vertical-offset="345">
+            <state line="24" column="49" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
               <folding />
             </state>
           </provider>
@@ -209,25 +192,7 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="339" selection-end="339" vertical-scroll-proportion="-6.111111" vertical-offset="0" max-vertical-offset="345">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values-v14/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="63" selection-start="274" selection-end="279" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HoloGraphLibrary/HoloGraphLibrary/res/values-v14/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="12" selection-start="380" selection-end="380" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="345">
               <folding />
             </state>
           </provider>
@@ -239,17 +204,52 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="43" selection-start="500" selection-end="500" vertical-scroll-proportion="-6.6666665" vertical-offset="0" max-vertical-offset="405">
+            <state line="7" column="39" selection-start="312" selection-end="312" vertical-scroll-proportion="-3.8888888" vertical-offset="0" max-vertical-offset="420">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <file leaf-file-name="card_update.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/card_update.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="32" selection-start="609" selection-end="609" vertical-scroll-proportion="0.29090908" vertical-offset="0" max-vertical-offset="825">
+            <state line="29" column="36" selection-start="1112" selection-end="1113" vertical-scroll-proportion="0.23186529" vertical-offset="256" max-vertical-offset="1170">
+              <folding>
+                <element signature="e#452#473#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConversationsFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationsFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="45" column="28" selection-start="1491" selection-end="1491" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="945">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Util.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="86" column="0" selection-start="3883" selection-end="3883" vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1410">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConversationFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="56" column="0" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1200">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1828#1838#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -272,28 +272,28 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" />
-        <option value="$PROJECT_DIR$/res/layout/card_pie_chart.xml" />
-        <option value="$PROJECT_DIR$/res/layout/card_total.xml" />
-        <option value="$PROJECT_DIR$/res/layout/card_update.xml" />
-        <option value="$PROJECT_DIR$/res/values/dimens.xml" />
-        <option value="$PROJECT_DIR$/res/layout/card_date_time.xml" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/res/layout/card_conversation.xml" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_data.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_error_data.xml" />
-        <option value="$PROJECT_DIR$/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_conversation.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_conversations.xml" />
-        <option value="$PROJECT_DIR$/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardListFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" />
         <option value="$PROJECT_DIR$/res/values-v14/styles.xml" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/res/layout/listview_header_for_transparent_action_bar.xml" />
+        <option value="$PROJECT_DIR$/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationsFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/res/layout/card_update.xml" />
+        <option value="$PROJECT_DIR$/res/values/styles.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="40" />
-    <option name="y" value="40" />
+    <option name="x" value="38" />
+    <option name="y" value="48" />
     <option name="width" value="1782" />
     <option name="height" value="1090" />
   </component>
@@ -771,13 +771,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="40" width="1782" height="1090" extended-state="0" />
+    <frame x="38" y="48" width="1782" height="1090" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32940516" sideWeight="0.85728645" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32940516" sideWeight="0.85728645" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18090452" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -793,7 +793,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17227834" sideWeight="0.85728645" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14271356" sideWeight="0.4997183" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14271356" sideWeight="0.4997183" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -840,86 +840,87 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Android/sdk/platforms/android-18/data/res/values/styles.xml">
+    <entry file="file://$PROJECT_DIR$/res/values-v14/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2280" column="24" selection-start="103229" selection-end="103229" vertical-scroll-proportion="0.0" vertical-offset="33908" max-vertical-offset="37785">
+        <state line="23" column="43" selection-start="1061" selection-end="1061" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/card_pie_chart.xml">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="40" selection-start="650" selection-end="650" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
+          <folding>
+            <element signature="e#771#789#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Android/sdk/platforms/android-18/android.jar!/android/R.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="912" column="32" selection-start="59297" selection-end="59297" vertical-scroll-proportion="0.0" vertical-offset="13315" max-vertical-offset="29715">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/listview_header_for_transparent_action_bar.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="12" selection-start="362" selection-end="362" vertical-scroll-proportion="-3.8888888" vertical-offset="0" max-vertical-offset="420">
+        <state line="2" column="40" selection-start="152" selection-end="152" vertical-scroll-proportion="-1.1111112" vertical-offset="0" max-vertical-offset="120">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/com.androidappetizers.whatstat-1/res/values/styles.xml">
+    <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="582" column="0" selection-start="41307" selection-end="41307" vertical-scroll-proportion="0.8873592" vertical-offset="8021" max-vertical-offset="8820">
+        <state line="8" column="44" selection-start="395" selection-end="395" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/card_date_time.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="6" column="48" selection-start="290" selection-end="290" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/card_conversation.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DatabaseHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="37" selection-start="903" selection-end="903" vertical-scroll-proportion="-8.814815" vertical-offset="107" max-vertical-offset="1005">
+        <state line="12" column="13" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1995">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/card_update.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/UnifiedMessaging.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1170">
+        <state line="18" column="13" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3525">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/card_total.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="44" selection-start="1001" selection-end="1001" vertical-scroll-proportion="-13.888889" vertical-offset="0" max-vertical-offset="1035">
+        <state line="86" column="0" selection-start="3883" selection-end="3883" vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1410">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_error_data.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="35" selection-start="150" selection-end="150" vertical-scroll-proportion="-1.6666666" vertical-offset="0" max-vertical-offset="675">
+        <state line="45" column="28" selection-start="1491" selection-end="1491" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="945">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_data.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="35" selection-start="130" selection-end="130" vertical-scroll-proportion="-2.2222223" vertical-offset="0" max-vertical-offset="330">
+        <state line="56" column="0" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1200">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1828#1838#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="9" selection-start="1736" selection-end="1736" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1110">
           <folding />
         </state>
       </provider>
@@ -929,17 +930,7 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="339" selection-end="339" vertical-scroll-proportion="-6.111111" vertical-offset="0" max-vertical-offset="345">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_conversations.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="17" selection-start="568" selection-end="568" vertical-scroll-proportion="-9.444445" vertical-offset="0" max-vertical-offset="345">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="798">
           <folding />
         </state>
       </provider>
@@ -949,36 +940,27 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="43" selection-start="500" selection-end="500" vertical-scroll-proportion="-6.6666665" vertical-offset="0" max-vertical-offset="405">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloGraphLibrary/HoloGraphLibrary/res/values-v14/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="12" selection-start="380" selection-end="380" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
+        <state line="7" column="39" selection-start="312" selection-end="312" vertical-scroll-proportion="-3.8888888" vertical-offset="0" max-vertical-offset="420">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="35" selection-start="1793" selection-end="1793" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
+        <state line="24" column="49" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values-v14/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="63" selection-start="274" selection-end="279" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
-          <folding />
-        </state>
+    <entry file="file://$PROJECT_DIR$/res/layout/card_update.xml">
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="32" selection-start="609" selection-end="609" vertical-scroll-proportion="0.29090908" vertical-offset="0" max-vertical-offset="825">
-          <folding />
+        <state line="29" column="36" selection-start="1112" selection-end="1113" vertical-scroll-proportion="0.23186529" vertical-offset="256" max-vertical-offset="1170">
+          <folding>
+            <element signature="e#452#473#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

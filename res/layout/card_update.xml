@@ -48,7 +48,7 @@
             android:layout_alignRight="@+id/progressBar"
             android:gravity="left|center_vertical"
             android:drawablePadding="@dimen/icon_button_padding"
-            android:textColor="@color/holo_gray"
+            android:textColor="@color/button_gray"
             android:drawableLeft="@drawable/ic_action_download"/>
         <View
             android:layout_width="fill_parent"
@@ -66,7 +66,7 @@
             android:layout_alignRight="@+id/progressBar"
             android:gravity="left|center_vertical"
             android:drawablePadding="@dimen/icon_button_padding"
-            android:textColor="@color/holo_gray"
+            android:textColor="@color/button_gray"
             android:drawableLeft="@drawable/ic_action_discard"/>
     </LinearLayout>
 

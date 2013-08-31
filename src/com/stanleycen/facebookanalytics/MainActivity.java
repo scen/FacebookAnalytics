@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity {
     private ArrayList<DrawerEntry> mEntries;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private View mHeaderView;
 
     private final String TAG = "MAIN";
 	
@@ -62,6 +64,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+
         setContentView(R.layout.activity_main);
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -70,7 +75,7 @@ public class MainActivity extends Activity {
         mTitle = mDrawerTitle = getString(R.string.app_name);
 //        Log.d(TAG, (String) mDrawerTitle);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
         		R.string.drawer_open, R.string.drawer_close) {
         	public void onDrawerClosed(View view) {
 //                getActionBar().setTitle(mTitle);
@@ -85,6 +90,7 @@ public class MainActivity extends Activity {
         
         getActionBar().setDisplayHomeAsUpEnabled(true);
 //        getActionBar().setHomeButtonEnabled(true);
+        initDrawer();
         new InitializeTask().execute();
     }
 
@@ -149,12 +155,7 @@ public class MainActivity extends Activity {
     private void initDrawer() {
     	LayoutInflater inflater = getLayoutInflater();
         View top = (View)inflater.inflate(R.layout.profile, mDrawerList, false);
-        ProfilePictureView myProfilePic = (ProfilePictureView)top.findViewById(R.id.profilepic);
-        GlobalApp app = (GlobalApp)getApplication();
-        myProfilePic.setProfileId(app.fb.me.getId());
-        myProfilePic.setPresetSize(ProfilePictureView.SMALL);
-        TextView userName = (TextView)top.findViewById(R.id.username);
-        userName.setText(app.fb.me.getName());
+        mHeaderView = top;
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.addHeaderView(top, null, false);
 
@@ -212,8 +213,22 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			dialog.dismiss();
-			initDrawer();
-            drawerSelect(DRAWER_DATA_COLLECT);
+            ProfilePictureView myProfilePic = (ProfilePictureView)mHeaderView.findViewById(R.id.profilepic);
+            GlobalApp app = (GlobalApp)getApplication();
+            myProfilePic.setProfileId(app.fb.me.getId());
+            myProfilePic.setPresetSize(ProfilePictureView.SMALL);
+            TextView userName = (TextView)mHeaderView.findViewById(R.id.username);
+            userName.setText(app.fb.me.getName());
+            Fragment f = null;
+            if (GlobalApp.get().fb.fbData.lastUpdate != null) {
+                f = ConversationsFragment.newInstance(MainActivity.this);
+                mDrawerList.setItemChecked(3, true);
+            }
+            else {
+                f = DataFragment.newInstance(MainActivity.this);
+                mDrawerList.setItemChecked(1, true);
+            }
+            if (f != null) loadFragmentNoBackstack(f);
 			super.onPostExecute(result);
 		}
 		
@@ -320,6 +335,10 @@ public class MainActivity extends Activity {
             getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(entry.text).commit();
         }
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    public void loadFragmentNoBackstack(Fragment f) {
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
     }
 
     public void reloadPosition(int position) {
