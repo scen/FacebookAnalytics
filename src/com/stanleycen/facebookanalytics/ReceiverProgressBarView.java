@@ -26,6 +26,7 @@ public class ReceiverProgressBarView extends ProgressBar {
         IntentFilter filter = new IntentFilter("com.stanleycen.facebookanalytics.progress");
         filter.addCategory("android.intent.category.DEFAULT");
         getContext().registerReceiver(receiver, filter);
+        setIndeterminate(true);
     }
 
     public ReceiverProgressBarView(Context context, AttributeSet attrs) {

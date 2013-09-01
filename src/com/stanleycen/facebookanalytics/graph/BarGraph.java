@@ -41,11 +41,12 @@ import android.view.View;
 
 import com.stanleycen.facebookanalytics.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class BarGraph extends View {
 
-    private ArrayList<Bar> points = new ArrayList<Bar>();
+    private ArrayList<Bar> bars = new ArrayList<Bar>();
     private Paint p = new Paint();
     private Path path = new Path();
     private Rect r;
@@ -54,7 +55,8 @@ public class BarGraph extends View {
     private OnBarClickedListener listener;
     private Bitmap fullImage;
     private boolean shouldUpdate = false;
-    private String unit = "$";
+    private String unit = "";
+    private DecimalFormat df = new DecimalFormat("#.#");
     private Boolean append = false;
     private Rect r2 = new Rect();
     private Rect r3 = new Rect();
@@ -71,8 +73,8 @@ public class BarGraph extends View {
         showBarText = show;
     }
 
-    public void setBars(ArrayList<Bar> points) {
-        this.points = points;
+    public void setBars(ArrayList<Bar> bars) {
+        this.bars = bars;
         postInvalidate();
     }
 
@@ -93,7 +95,7 @@ public class BarGraph extends View {
     }
 
     public ArrayList<Bar> getBars() {
-        return this.points;
+        return this.bars;
     }
 
     public void onDraw(Canvas ca) {
@@ -113,7 +115,7 @@ public class BarGraph extends View {
             float usableHeight;
             if (showBarText) {
                 this.p.setTextSize(40);
-                this.p.getTextBounds(unit, 0, 1, r3);
+                this.p.getTextBounds("$", 0, 1, r3);
                 usableHeight = getHeight() - bottomPadding - Math.abs(r3.top - r3.bottom) - 26;
             } else {
                 usableHeight = getHeight() - bottomPadding;
@@ -127,9 +129,9 @@ public class BarGraph extends View {
 
             canvas.drawLine(0, getHeight() - bottomPadding + 10, getWidth(), getHeight() - bottomPadding + 10, p);
 
-            float barWidth = (getWidth() - (padding * 2) * points.size()) / points.size();
+            float barWidth = (getWidth() - (padding * 2) * getBars().size()) / getBars().size();
 
-            for (Bar p : points) {
+            for (Bar p : getBars()) {
                 maxValue += p.getValue();
             }
 
@@ -138,7 +140,7 @@ public class BarGraph extends View {
             path.reset();
 
             int count = 0;
-            for (Bar p : points) {
+            for (Bar p : getBars()) {
                 r.set((int) ((padding * 2) * count + padding + barWidth * count), (int) (getHeight() - bottomPadding - (usableHeight * (p.getValue() / maxValue))), (int) ((padding * 2) * count + padding + barWidth * (count + 1)), (int) (getHeight() - bottomPadding));
 
                 path.addRect(new RectF(r.left - selectPadding, r.top - selectPadding, r.right + selectPadding, r.bottom + selectPadding), Path.Direction.CW);
@@ -153,21 +155,21 @@ public class BarGraph extends View {
                 if (showBarText) {
                     this.p.setTextSize(40);
                     this.p.setColor(Color.WHITE);
-                    this.p.getTextBounds(unit + p.getValue(), 0, 1, r2);
+                    this.p.getTextBounds(unit + df.format(p.getValue()), 0, 1, r2);
                     if (popup != null)
-                        popup.setBounds((int) (((r.left + r.right) / 2) - (this.p.measureText(unit + p.getValue()) / 2)) - 14, r.top + (r2.top - r2.bottom) - 26, (int) (((r.left + r.right) / 2) + (this.p.measureText(unit + p.getValue()) / 2)) + 14, r.top);
+                        popup.setBounds((int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)) - 14, r.top + (r2.top - r2.bottom) - 26, (int) (((r.left + r.right) / 2) + (this.p.measureText(unit + df.format(p.getValue())) / 2)) + 14, r.top);
                     popup.draw(canvas);
                     if (isAppended())
-                        canvas.drawText(p.getValue() + unit, (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + p.getValue()) / 2)), r.top - 20, this.p);
+                        canvas.drawText(df.format(p.getValue()) + unit, (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)), r.top - 20, this.p);
                     else
-                        canvas.drawText(unit + p.getValue(), (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + p.getValue()) / 2)), r.top - 20, this.p);
+                        canvas.drawText(unit + df.format(p.getValue()), (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)), r.top - 20, this.p);
                 }
-                if (indexSelected == count && listener != null) {
-                    this.p.setColor(Color.parseColor("#33B5E5"));
-                    this.p.setAlpha(100);
-                    canvas.drawPath(p.getPath(), this.p);
-                    this.p.setAlpha(255);
-                }
+//                if (indexSelected == count && listener != null) {
+//                    this.p.setColor(Color.parseColor("#33B5E5"));
+//                    this.p.setAlpha(100);
+//                    canvas.drawPath(p.getPath(), this.p);
+//                    this.p.setAlpha(255);
+//                }
                 count++;
             }
             shouldUpdate = false;
@@ -179,30 +181,30 @@ public class BarGraph extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        Point point = new Point();
-        point.x = (int) event.getX();
-        point.y = (int) event.getY();
-
-        int count = 0;
-        for (Bar bar : points) {
-            Region r = new Region();
-            r.setPath(bar.getPath(), bar.getRegion());
-            if (r.contains(point.x, point.y) && event.getAction() == MotionEvent.ACTION_DOWN) {
-                indexSelected = count;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (r.contains(point.x, point.y) && listener != null) {
-                    listener.onClick(indexSelected);
-                }
-                indexSelected = -1;
-            }
-            count++;
-        }
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP) {
-            shouldUpdate = true;
-            postInvalidate();
-        }
+//
+//        Point point = new Point();
+//        point.x = (int) event.getX();
+//        point.y = (int) event.getY();
+//
+//        int count = 0;
+//        for (Bar bar : getBars()) {
+//            Region r = new Region();
+//            r.setPath(bar.getPath(), bar.getRegion());
+//            if (r.contains(point.x, point.y) && event.getAction() == MotionEvent.ACTION_DOWN) {
+//                indexSelected = count;
+//            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                if (r.contains(point.x, point.y) && listener != null) {
+//                    listener.onClick(indexSelected);
+//                }
+//                indexSelected = -1;
+//            }
+//            count++;
+//        }
+//
+//        if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP) {
+//            shouldUpdate = true;
+//            postInvalidate();
+//        }
 
 
         return true;

@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.stanleycen.facebookanalytics.graph.Bar;
 import com.stanleycen.facebookanalytics.graph.PieSlice;
 
 import org.joda.time.DateTime;
@@ -34,7 +35,8 @@ public class ConversationFragment extends Fragment {
     public enum CardItems {
         TOTAL,
         PIE,
-        LOADER
+        LOADER,
+        BAR
     };
 
     public static Fragment newInstance(Context context, FBThread fbThread) {
@@ -95,7 +97,7 @@ public class ConversationFragment extends Fragment {
 
             for (FBMessage fbMessage : fbThread.messages) {
                 MutableInt cc = charCount.get(fbMessage.from);
-                if (cc == null) charCount.put(fbMessage.from, new MutableInt());
+                if (cc == null) charCount.put(fbMessage.from, new MutableInt(fbMessage.body.length()));
                 else cc.add(fbMessage.body.length());
 
                 MutableInt mc = msgCount.get(fbMessage.from);
@@ -132,6 +134,25 @@ public class ConversationFragment extends Fragment {
             charCard.setSlices(charSlices);
             ret.add(msgCard);
             ret.add(charCard);
+
+            idx = 0;
+
+            CardBarChart charsPerMessage = new CardBarChart(CardItems.BAR.ordinal(), "Characters per message");
+            ArrayList<Bar> cpmBars = new ArrayList<Bar>();
+            for (FBUser person : fbThread.participants) {
+                String name = person == GlobalApp.get().fb.fbData.me ? "You" : person.name;
+                Log.w("name", name);
+                Log.w("chars", ""+charCount.get(person).get());
+                Log.w("msgs", ""+msgCount.get(person).get());
+                Bar b = new Bar();
+                b.setColor(Util.colors[idx % Util.colors.length]);
+                b.setValue((float)charCount.get(person).get() / (float)msgCount.get(person).get());
+                b.setName(name);
+                cpmBars.add(b);
+                ++idx;
+            }
+            charsPerMessage.setBars(cpmBars);
+            ret.add(charsPerMessage);
 
             return ret;
         }
