@@ -91,7 +91,13 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 //        getActionBar().setHomeButtonEnabled(true);
         initDrawer();
-        new InitializeTask().execute();
+        GlobalApp app = GlobalApp.get();
+        if (app != null && app.fb != null && app.fb.fbData != null && app.fb.fbData.lastUpdate != null && app.fb.me != null) {
+            loadProfilePic();
+        }
+        else {
+            new InitializeTask().execute();
+        }
     }
 
     private ArrayList<String> getStringsFromEntries(ArrayList<DrawerEntry> entries) {
@@ -219,12 +225,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			dialog.dismiss();
-            ProfilePictureView myProfilePic = (ProfilePictureView)mHeaderView.findViewById(R.id.profilepic);
-            GlobalApp app = (GlobalApp)getApplication();
-            myProfilePic.setProfileId(app.fb.me.getId());
-            myProfilePic.setPresetSize(ProfilePictureView.SMALL);
-            TextView userName = (TextView)mHeaderView.findViewById(R.id.username);
-            userName.setText(app.fb.me.getName());
+            loadProfilePic();
             Fragment f = null;
             if (GlobalApp.get().fb.fbData.lastUpdate != null) {
                 f = ConversationsFragment.newInstance(MainActivity.this);
@@ -238,9 +239,17 @@ public class MainActivity extends Activity {
 			super.onPostExecute(result);
 		}
 		
-	};
-    
-    
+	}
+
+    private void loadProfilePic() {
+        ProfilePictureView myProfilePic = (ProfilePictureView)mHeaderView.findViewById(R.id.profilepic);
+        GlobalApp app = (GlobalApp)getApplication();
+        myProfilePic.setProfileId(app.fb.me.getId());
+        myProfilePic.setPresetSize(ProfilePictureView.SMALL);
+        TextView userName = (TextView)mHeaderView.findViewById(R.id.username);
+        userName.setText(app.fb.me.getName());
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

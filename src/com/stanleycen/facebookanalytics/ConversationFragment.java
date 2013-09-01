@@ -107,48 +107,39 @@ public class ConversationFragment extends Fragment {
 
             ret.add(new CardTotal(CardItems.TOTAL.ordinal(), fbThread));
 
-            CardPieChart msgCard = new CardPieChart(CardItems.PIE.ordinal(), "Messages sent");
-            CardPieChart charCard = new CardPieChart(CardItems.PIE.ordinal(), "Characters sent");
-
+            CardPieChart msgCard = new CardPieChart(CardItems.PIE.ordinal(), "Message distribution");
+            CardPieChart charCard = new CardPieChart(CardItems.PIE.ordinal(), "Character distribution");
+            CardBarChart charsPerMessage = new CardBarChart(CardItems.BAR.ordinal(), "Characters per message");
+            ArrayList<Bar> cpmBars = new ArrayList<Bar>();
             ArrayList<PieSlice> msgSlices = new ArrayList<PieSlice>(), charSlices = new ArrayList<PieSlice>();
 
             int idx = 0;
-
-            for (Map.Entry<FBUser, MutableInt> entry : msgCount.entrySet()) {
-                String name = entry.getKey() == GlobalApp.get().fb.fbData.me ? "You" : entry.getKey().name;
-                PieSlice slice = new PieSlice();
-                slice.setColor(Util.colors[idx % Util.colors.length]);
-                slice.setTitle(name);
-                slice.setValue(entry.getValue().get());
-                msgSlices.add(slice);
-
-                slice = new PieSlice();
-                slice.setColor(Util.colors[idx % Util.colors.length]);
-                slice.setTitle(name);
-                slice.setValue(charCount.get(entry.getKey()).get());
-                charSlices.add(slice);
-                ++idx;
-            }
 
             msgCard.setSlices(msgSlices);
             charCard.setSlices(charSlices);
             ret.add(msgCard);
             ret.add(charCard);
 
-            idx = 0;
-
-            CardBarChart charsPerMessage = new CardBarChart(CardItems.BAR.ordinal(), "Characters per message");
-            ArrayList<Bar> cpmBars = new ArrayList<Bar>();
             for (FBUser person : fbThread.participants) {
                 String name = person == GlobalApp.get().fb.fbData.me ? "You" : person.name;
-                Log.w("name", name);
-                Log.w("chars", ""+charCount.get(person).get());
-                Log.w("msgs", ""+msgCount.get(person).get());
+                name = name.split(" ")[0];
                 Bar b = new Bar();
                 b.setColor(Util.colors[idx % Util.colors.length]);
-                b.setValue((float)charCount.get(person).get() / (float)msgCount.get(person).get());
+                b.setValue(msgCount.get(person).get() == 0 ? 0 : (float)charCount.get(person).get() / (float)msgCount.get(person).get());
                 b.setName(name);
                 cpmBars.add(b);
+
+                PieSlice slice = new PieSlice();
+                slice.setColor(Util.colors[idx % Util.colors.length]);
+                slice.setTitle(name);
+                slice.setValue(msgCount.get(person).get());
+                msgSlices.add(slice);
+
+                slice = new PieSlice();
+                slice.setColor(Util.colors[idx % Util.colors.length]);
+                slice.setTitle(name);
+                slice.setValue(charCount.get(person).get());
+                charSlices.add(slice);
                 ++idx;
             }
             charsPerMessage.setBars(cpmBars);

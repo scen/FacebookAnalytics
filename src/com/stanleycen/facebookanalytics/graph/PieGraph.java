@@ -53,6 +53,8 @@ public class PieGraph extends View {
     private DecimalFormat df = new DecimalFormat("#.#");
 
     private Bitmap cache;
+    private int cachedWidth;
+    private int cachedHeight;
 
     private static final float PADDING = 2;
     private float fontSpacing = 0;
@@ -171,14 +173,12 @@ public class PieGraph extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        if (cache == null) {
+        if (cache == null || cachedWidth != getWidth() || cachedHeight != getHeight()) {
             cache = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
             Canvas cacheCanvas = new Canvas(cache);
             drawToCanvas(cacheCanvas);
-            Log.w("cached", "cached");
-        }
-        else {
-            Log.d("drawn from cache", "drawn from cache");
+            cachedHeight = getHeight();
+            cachedWidth = getWidth();
         }
         paint.reset();
         canvas.drawBitmap(cache, 0, 0, paint);

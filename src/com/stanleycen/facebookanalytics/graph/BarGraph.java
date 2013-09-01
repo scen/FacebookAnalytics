@@ -36,10 +36,12 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.stanleycen.facebookanalytics.R;
+import com.stanleycen.facebookanalytics.Util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -137,19 +139,26 @@ public class BarGraph extends View {
 
             r = new Rect();
 
-            path.reset();
+//            path.reset();
 
             int count = 0;
             for (Bar p : getBars()) {
                 r.set((int) ((padding * 2) * count + padding + barWidth * count), (int) (getHeight() - bottomPadding - (usableHeight * (p.getValue() / maxValue))), (int) ((padding * 2) * count + padding + barWidth * (count + 1)), (int) (getHeight() - bottomPadding));
 
-                path.addRect(new RectF(r.left - selectPadding, r.top - selectPadding, r.right + selectPadding, r.bottom + selectPadding), Path.Direction.CW);
-                p.setPath(path);
-                p.setRegion(new Region(r.left - selectPadding, r.top - selectPadding, r.right + selectPadding, r.bottom + selectPadding));
+//                path.addRect(new RectF(r.left - selectPadding, r.top - selectPadding, r.right + selectPadding, r.bottom + selectPadding), Path.Direction.CW);
+//                p.setPath(path);
+//                p.setRegion(new Region(r.left - selectPadding, r.top - selectPadding, r.right + selectPadding, r.bottom + selectPadding));
 
                 this.p.setColor(p.getColor());
                 this.p.setAlpha(255);
                 canvas.drawRect(r, this.p);
+                this.p.setStyle(Paint.Style.STROKE);
+                this.p.setStrokeWidth(2);
+                this.p.setColor(Util.getStrokeColor(p.getColor()));
+                canvas.drawRect(r, this.p);
+                this.p.setStyle(Paint.Style.FILL);
+                this.p.setStrokeWidth(0);
+                this.p.setColor(p.getColor());
                 this.p.setTextSize(20);
                 canvas.drawText(p.getName(), (int) (((r.left + r.right) / 2) - (this.p.measureText(p.getName()) / 2)), getHeight() - 5, this.p);
                 if (showBarText) {
@@ -164,47 +173,17 @@ public class BarGraph extends View {
                     else
                         canvas.drawText(unit + df.format(p.getValue()), (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)), r.top - 20, this.p);
                 }
-//                if (indexSelected == count && listener != null) {
-//                    this.p.setColor(Color.parseColor("#33B5E5"));
-//                    this.p.setAlpha(100);
-//                    canvas.drawPath(p.getPath(), this.p);
-//                    this.p.setAlpha(255);
-//                }
                 count++;
             }
             shouldUpdate = false;
         }
-
+        
         ca.drawBitmap(fullImage, 0, 0, null);
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//
-//        Point point = new Point();
-//        point.x = (int) event.getX();
-//        point.y = (int) event.getY();
-//
-//        int count = 0;
-//        for (Bar bar : getBars()) {
-//            Region r = new Region();
-//            r.setPath(bar.getPath(), bar.getRegion());
-//            if (r.contains(point.x, point.y) && event.getAction() == MotionEvent.ACTION_DOWN) {
-//                indexSelected = count;
-//            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                if (r.contains(point.x, point.y) && listener != null) {
-//                    listener.onClick(indexSelected);
-//                }
-//                indexSelected = -1;
-//            }
-//            count++;
-//        }
-//
-//        if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP) {
-//            shouldUpdate = true;
-//            postInvalidate();
-//        }
 
 
         return true;
