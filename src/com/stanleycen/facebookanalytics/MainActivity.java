@@ -299,6 +299,7 @@ public class MainActivity extends Activity {
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() == 0) return;
         String name = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName();
+        if (name == null) return;
         if (name.equals("Data collection")) {
             mDrawerList.setItemChecked(1, true);
         }

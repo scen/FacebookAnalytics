@@ -43,6 +43,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             SharedPreferences prefs = getSharedPreferences(GlobalApp.PREFS_FILE, MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.remove("FBID");
+            editor.remove("FBNAME");
             editor.commit();
             if (savedInstanceState != null) {
                 session = Session.restoreSession(this, null, mStatusCallback, savedInstanceState);

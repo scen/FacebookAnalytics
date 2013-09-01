@@ -33,7 +33,6 @@ public class PieSlice {
     private float value;
     private String title;
     private Path path;
-    private Region region;
 
     public String getTitle() {
         return title;
@@ -67,12 +66,5 @@ public class PieSlice {
         this.path = path;
     }
 
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
 
 }

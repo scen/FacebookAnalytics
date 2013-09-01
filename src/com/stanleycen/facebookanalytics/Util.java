@@ -2,6 +2,7 @@ package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -97,5 +98,9 @@ public class Util {
 
     public static void addSeparatingHeaderView(final Context context, final LayoutInflater inflater, final ListView list) {
         list.addHeaderView(getSeparatingHeaderView(context, inflater, list));
+    }
+
+    public static int getStrokeColor(int i) {
+        return Color.argb(255, (0xFF & i >> 16) * 8 / 10, (0xFF & i >> 8) * 8 / 10, (i & 0xFF) * 8 / 10);
     }
 }

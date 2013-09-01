@@ -59,7 +59,7 @@ public class ConversationFragment extends Fragment {
         List<CardItem> items = new ArrayList<CardItem>();
 
         items.add(new CardTotal(CardItems.TOTAL.ordinal(), fbThread));
-        items.add(new CardPieChart(CardItems.PIE.ordinal(), "Messages per day"));
+        items.add(new CardPieChart(CardItems.PIE.ordinal(), "Messages distribution"));
 
 
         final CardAdapter ca = new CardAdapter(getActivity(), items, CardItems.values().length);

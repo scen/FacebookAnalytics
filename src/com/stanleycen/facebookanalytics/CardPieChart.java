@@ -54,13 +54,16 @@ public class CardPieChart implements CardItem {
         PieSlice slice = new PieSlice();
         slice.setColor(Color.parseColor("#99CC00"));
         slice.setValue(2);
+        slice.setTitle("You");
         holder.pieChart.addSlice(slice);
         slice = new PieSlice();
         slice.setColor(Color.parseColor("#FFBB33"));
+        slice.setTitle("Jacob");
         slice.setValue(3);
         holder.pieChart.addSlice(slice);
         slice = new PieSlice();
         slice.setColor(Color.parseColor("#AA66CC"));
+        slice.setTitle("genius");
         slice.setValue(8);
         holder.pieChart.addSlice(slice);
 

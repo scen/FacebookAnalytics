@@ -30,48 +30,49 @@ import android.graphics.Region;
 public class LinePoint {
 
     private float x = 0;
-	private float y = 0;
-	private Path path;
-	private Region region;
-	
-	public LinePoint(float x, float y) {
-		super();
-		this.x = x;
-		this.y = y;
-	}
+    private float y = 0;
+    private Path path;
+    private Region region;
 
-    public LinePoint() { }
+    public LinePoint(float x, float y) {
+        super();
+        this.x = x;
+        this.y = y;
+    }
 
-	public float getX() {
-		return x;
-	}
+    public LinePoint() {
+    }
 
-	public void setX(float x) {
-		this.x = x;
-	}
+    public float getX() {
+        return x;
+    }
 
-	public float getY() {
-		return y;
-	}
+    public void setX(float x) {
+        this.x = x;
+    }
 
-	public void setY(float y) {
-		this.y = y;
-	}
+    public float getY() {
+        return y;
+    }
 
-	public Region getRegion() {
-		return region;
-	}
+    public void setY(float y) {
+        this.y = y;
+    }
 
-	public void setRegion(Region region) {
-		this.region = region;
-	}
+    public Region getRegion() {
+        return region;
+    }
 
-	public Path getPath() {
-		return path;
-	}
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 
-	public void setPath(Path path) {
-		this.path = path;
-	}
+    public Path getPath() {
+        return path;
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
+    }
 
 }

@@ -29,7 +29,7 @@ public class CardTotal implements CardItem {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
 
     @Override
