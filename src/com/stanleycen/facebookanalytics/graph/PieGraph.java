@@ -40,6 +40,7 @@ import com.stanleycen.facebookanalytics.R;
 import com.stanleycen.facebookanalytics.Typefaces;
 import com.stanleycen.facebookanalytics.Util;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PieGraph extends View {
@@ -49,6 +50,9 @@ public class PieGraph extends View {
 
     private int thickness;
     private OnSliceClickedListener listener;
+    private DecimalFormat df = new DecimalFormat("#.#");
+
+    private Bitmap cache;
 
     private static final float PADDING = 2;
     private float fontSpacing = 0;
@@ -79,21 +83,13 @@ public class PieGraph extends View {
         paint.setAntiAlias(true);
 
         fontSpacing = paint.getFontSpacing();
-        int totalLegendHeight = (int) (slices.size() * fontSpacing) +
-                (int)((slices.size() - 1) * spacingBetweenLegendText);
+        int totalLegendHeight = (int) (getSlices().size() * fontSpacing) +
+                (int)((getSlices().size() - 1) * spacingBetweenLegendText);
 
         setMeasuredDimension(widthSize, Math.max(heightPie, totalLegendHeight));
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        Bitmap cache = getDrawingCache();
-        if (cache != null) {
-            paint.reset();
-            Log.w("cache", "fromc ache");
-            canvas.drawBitmap(cache, 0, 0, paint);
-            return;
-        }
+    private void drawToCanvas(Canvas canvas) {
         canvas.drawColor(Color.TRANSPARENT);
         paint.reset();
         paint.setAntiAlias(true);
@@ -112,12 +108,12 @@ public class PieGraph extends View {
         radius -= PADDING;
         innerRadius = radius - thickness;
 
-        for (PieSlice slice : slices) {
+        for (PieSlice slice : getSlices()) {
             totalValue += slice.getValue();
         }
 
         int count = 0;
-        for (PieSlice slice : slices) {
+        for (PieSlice slice : getSlices()) {
             paint.setColor(slice.getColor());
             currentSweep = (slice.getValue() / totalValue) * (360);
 
@@ -149,26 +145,43 @@ public class PieGraph extends View {
 
         float k = (paint.descent() - paint.ascent()) / 2;
 
-        int totalLegendHeight = (int) ((slices.size()) * fontSpacing) +
-                (int)((slices.size() - 1) * spacingBetweenLegendText) - (int)k;
+        int totalLegendHeight = (int) ((getSlices().size()) * fontSpacing) +
+                (int)((getSlices().size() - 1) * spacingBetweenLegendText) - (int)k;
 
         float rx = midX + radius + spacingBetweenLegendAndPie;
         float ry = (getHeight() / 2) - (totalLegendHeight / 2) + (fontSpacing / 2);
 
-        for (PieSlice slice : slices) {
+        for (PieSlice slice : getSlices()) {
             paint.setStyle(Paint.Style.FILL);
             paint.setStrokeWidth(0);
             paint.setColor(slice.getColor());
             canvas.drawRect(rx, ry - k, rx + (fontSpacing / 2), ry + (fontSpacing / 2) - k, paint);
             paint.setColor(getResources().getColor(R.color.card_header));
-            canvas.drawText(slice.getTitle(), rx + (fontSpacing), ry, paint);
+            if (slice.getFormattedTitle() == null) {
+                slice.setFormattedTitle(slice.getTitle() + " - " + df.format(100 * slice.getValue() / totalValue) + "%");
+            }
+            canvas.drawText(slice.getFormattedTitle(), rx + (fontSpacing), ry, paint);
             paint.setColor(Util.getStrokeColor(slice.getColor()));
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(2f);
             canvas.drawRect(rx, ry - k, rx + (fontSpacing / 2), ry + (fontSpacing / 2) - k, paint);
             ry += fontSpacing + spacingBetweenLegendText;
         }
-        setDrawingCacheEnabled(true);
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        if (cache == null) {
+            cache = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas cacheCanvas = new Canvas(cache);
+            drawToCanvas(cacheCanvas);
+            Log.w("cached", "cached");
+        }
+        else {
+            Log.d("drawn from cache", "drawn from cache");
+        }
+        paint.reset();
+        canvas.drawBitmap(cache, 0, 0, paint);
     }
 
     @Override
@@ -187,11 +200,11 @@ public class PieGraph extends View {
     }
 
     public PieSlice getSlice(int index) {
-        return slices.get(index);
+        return getSlices().get(index);
     }
 
     public void addSlice(PieSlice slice) {
-        this.slices.add(slice);
+        this.getSlices().add(slice);
         postInvalidate();
     }
 
@@ -209,8 +222,8 @@ public class PieGraph extends View {
     }
 
     public void removeSlices() {
-        for (int i = slices.size() - 1; i >= 0; i--) {
-            slices.remove(i);
+        for (int i = getSlices().size() - 1; i >= 0; i--) {
+            getSlices().remove(i);
         }
         postInvalidate();
     }

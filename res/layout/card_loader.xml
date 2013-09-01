@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="@dimen/card_default_padding"
+    android:background="@drawable/card_bg">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="@color/card_header"
+        android:textSize="18dip"
+        android:id="@+id/status"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+    <com.stanleycen.facebookanalytics.ReceiverProgressBarView
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/status"
+        android:layout_alignLeft="@+id/status"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>

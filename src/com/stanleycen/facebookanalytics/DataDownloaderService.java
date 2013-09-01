@@ -182,7 +182,7 @@ public class DataDownloaderService extends Service {
                                     if (curp != null) {
                                         String uid = curp.getString("user_id");
                                         FBUser user = new FBUser(uid, curp.getString("name"));
-                                        fbMessage.from = uid;
+                                        fbMessage.from = user;
                                         newFbData.userMap.put(uid, user);
                                     }
                                     fbMessage.id = curMessage.getString("message_id");

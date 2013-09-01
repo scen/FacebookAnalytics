@@ -11,12 +11,15 @@ import com.stanleycen.facebookanalytics.graph.PieGraph;
 import com.stanleycen.facebookanalytics.graph.PieSlice;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by scen on 8/31/13.
  */
 public class CardPieChart implements CardItem {
     public final String title;
     private int viewType;
+    private ArrayList<PieSlice> slices;
 
     public int getViewType() {
         return viewType;
@@ -40,7 +43,6 @@ public class CardPieChart implements CardItem {
         if (v == null) {
             v = (View)inflater.inflate(R.layout.card_pie_chart, null);
 
-
             holder.title = (TextView)v.findViewById(R.id.title);
             holder.pieChart = (PieGraph)v.findViewById(R.id.pie);
             v.setTag(holder);
@@ -50,24 +52,17 @@ public class CardPieChart implements CardItem {
         }
 
         holder.title.setText(this.title);
-
-        PieSlice slice = new PieSlice();
-        slice.setColor(Color.parseColor("#99CC00"));
-        slice.setValue(2);
-        slice.setTitle("You");
-        holder.pieChart.addSlice(slice);
-        slice = new PieSlice();
-        slice.setColor(Color.parseColor("#FFBB33"));
-        slice.setTitle("Jacob");
-        slice.setValue(3);
-        holder.pieChart.addSlice(slice);
-        slice = new PieSlice();
-        slice.setColor(Color.parseColor("#AA66CC"));
-        slice.setTitle("genius");
-        slice.setValue(8);
-        holder.pieChart.addSlice(slice);
+        holder.pieChart.setSlices(slices);
 
         return v;
+    }
+
+    public ArrayList<PieSlice> getSlices() {
+        return slices;
+    }
+
+    public void setSlices(ArrayList<PieSlice> slices) {
+        this.slices = slices;
     }
 
     private class CardPieChartHolder {

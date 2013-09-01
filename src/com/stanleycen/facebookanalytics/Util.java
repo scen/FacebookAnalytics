@@ -26,6 +26,7 @@ public class Util {
             .withZone(DateTimeZone.getDefault());
     private static final DecimalFormat decimalFormat = new DecimalFormat();
 
+    public static int[] colors = null;
 
     public static String getDate(DateTime dt) {
         return dateFormatter.print(dt);

@@ -1,5 +1,7 @@
 package com.stanleycen.facebookanalytics;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -34,7 +36,7 @@ public class UnifiedMessaging {
         return String.format(GET_MESSAGES_FQL, threadId, timestamp);
     }
 
-    public static FBData readAllFromDatabase() {
+    public static FBData readAllFromDatabase(Activity activity, final ProgressDialog dialog) {
         FBData fbData = new FBData();
 
         DatabaseHandler dbHelper = GlobalApp.get().db;
@@ -49,18 +51,51 @@ public class UnifiedMessaging {
 
             Cursor usersCursor = db.rawQuery("SELECT * FROM " + DatabaseHandler.TABLE_USERS, null);
             usersCursor.moveToFirst();
+            int len = usersCursor.getCount();
+            int idx = 0;
+            final int _a = len;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.setIndeterminate(false);
+                    dialog.setMax(_a);
+                    dialog.setMessage("Loading people");
+                }
+            });
             while (!usersCursor.isAfterLast()) {
                 String id = usersCursor.getString(0);
                 String name = usersCursor.getString(1);
                 fbData.userMap.put(id, new FBUser(id, name));
                 usersCursor.moveToNext();
+                final int prog = ++idx;
+                if (prog == len || (idx % 100) == 0)
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.setProgress(prog);
+                        }
+                    });
             }
 
             HashMap<String, FBThread> threadIDMap = new HashMap<String, FBThread>();
             HashMap<String, FBMessage> threadAndMessageIDMap = new HashMap<String, FBMessage>();
 
+
+
+
             Cursor threadCursor = db.rawQuery("SELECT * FROM " + DatabaseHandler.TABLE_THREADS + " ORDER BY " + DatabaseHandler.COLUMN_TIMESTAMP + " DESC", null);
             threadCursor.moveToFirst();
+            idx = 0;
+            len = threadCursor.getCount();
+            final int zzz = len;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.setProgress(0);
+                    dialog.setMax(zzz);
+                    dialog.setMessage("Loading conversations");
+                }
+            });
             while (!threadCursor.isAfterLast()) {
                 FBThread fbThread = new FBThread();
                 fbThread.id = threadCursor.getString(0);
@@ -82,14 +117,33 @@ public class UnifiedMessaging {
                 fbThread.messageCount = threadCursor.getInt(5);
                 fbData.threads.add(fbThread);
                 threadCursor.moveToNext();
+                final int prog = ++idx;
+                if (prog == len || (idx % 20) == 0)
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.setProgress(prog);
+                        }
+                    });
             }
 
             Cursor msgCursor = db.rawQuery("SELECT * FROM " + DatabaseHandler.TABLE_MESSAGES + " ORDER BY timestamp", null);
             msgCursor.moveToFirst();
+            len = msgCursor.getCount();
+            idx = 0;
+            final int xxx = len;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.setProgress(0);
+                    dialog.setMax(xxx);
+                    dialog.setMessage("Loading messages");
+                }
+            });
             while (!msgCursor.isAfterLast()) {
                 FBMessage fbMessage = new FBMessage();
                 fbMessage.id = msgCursor.getString(0);
-                fbMessage.from = msgCursor.getString(1);
+                fbMessage.from = fbData.userMap.get(msgCursor.getString(1));
                 fbMessage.timestamp = new DateTime(msgCursor.getLong(2));
                 fbMessage.body = msgCursor.getString(3);
                 fbMessage.thread = msgCursor.getString(4);
@@ -103,9 +157,29 @@ public class UnifiedMessaging {
                 FBThread parentThread = threadIDMap.get(fbMessage.thread);
                 parentThread.messages.add(fbMessage);
                 msgCursor.moveToNext();
+                final int prog = ++idx;
+                if (prog == len || (idx % 1000) == 0)
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.setProgress(prog);
+                        }
+                    });
             }
+
             Cursor aCursor = db.rawQuery("SELECT * FROM " + DatabaseHandler.TABLE_ATTACHMENTS, null);
             aCursor.moveToFirst();
+            idx = 0;
+            len = aCursor.getCount();
+            final int yyy = len;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.setProgress(0);
+                    dialog.setMax(yyy);
+                    dialog.setMessage("Loading attachments");
+                }
+            });
             while (!aCursor.isAfterLast()) {
                 FBAttachment fbAttachment = new FBAttachment();
                 fbAttachment.id = aCursor.getString(0);
@@ -122,12 +196,18 @@ public class UnifiedMessaging {
                 String combinedId = fbAttachment.thread + fbAttachment.message;
                 threadAndMessageIDMap.get(combinedId).attachments.add(fbAttachment);
                 aCursor.moveToNext();
+                final int prog = ++idx;
+                if (prog == len || (idx % 10) == 0)
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.setProgress(prog);
+                        }
+                    });
             }
         }
 
         db.close();
-
-        Log.w("k", "READ");
 
         fbData.computeHighLevelThreadStats();
 
@@ -197,7 +277,7 @@ public class UnifiedMessaging {
         ContentValues cv = new ContentValues();
 
         cv.put(DatabaseHandler.COLUMN_ID, fbMessage.id);
-        cv.put(DatabaseHandler.COLUMN_FROM, fbMessage.from);
+        cv.put(DatabaseHandler.COLUMN_FROM, fbMessage.from.id);
         cv.put(DatabaseHandler.COLUMN_TIMESTAMP, fbMessage.timestamp.getMillis());
         cv.put(DatabaseHandler.COLUMN_BODY, fbMessage.body);
         cv.put(DatabaseHandler.COLUMN_THREAD, fbMessage.thread);

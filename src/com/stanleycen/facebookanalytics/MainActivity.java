@@ -176,10 +176,13 @@ public class MainActivity extends Activity {
 	}
     
     private class InitializeTask extends AsyncTask<Void, Void, Void> {
-		ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+		ProgressDialog dialog;
 		
 		@Override
 		protected void onPreExecute() {
+            dialog = new ProgressDialog(MainActivity.this);
+            dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            dialog.setIndeterminate(true);
 			dialog.setMessage("Initializing");
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
@@ -204,8 +207,11 @@ public class MainActivity extends Activity {
 
             }
             else {
-                app.fb.fbData = UnifiedMessaging.readAllFromDatabase();
+                app.fb.fbData = UnifiedMessaging.readAllFromDatabase(MainActivity.this, dialog);
             }
+
+            Util.colors = getResources().getIntArray(R.array.colors);
+            Log.v(TAG, "Loaded colors: " + Util.colors.length);
 
 			return null;
 		}

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class FBMessage {
     public String body;
     public DateTime timestamp;
-    public String from;
+    public FBUser from;
     public String id;
 
     public Source source;

@@ -16,6 +16,7 @@ public class FBData {
     public HashMap<String, FBUser> userMap = new HashMap<String, FBUser>();
 
     public void computeHighLevelThreadStats() {
+        me = userMap.get(GlobalApp.get().fb.me.getId());
         for (FBThread fbThread : threads) {
             fbThread.charCount = 0;
             for (FBMessage fbMessage : fbThread.messages) {
@@ -31,6 +32,8 @@ public class FBData {
             }
         }
     }
+
+    FBUser me;
 
     public enum CollectionMethod {
         OLD_API,

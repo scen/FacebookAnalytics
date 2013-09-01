@@ -32,6 +32,7 @@ public class PieSlice {
     private int color = Color.BLACK;
     private float value;
     private String title;
+    private String formattedTitle;
     private Path path;
 
     public String getTitle() {
@@ -67,4 +68,11 @@ public class PieSlice {
     }
 
 
+    public String getFormattedTitle() {
+        return formattedTitle;
+    }
+
+    public void setFormattedTitle(String formattedTitle) {
+        this.formattedTitle = formattedTitle;
+    }
 }
