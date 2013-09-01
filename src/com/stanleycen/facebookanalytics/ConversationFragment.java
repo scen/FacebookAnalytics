@@ -51,6 +51,7 @@ public class ConversationFragment extends Fragment {
         getActivity().getActionBar().setTitle(fbThread.title);
         getActivity().getActionBar().setSubtitle("" + DateUtils.getRelativeTimeSpanString(fbThread.lastUpdate.getMillis(),
                 DateTime.now().getMillis(), DateUtils.MINUTE_IN_MILLIS, 0));
+        ((MainActivity)getActivity()).unselectAllFromNav();
     }
 
     @Override
@@ -95,6 +96,9 @@ public class ConversationFragment extends Fragment {
             Map<FBUser, MutableInt> charCount = new HashMap<FBUser, MutableInt>();
             Map<FBUser, MutableInt> msgCount = new HashMap<FBUser, MutableInt>();
 
+            int[] messagesPerDow = new int[8];
+            String[] dowName = new String[8];
+
             for (FBMessage fbMessage : fbThread.messages) {
                 MutableInt cc = charCount.get(fbMessage.from);
                 if (cc == null) charCount.put(fbMessage.from, new MutableInt(fbMessage.body.length()));
@@ -103,6 +107,10 @@ public class ConversationFragment extends Fragment {
                 MutableInt mc = msgCount.get(fbMessage.from);
                 if (mc == null) msgCount.put(fbMessage.from, new MutableInt());
                 else mc.increment();
+
+                int dint = fbMessage.timestamp.getDayOfWeek();
+                if (dowName[dint] == null) dowName[dint] = fbMessage.timestamp.dayOfWeek().getAsShortText();
+                messagesPerDow[dint]++;
             }
 
             ret.add(new CardTotal(CardItems.TOTAL.ordinal(), fbThread));
@@ -144,6 +152,19 @@ public class ConversationFragment extends Fragment {
             }
             charsPerMessage.setBars(cpmBars);
             ret.add(charsPerMessage);
+
+            CardBarChart mostActiveDow = new CardBarChart(CardItems.BAR.ordinal(), "Most active day of week");
+            int firstDow = Util.getFirstDayOfWeek();
+            ArrayList<Bar> dowBars = new ArrayList<Bar>();
+            for (int offset = 0; offset < 7; offset++) {
+                Bar b = new Bar();
+                b.setName(dowName[(firstDow + offset) % 7 + 1]);
+                b.setColor(Util.colors[offset % Util.colors.length]);
+                b.setValue(messagesPerDow[(firstDow + offset) % 7 + 1]);
+                dowBars.add(b);
+            }
+            mostActiveDow.setBars(dowBars);
+            ret.add(mostActiveDow);
 
             return ret;
         }

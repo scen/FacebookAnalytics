@@ -76,12 +76,10 @@ public class UnifiedMessaging {
                         }
                     });
             }
+            usersCursor.close();
 
             HashMap<String, FBThread> threadIDMap = new HashMap<String, FBThread>();
             HashMap<String, FBMessage> threadAndMessageIDMap = new HashMap<String, FBMessage>();
-
-
-
 
             Cursor threadCursor = db.rawQuery("SELECT * FROM " + DatabaseHandler.TABLE_THREADS + " ORDER BY " + DatabaseHandler.COLUMN_TIMESTAMP + " DESC", null);
             threadCursor.moveToFirst();
@@ -126,6 +124,7 @@ public class UnifiedMessaging {
                         }
                     });
             }
+            threadCursor.close();
 
             Cursor msgCursor = db.rawQuery("SELECT * FROM " + DatabaseHandler.TABLE_MESSAGES + " ORDER BY timestamp", null);
             msgCursor.moveToFirst();
@@ -166,6 +165,7 @@ public class UnifiedMessaging {
                         }
                     });
             }
+            msgCursor.close();
 
             Cursor aCursor = db.rawQuery("SELECT * FROM " + DatabaseHandler.TABLE_ATTACHMENTS, null);
             aCursor.moveToFirst();
@@ -205,6 +205,7 @@ public class UnifiedMessaging {
                         }
                     });
             }
+            aCursor.close();
         }
 
         db.close();

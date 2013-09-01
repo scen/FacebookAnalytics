@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -97,6 +98,13 @@ public class MainActivity extends Activity {
         }
         else {
             new InitializeTask().execute();
+        }
+    }
+
+    public void unselectAllFromNav() {
+        int x = mDrawerList.getCheckedItemPosition();
+        if (x != AbsListView.INVALID_POSITION) {
+            mDrawerList.setItemChecked(x, false);
         }
     }
 

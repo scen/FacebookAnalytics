@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:textSize="32dp"
+        android:textSize="26dp"
         android:textColor="@color/card_header" />
     <com.stanleycen.facebookanalytics.graph.BarGraph android:layout_width="match_parent"
         android:layout_height="200dp"

@@ -15,6 +15,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 
 /**
  * Created by scen on 8/29/13.
@@ -43,6 +44,10 @@ public class Util {
     public static float getAttributeDimension(final Context context, final int resId)
     {
         return getAttributeDimension(context, context.getTheme(), resId);
+    }
+
+    public static final int getFirstDayOfWeek() {
+        return ((Calendar.getInstance().getFirstDayOfWeek() + 5) % 7) + 1;
     }
 
     /**
