@@ -31,6 +31,10 @@ public class Line {
     private int color;
     private boolean showPoints = false;
     private String name;
+    private float maxX = Float.MIN_VALUE;
+    private float minX = Float.MAX_VALUE;
+    private float maxY = Float.MIN_VALUE;
+    private float minY = Float.MAX_VALUE;
 
 
     public int getColor() {
@@ -47,10 +51,24 @@ public class Line {
 
     public void setPoints(ArrayList<LinePoint> points) {
         this.points = points;
+        setMaxX(Float.MIN_VALUE);
+        setMaxY(Float.MIN_VALUE);
+        setMinX(Float.MAX_VALUE);
+        setMinY(Float.MAX_VALUE);
+        for (LinePoint pt : points) {
+            setMaxX(Math.max(getMaxX(), pt.getX()));
+            setMaxY(Math.max(getMaxY(), pt.getY()));
+            setMinX(Math.min(getMinX(), pt.getX()));
+            setMinY(Math.min(getMinY(), pt.getY()));
+        }
     }
 
     public void addPoint(LinePoint point) {
         points.add(point);
+        setMaxX(Math.max(getMaxX(), point.getX()));
+        setMaxY(Math.max(getMaxY(), point.getY()));
+        setMinX(Math.min(getMinX(), point.getX()));
+        setMinY(Math.min(getMinY(), point.getY()));
     }
 
     public LinePoint getPoint(int index) {
@@ -75,5 +93,37 @@ public class Line {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public float getMaxX() {
+        return maxX;
+    }
+
+    public void setMaxX(float maxX) {
+        this.maxX = maxX;
+    }
+
+    public float getMinX() {
+        return minX;
+    }
+
+    public void setMinX(float minX) {
+        this.minX = minX;
+    }
+
+    public float getMaxY() {
+        return maxY;
+    }
+
+    public void setMaxY(float maxY) {
+        this.maxY = maxY;
+    }
+
+    public float getMinY() {
+        return minY;
+    }
+
+    public void setMinY(float minY) {
+        this.minY = minY;
     }
 }

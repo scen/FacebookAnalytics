@@ -132,13 +132,9 @@ public class LineGraph extends View {
         if (isMaxYUserSet) {
             return maxY;
         } else {
-            maxY = lines.get(0).getPoint(0).getY();
+            maxY = lines.get(0).getMaxY();
             for (Line line : lines) {
-                for (LinePoint point : line.getPoints()) {
-                    if (point.getY() > maxY) {
-                        maxY = point.getY();
-                    }
-                }
+                maxY = Math.max(maxY, line.getMaxY());
             }
             return maxY;
         }
@@ -149,11 +145,9 @@ public class LineGraph extends View {
         if (isMaxYUserSet) {
             return minY;
         } else {
-            float min = lines.get(0).getPoint(0).getY();
+            float min = lines.get(0).getMinY();
             for (Line line : lines) {
-                for (LinePoint point : line.getPoints()) {
-                    if (point.getY() < min) min = point.getY();
-                }
+                min = Math.min(min, line.getMinY());
             }
             minY = min;
             return minY;
@@ -161,11 +155,9 @@ public class LineGraph extends View {
     }
 
     public float getMaxX() {
-        float max = lines.get(0).getPoint(0).getX();
+        float max = lines.get(0).getMaxX();
         for (Line line : lines) {
-            for (LinePoint point : line.getPoints()) {
-                if (point.getX() > max) max = point.getX();
-            }
+            max = Math.max(max, line.getMaxX());
         }
         maxX = max;
         return maxX;
@@ -173,14 +165,12 @@ public class LineGraph extends View {
     }
 
     public float getMinX() {
-        float max = lines.get(0).getPoint(0).getX();
+        float min = lines.get(0).getPoint(0).getX();
         for (Line line : lines) {
-            for (LinePoint point : line.getPoints()) {
-                if (point.getX() < max) max = point.getX();
-            }
+            min = Math.min(min, line.getMinX());
         }
-        maxX = max;
-        return maxX;
+        minX = min;
+        return minX;
     }
 
     public void onDraw(Canvas ca) {
