@@ -48,7 +48,7 @@ public class LineGraph extends View {
     public LineGraph(Context context, AttributeSet attrs) {
         super(context, attrs);
         ylabelPaint.setColor(Color.BLACK);
-        ylabelPaint.setAlpha(130);
+        ylabelPaint.setAlpha(180);
         ylabelPaint.setTextSize(Util.dipToPixels(getContext(), 10));
         ylabelPaint.setTypeface(Typefaces.get("sans-serif-thin", Typeface.NORMAL));
         ylabelPaint.setAntiAlias(true);
@@ -216,7 +216,13 @@ public class LineGraph extends View {
         final float rightPadding = 0;//Util.dipToPixels(getContext(), 10);
         final float topPadding = legendSize;
 
+        final float legendLeftPadding = Util.dipToPixels(getContext(), 10);
+
         final float circleRadius = Util.dipToPixels(getContext(), 5);
+        final float lineWidth = Util.dipToPixels(getContext(), 2);
+        final float legendLineWidth = Util.dipToPixels(getContext(), 3);
+        final float legendLineLength = Util.dipToPixels(getContext(), 14);
+        final float legendPaddingBetween = Util.dipToPixels(getContext(), 7);
 
 
         final float drawableHeight = getHeight() - bottomPadding - ylabelFontSpacing - legendSize;
@@ -227,39 +233,42 @@ public class LineGraph extends View {
         // Render grids
         paint.setStrokeWidth(1);
         paint.setAlpha(50);
+        paint.setAntiAlias(true);
+
 
         int dataCount = lines.get(0).getPoints().size();
-        int ptDeltaPerLine = dataCount / getNumVerticalGrids(); // draw a vertical line per
-        int pxDeltaPerLine = (int)((float)ptDeltaPerLine * (drawableWidth / (float)dataCount));
+        int ptDeltaPerLine = dataCount / (getNumVerticalGrids() - 1); // draw a vertical line per
+
 
         for (int i = 0; i < getNumVerticalGrids(); i++) {
-            float xpos = leftPadding + ((float)(i) * drawableWidth / (float)(getNumVerticalGrids() - 1));
-            canvas.drawLine(xpos, xaxisY, xpos, xaxisY - drawableHeight, paint);
+            float vxpos = leftPadding + (float)i * ((float)ptDeltaPerLine * (drawableWidth / (float)(dataCount - 1)));
+            if (i != 0) canvas.drawLine(vxpos, xaxisY, vxpos, xaxisY - drawableHeight, paint);
             String txt = getXlabelFormatter().format(i, getNumVerticalGrids(), getMinX(), getMaxX());
-            if (i == 0) {
-                xaxisLabelPaint.setTextAlign(Paint.Align.LEFT);
+            if (txt != null) {
+                if (i == 0) {
+                    xaxisLabelPaint.setTextAlign(Paint.Align.LEFT);
+                }
+                else if (i == getNumVerticalGrids() - 1) {
+                    float width = xaxisLabelPaint.measureText(txt);
+                    if (vxpos + (width / 2) > leftPadding + drawableWidth - 1) {
+                        xaxisLabelPaint.setTextAlign(Paint.Align.RIGHT);
+                        vxpos = leftPadding + drawableWidth - 1;
+                    }
+                    else
+                        xaxisLabelPaint.setTextAlign(Paint.Align.CENTER);
+                }
+                else {
+                    xaxisLabelPaint.setTextAlign(Paint.Align.CENTER);
+                }
+                canvas.drawText(txt, vxpos, xaxisY + (xaxislabelFontSpacing), xaxisLabelPaint);
             }
-            else if (i == getNumVerticalGrids() - 1) {
-                xaxisLabelPaint.setTextAlign(Paint.Align.RIGHT);
-            }
-            else {
-                xaxisLabelPaint.setTextAlign(Paint.Align.CENTER);
-            }
-            if (txt != null) canvas.drawText(txt, xpos, xaxisY + (xaxislabelFontSpacing), xaxisLabelPaint);
         }
 
-        for (int i = 0; i < getNumHorizontalGrids(); i++) {
+        for (int i = 1; i < getNumHorizontalGrids(); i++) {
             float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(getNumHorizontalGrids() - 1));
-            if (i == 0) {
-                paint.setColor(Color.BLACK);
-                paint.setStrokeWidth(2);
-                paint.setAlpha(80);
-                paint.setAntiAlias(true);
-            }
-            else {
-                paint.setStrokeWidth(1);
-                paint.setAlpha(50);
-            }
+
+            paint.setStrokeWidth(1);
+            paint.setAlpha(50);
             canvas.drawLine(leftPadding, ypos, getWidth() - rightPadding, ypos, paint);
         }
 
@@ -268,8 +277,8 @@ public class LineGraph extends View {
         float maxX = getMaxX();
         float minX = getMinX();
 
-        paint.setStrokeWidth(Util.dipToPixels(getContext(), 2));
-
+        paint.setStrokeWidth(lineWidth);
+        paint.setStrokeCap(Paint.Cap.ROUND);
         for (Line line : lines) {
             float oldx = 0, oldy = 0;
             int cnt = 0;
@@ -293,26 +302,47 @@ public class LineGraph extends View {
         }
 
         if (drawLegend) {
+            float x = legendLeftPadding;
+            float y = legendSize / 2f;
+            paint.setStrokeWidth(legendLineWidth);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setTextSize(Util.dipToPixels(getContext(), 10));
+            for (Line line : lines) {
+                paint.setColor(line.getColor());
+                canvas.drawLine(x, y, x + legendLineLength, y, paint);
+                x += legendLineLength + legendPaddingBetween;
+                paint.setColor(Color.BLACK);
+                paint.setAlpha(200);
+                canvas.drawText(line.getName(), x, y - (paint.descent() + paint.ascent()) / 2, paint);
+                x += paint.measureText(line.getName()) + legendPaddingBetween;
 
+            }
         }
-        //to help with debugging formatting
+//        to help with debugging formatting
 //        {
 //            Paint paint = new Paint();
 //            paint.setColor(Color.RED);
 //            paint.setStrokeWidth(1);
 //            paint.setAntiAlias(true);
-//            canvas.drawLine(0, 0, getWidth(), 0, paint);
-//            canvas.drawLine(0, getHeight(), getWidth(), getHeight(), paint);
-//            canvas.drawLine(getWidth(), 0, getWidth(), getHeight(), paint);
-//            canvas.drawLine(0, 0, 0, getHeight(), paint);
-//            paint.setColor(Color.BLUE);
-//            canvas.drawLine(0, legendSize, getWidth(), legendSize, paint);
+////            canvas.drawLine(0, 0, getWidth(), 0, paint);
+////            canvas.drawLine(0, getHeight(), getWidth(), getHeight(), paint);
+////            canvas.drawLine(getWidth(), 0, getWidth(), getHeight(), paint);
+////            canvas.drawLine(0, 0, 0, getHeight(), paint);
+////            paint.setColor(Color.BLUE);
+//            canvas.drawLine(0, legendSize / 2f, getWidth(), legendSize / 2f, paint);
 //        }
 
         for (int i = 0; i < getNumHorizontalGrids(); i++) {
             float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(getNumHorizontalGrids() - 1));
             String txt = getYlabelFormatter().format(i, getNumHorizontalGrids(), getMinY(), getMaxY());
-            if (txt != null) canvas.drawText(txt, leftPadding + paddingYLabelFromGrid, ypos - ylabelPaint.descent() - 1, ylabelPaint);
+            if (i == 0) {
+                paint.setColor(Color.BLACK);
+                paint.setStrokeWidth(2);
+                paint.setAlpha(80);
+                paint.setAntiAlias(true);
+                canvas.drawLine(leftPadding, ypos, getWidth() - rightPadding, ypos, paint);
+            }
+            if (txt != null) canvas.drawText(txt, leftPadding, ypos - ylabelPaint.descent() - 1, ylabelPaint);
         }
     }
 

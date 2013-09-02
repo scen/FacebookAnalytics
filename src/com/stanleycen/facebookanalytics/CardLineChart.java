@@ -21,6 +21,10 @@ public class CardLineChart implements CardItem {
     public final String title;
     private int viewType;
 
+    private ArrayList<Line> lines;
+    private LineGraph.LabelFormatter xFormatter;
+    private LineGraph.LabelFormatter yFormatter;
+
     public int getViewType() {
         return viewType;
     }
@@ -52,36 +56,52 @@ public class CardLineChart implements CardItem {
         }
 
 
-        Line l = new Line();
-        Line l2 = new Line();
-        for (int i = 0; i < 12; i++) {
-            l.addPoint(new LinePoint(i, i));
-            l2.addPoint(new LinePoint(i, 11 - i));
-        }
-        l.setColor(Util.colors[0]);
-        l2.setColor(Util.colors[1]);
+//        Line l = new Line();
+//        Line l2 = new Line();
+//        for (int i = 0; i < 12; i++) {
+//            l.addPoint(new LinePoint(i, i));
+//            l2.addPoint(new LinePoint(i, 11 - i));
+//        }
+//        l.setColor(Util.colors[0]);
+//        l2.setColor(Util.colors[1]);
+//        l.setName("You");
+//        l2.setName("Jacob");
+//
+//        holder.lineChart.addLine(l);
+//        holder.lineChart.addLine(l2);
+//        holder.lineChart.setRangeY(0, 12);
+//        holder.lineChart.setNumHorizontalGrids(5);
+//        holder.lineChart.setNumVerticalGrids(6);
 
-        holder.lineChart.addLine(l);
-        holder.lineChart.addLine(l2);
-        holder.lineChart.setRangeY(0, 12);
-        holder.lineChart.setNumHorizontalGrids(5);
-        holder.lineChart.setNumVerticalGrids(4);
-        holder.lineChart.setYlabelFormatter(new LineGraph.LabelFormatter() {
-            @Override
-            public String format(int cur, int tot, float min, float max) {
-                return (int)((max-min)*((float)cur/(float)(tot-1))+min) + (cur == tot - 1 ? " messages" : "");
-            }
-        });
-        holder.lineChart.setXlabelFormatter(new LineGraph.LabelFormatter() {
-            @Override
-            public String format(int idx, int tot, float min, float max) {
-                if (idx == tot - 1) return null;
-                return "12 AM";
-            }
-        });
+        holder.lineChart.setLines(lines);
+
         holder.title.setText(this.title);
 
         return v;
+    }
+
+    public ArrayList<Line> getLines() {
+        return lines;
+    }
+
+    public void setLines(ArrayList<Line> lines) {
+        this.lines = lines;
+    }
+
+    public LineGraph.LabelFormatter getxFormatter() {
+        return xFormatter;
+    }
+
+    public void setxFormatter(LineGraph.LabelFormatter xFormatter) {
+        this.xFormatter = xFormatter;
+    }
+
+    public LineGraph.LabelFormatter getyFormatter() {
+        return yFormatter;
+    }
+
+    public void setyFormatter(LineGraph.LabelFormatter yFormatter) {
+        this.yFormatter = yFormatter;
     }
 
     private class CardLineChartHolder {

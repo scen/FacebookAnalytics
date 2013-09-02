@@ -30,6 +30,7 @@ public class Line {
     private ArrayList<LinePoint> points = new ArrayList<LinePoint>();
     private int color;
     private boolean showPoints = true;
+    private String name;
 
 
     public int getColor() {
@@ -68,4 +69,11 @@ public class Line {
         this.showPoints = showPoints;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
