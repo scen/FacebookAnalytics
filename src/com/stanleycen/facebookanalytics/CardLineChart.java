@@ -24,6 +24,10 @@ public class CardLineChart implements CardItem {
     private ArrayList<Line> lines;
     private LineGraph.LabelFormatter xFormatter;
     private LineGraph.LabelFormatter yFormatter;
+    private float minY = Float.MAX_VALUE;
+    private float maxY = Float.MAX_VALUE;
+    private int numHorizontalGrids = 5;
+    private int numVerticalGrids = 6;
 
     public int getViewType() {
         return viewType;
@@ -55,25 +59,14 @@ public class CardLineChart implements CardItem {
             holder = (CardLineChartHolder)v.getTag();
         }
 
-
-//        Line l = new Line();
-//        Line l2 = new Line();
-//        for (int i = 0; i < 12; i++) {
-//            l.addPoint(new LinePoint(i, i));
-//            l2.addPoint(new LinePoint(i, 11 - i));
-//        }
-//        l.setColor(Util.colors[0]);
-//        l2.setColor(Util.colors[1]);
-//        l.setName("You");
-//        l2.setName("Jacob");
-//
-//        holder.lineChart.addLine(l);
-//        holder.lineChart.addLine(l2);
-//        holder.lineChart.setRangeY(0, 12);
-//        holder.lineChart.setNumHorizontalGrids(5);
-//        holder.lineChart.setNumVerticalGrids(6);
-
         holder.lineChart.setLines(lines);
+        holder.lineChart.setNumVerticalGrids(getNumVerticalGrids());
+        holder.lineChart.setNumHorizontalGrids(getNumHorizontalGrids());
+        holder.lineChart.setXlabelFormatter(getxFormatter());
+        holder.lineChart.setYlabelFormatter(getyFormatter());
+        if (minY != Float.MAX_VALUE) {
+            holder.lineChart.setRangeY(minY, maxY);
+        }
 
         holder.title.setText(this.title);
 
@@ -102,6 +95,27 @@ public class CardLineChart implements CardItem {
 
     public void setyFormatter(LineGraph.LabelFormatter yFormatter) {
         this.yFormatter = yFormatter;
+    }
+
+    public void setRangeY(float min, float max) {
+        this.minY = min;
+        this.maxY = max;
+    }
+
+    public int getNumHorizontalGrids() {
+        return numHorizontalGrids;
+    }
+
+    public void setNumHorizontalGrids(int numHorizontalGrids) {
+        this.numHorizontalGrids = numHorizontalGrids;
+    }
+
+    public int getNumVerticalGrids() {
+        return numVerticalGrids;
+    }
+
+    public void setNumVerticalGrids(int numVerticalGrids) {
+        this.numVerticalGrids = numVerticalGrids;
     }
 
     private class CardLineChartHolder {

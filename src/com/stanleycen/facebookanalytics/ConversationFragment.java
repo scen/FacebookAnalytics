@@ -16,9 +16,14 @@ import android.widget.ListView;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.stanleycen.facebookanalytics.graph.Bar;
+import com.stanleycen.facebookanalytics.graph.Line;
+import com.stanleycen.facebookanalytics.graph.LineGraph;
+import com.stanleycen.facebookanalytics.graph.LinePoint;
 import com.stanleycen.facebookanalytics.graph.PieSlice;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -99,6 +104,7 @@ public class ConversationFragment extends Fragment {
             Map<FBUser, MutableInt> msgCount = new HashMap<FBUser, MutableInt>();
 
             int[] messagesPerDow = new int[8];
+            int[] messagesPerHour = new int[24];
 
             for (FBMessage fbMessage : fbThread.messages) {
                 MutableInt cc = charCount.get(fbMessage.from);
@@ -108,8 +114,8 @@ public class ConversationFragment extends Fragment {
                 MutableInt mc = msgCount.get(fbMessage.from);
                 if (mc == null) msgCount.put(fbMessage.from, new MutableInt());
                 else mc.increment();
-
                 messagesPerDow[fbMessage.timestamp.getDayOfWeek()]++;
+                messagesPerHour[fbMessage.timestamp.getHourOfDay()]++;
             }
 
             ret.add(new CardTotal(CardItems.TOTAL.ordinal(), fbThread));
@@ -158,7 +164,7 @@ public class ConversationFragment extends Fragment {
             CardBarChart mostActiveDow = new CardBarChart(CardItems.BAR.ordinal(), "Most active day of week");
             int firstDow = Util.getJodaFirstDayOfWeek();
             ArrayList<Bar> dowBars = new ArrayList<Bar>();
-            DateTime tmp = new DateTime();
+            final DateTime tmp = new DateTime();
             for (int offset = 0; offset < 7; offset++) {
                 Bar b = new Bar();
                 b.setName(tmp.withDayOfWeek((firstDow - 1 + offset) % 7 + 1).dayOfWeek().getAsShortText());
@@ -169,7 +175,75 @@ public class ConversationFragment extends Fragment {
             mostActiveDow.setBars(dowBars);
             ret.add(mostActiveDow);
 
-            ret.add(new CardLineChart(CardItems.LINE.ordinal(), "Most active time of day"));
+            CardLineChart daytimeActivity = new CardLineChart(CardItems.LINE.ordinal(), "Daytime activity");
+            CardLineChart nighttimeActivity = new CardLineChart(CardItems.LINE.ordinal(), "Nighttime activity");
+
+            final DateTimeFormatter hourFormatter = DateTimeFormat.forPattern("h a");
+            Line daytimeLine = new Line();
+            daytimeLine.setName("Daytime");
+            daytimeLine.setShowingPoints(true);
+            daytimeLine.setColor(Util.colors[0]);
+
+            Line nighttimeLine = new Line();
+            nighttimeLine.setName("Nighttime");
+            nighttimeLine.setShowingPoints(true);
+            nighttimeLine.setColor(Util.colors[0]);
+            int daytimemx = 0;
+            int nighttimemx = 0;
+            for (int h = 0; h < 24; h++) {
+                if (h >= 6 && h <= 17) { //6am to 5pm
+                    daytimeLine.addPoint(new LinePoint(h, messagesPerHour[h]));
+                    daytimemx = Math.max(daytimemx, messagesPerHour[h]);
+                }
+            }
+            int iidx = 0;
+            for (int h = 18; h <= 23; h++) {
+                nighttimeLine.addPoint(new LinePoint(iidx++, messagesPerHour[h]));
+                nighttimemx = Math.max(nighttimemx, messagesPerHour[h]);
+            }
+            for (int h = 0; h <= 5; h++) {
+                nighttimeLine.addPoint(new LinePoint(iidx++, messagesPerHour[h]));
+                nighttimemx = Math.max(nighttimemx, messagesPerHour[h]);
+            }
+            daytimeActivity.setxFormatter(new LineGraph.LabelFormatter() {
+                @Override
+                public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                    return hourFormatter.print(tmp.withHourOfDay((idx*ptsPerDelta) + 6));
+                }
+            });
+
+            daytimeActivity.setyFormatter(new LineGraph.LabelFormatter() {
+                @Override
+                public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                    return (int)((max - min)*((float)idx/(float)(tot - 1))+min) + (idx==tot-1?" messages" : "");
+                }
+            });
+
+            nighttimeActivity.setxFormatter(new LineGraph.LabelFormatter() {
+                @Override
+                public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                    return hourFormatter.print(tmp.withHourOfDay((idx*ptsPerDelta) + 6).plusHours(12));
+                }
+            });
+
+            nighttimeActivity.setyFormatter(new LineGraph.LabelFormatter() {
+                @Override
+                public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                    return (int)((max - min)*((float)idx/(float)(tot - 1))+min) + (idx==tot-1?" messages" : "");
+                }
+            });
+
+            ArrayList<Line> daytimeLines = new ArrayList<Line>(), nighttimeLines = new ArrayList<Line>();
+            daytimeLines.add(daytimeLine);
+            nighttimeLines.add(nighttimeLine);
+            daytimeActivity.setLines(daytimeLines);
+            nighttimeActivity.setLines(nighttimeLines);
+            daytimeActivity.setRangeY(0, Util.roundUpNiceDiv4(daytimemx));
+            nighttimeActivity.setRangeY(0, Util.roundUpNiceDiv4(nighttimemx));
+
+
+            ret.add(daytimeActivity);
+            ret.add(nighttimeActivity);
 
             return ret;
         }

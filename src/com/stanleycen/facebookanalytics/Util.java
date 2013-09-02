@@ -41,6 +41,18 @@ public class Util {
         return decimalFormat.format(i);
     }
 
+    public static float roundUpNiceDiv4(float num) {
+        if (num == 0) return 4;
+        if (num < 100) return (float)Math.ceil(num / 4.0) * 4f;
+        float t = (float)Math.pow(10.0, Math.ceil(Math.log10(num)));
+        for (float i = 4; i <= 100; i += 4) {
+            float g = t * (i / 100f);
+            if (g >= num && ((int)g % (int)(t / 100f) == 0))
+                return g;
+        }
+        return (float)Math.ceil(num / 4.0) * 4f;
+    }
+
     public static float getAttributeDimension(final Context context, final int resId)
     {
         return getAttributeDimension(context, context.getTheme(), resId);

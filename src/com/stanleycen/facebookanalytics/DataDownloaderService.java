@@ -274,7 +274,7 @@ public class DataDownloaderService extends Service {
                     UnifiedMessaging.commitData(newFbData);
 
                     updateDownloadProgress("Crunching data", 100, 100, true);
-                    newFbData.computeHighLevelThreadStats();
+                    GlobalApp.get().fb.fbData.computeHighLevelThreadStats();
 
                     notifyFinish();
                     stopSelf();

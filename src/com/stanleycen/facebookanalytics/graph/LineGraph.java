@@ -243,7 +243,7 @@ public class LineGraph extends View {
         for (int i = 0; i < getNumVerticalGrids(); i++) {
             float vxpos = leftPadding + (float)i * ((float)ptDeltaPerLine * (drawableWidth / (float)(dataCount - 1)));
             if (i != 0) canvas.drawLine(vxpos, xaxisY, vxpos, xaxisY - drawableHeight, paint);
-            String txt = getXlabelFormatter().format(i, getNumVerticalGrids(), getMinX(), getMaxX());
+            String txt = getXlabelFormatter().format(i, getNumVerticalGrids(), getMinX(), getMaxX(),ptDeltaPerLine);
             if (txt != null) {
                 if (i == 0) {
                     xaxisLabelPaint.setTextAlign(Paint.Align.LEFT);
@@ -334,7 +334,7 @@ public class LineGraph extends View {
 
         for (int i = 0; i < getNumHorizontalGrids(); i++) {
             float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(getNumHorizontalGrids() - 1));
-            String txt = getYlabelFormatter().format(i, getNumHorizontalGrids(), getMinY(), getMaxY());
+            String txt = getYlabelFormatter().format(i, getNumHorizontalGrids(), getMinY(), getMaxY(), ptDeltaPerLine);
             if (i == 0) {
                 paint.setColor(Color.BLACK);
                 paint.setStrokeWidth(2);
@@ -430,6 +430,6 @@ public class LineGraph extends View {
     }
 
     public abstract interface LabelFormatter {
-        abstract String format(int idx, int tot, float min, float max);
+        abstract String format(int idx, int tot, float min, float max, int ptsPerDelta);
     }
 }
