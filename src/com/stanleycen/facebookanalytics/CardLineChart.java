@@ -53,20 +53,22 @@ public class CardLineChart implements CardItem {
 
 
         Line l = new Line();
+        Line l2 = new Line();
         for (int i = 0; i < 12; i++) {
             l.addPoint(new LinePoint(i, i));
+            l2.addPoint(new LinePoint(i, 11 - i));
         }
         l.setColor(Util.colors[0]);
+        l2.setColor(Util.colors[1]);
 
         holder.lineChart.addLine(l);
+        holder.lineChart.addLine(l2);
         holder.lineChart.setRangeY(0, 12);
         holder.lineChart.setNumHorizontalGrids(5);
-        holder.lineChart.setNumVerticalGrids(5);
+        holder.lineChart.setNumVerticalGrids(4);
         holder.lineChart.setYlabelFormatter(new LineGraph.LabelFormatter() {
             @Override
             public String format(int cur, int tot, float min, float max) {
-                Log.w("s", ""+max);
-                Log.w("min", "min" + min);
                 return (int)((max-min)*((float)cur/(float)(tot-1))+min) + (cur == tot - 1 ? " messages" : "");
             }
         });

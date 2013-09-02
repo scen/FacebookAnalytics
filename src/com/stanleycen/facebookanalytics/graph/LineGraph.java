@@ -48,7 +48,7 @@ public class LineGraph extends View {
     public LineGraph(Context context, AttributeSet attrs) {
         super(context, attrs);
         ylabelPaint.setColor(Color.BLACK);
-        ylabelPaint.setAlpha(110);
+        ylabelPaint.setAlpha(130);
         ylabelPaint.setTextSize(Util.dipToPixels(getContext(), 10));
         ylabelPaint.setTypeface(Typefaces.get("sans-serif-thin", Typeface.NORMAL));
         ylabelPaint.setAntiAlias(true);
@@ -220,13 +220,17 @@ public class LineGraph extends View {
 
 
         final float drawableHeight = getHeight() - bottomPadding - ylabelFontSpacing - legendSize;
-        final float drawableWidth = getWidth() - leftPadding - rightPadding - 1;
+        final float drawableWidth = getWidth() - leftPadding - rightPadding;
 
         final float xaxisY = getHeight() - bottomPadding;
 
         // Render grids
         paint.setStrokeWidth(1);
         paint.setAlpha(50);
+
+        int dataCount = lines.get(0).getPoints().size();
+        int ptDeltaPerLine = dataCount / getNumVerticalGrids(); // draw a vertical line per
+        int pxDeltaPerLine = (int)((float)ptDeltaPerLine * (drawableWidth / (float)dataCount));
 
         for (int i = 0; i < getNumVerticalGrids(); i++) {
             float xpos = leftPadding + ((float)(i) * drawableWidth / (float)(getNumVerticalGrids() - 1));
@@ -244,9 +248,8 @@ public class LineGraph extends View {
             if (txt != null) canvas.drawText(txt, xpos, xaxisY + (xaxislabelFontSpacing), xaxisLabelPaint);
         }
 
-        int totHorizontalLines = getNumHorizontalGrids();
-        for (int i = 0; i < totHorizontalLines; i++) {
-            float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(totHorizontalLines - 1));
+        for (int i = 0; i < getNumHorizontalGrids(); i++) {
+            float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(getNumHorizontalGrids() - 1));
             if (i == 0) {
                 paint.setColor(Color.BLACK);
                 paint.setStrokeWidth(2);
@@ -258,8 +261,6 @@ public class LineGraph extends View {
                 paint.setAlpha(50);
             }
             canvas.drawLine(leftPadding, ypos, getWidth() - rightPadding, ypos, paint);
-            String txt = getYlabelFormatter().format(i, totHorizontalLines, getMinY(), getMaxY());
-            if (txt != null) canvas.drawText(txt, leftPadding + paddingYLabelFromGrid, ypos - ylabelPaint.descent() - 1, ylabelPaint);
         }
 
         float maxY = getMaxY();
@@ -291,6 +292,9 @@ public class LineGraph extends View {
             }
         }
 
+        if (drawLegend) {
+
+        }
         //to help with debugging formatting
 //        {
 //            Paint paint = new Paint();
@@ -305,6 +309,11 @@ public class LineGraph extends View {
 //            canvas.drawLine(0, legendSize, getWidth(), legendSize, paint);
 //        }
 
+        for (int i = 0; i < getNumHorizontalGrids(); i++) {
+            float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(getNumHorizontalGrids() - 1));
+            String txt = getYlabelFormatter().format(i, getNumHorizontalGrids(), getMinY(), getMaxY());
+            if (txt != null) canvas.drawText(txt, leftPadding + paddingYLabelFromGrid, ypos - ylabelPaint.descent() - 1, ylabelPaint);
+        }
     }
 
     @Override
