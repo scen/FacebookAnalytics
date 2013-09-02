@@ -20,6 +20,7 @@ public class CardPieChart implements CardItem {
     public final String title;
     private int viewType;
     private ArrayList<PieSlice> slices;
+    private boolean shouldCacheToBitmap;
 
     public int getViewType() {
         return viewType;
@@ -53,6 +54,7 @@ public class CardPieChart implements CardItem {
 
         holder.title.setText(this.title);
         holder.pieChart.setSlices(slices);
+        holder.pieChart.setShouldCacheToBitmap(isShouldCacheToBitmap());
 
         return v;
     }
@@ -63,6 +65,14 @@ public class CardPieChart implements CardItem {
 
     public void setSlices(ArrayList<PieSlice> slices) {
         this.slices = slices;
+    }
+
+    public boolean isShouldCacheToBitmap() {
+        return shouldCacheToBitmap;
+    }
+
+    public void setShouldCacheToBitmap(boolean shouldCacheToBitmap) {
+        this.shouldCacheToBitmap = shouldCacheToBitmap;
     }
 
     private class CardPieChartHolder {

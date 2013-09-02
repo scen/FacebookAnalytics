@@ -63,6 +63,8 @@ public class BarGraph extends View {
     private Rect r2 = new Rect();
     private Rect r3 = new Rect();
 
+    private boolean shouldCacheToBitmap;
+
     public BarGraph(Context context) {
         super(context);
     }
@@ -100,81 +102,88 @@ public class BarGraph extends View {
         return this.bars;
     }
 
-    public void onDraw(Canvas ca) {
+    public void drawToCanvas(Canvas canvas) {
+        canvas.drawColor(Color.TRANSPARENT);
+        NinePatchDrawable popup = (NinePatchDrawable) this.getResources().getDrawable(
+                R.drawable.popup_black);
 
-        if (fullImage == null || shouldUpdate) {
-            fullImage = Bitmap.createBitmap(getWidth(), getHeight(), Config.ARGB_8888);
-            Canvas canvas = new Canvas(fullImage);
-            canvas.drawColor(Color.TRANSPARENT);
-            NinePatchDrawable popup = (NinePatchDrawable) this.getResources().getDrawable(
-                    R.drawable.popup_black);
+        float maxValue = 0;
+        float padding = 7;
+        int selectPadding = 4;
+        float bottomPadding = 40;
 
-            float maxValue = 0;
-            float padding = 7;
-            int selectPadding = 4;
-            float bottomPadding = 40;
-
-            float usableHeight;
-            if (showBarText) {
-                this.p.setTextSize(40);
-                this.p.getTextBounds("$", 0, 1, r3);
-                usableHeight = getHeight() - bottomPadding - Math.abs(r3.top - r3.bottom) - 26;
-            } else {
-                usableHeight = getHeight() - bottomPadding;
-            }
+        float usableHeight;
+        if (showBarText) {
+            this.p.setTextSize(40);
+            this.p.getTextBounds("$", 0, 1, r3);
+            usableHeight = getHeight() - bottomPadding - Math.abs(r3.top - r3.bottom) - 26;
+        } else {
+            usableHeight = getHeight() - bottomPadding;
+        }
 
 
-            p.setColor(Color.BLACK);
-            p.setStrokeWidth(2);
-            p.setAlpha(50);
-            p.setAntiAlias(true);
+        p.setColor(Color.BLACK);
+        p.setStrokeWidth(2);
+        p.setAlpha(50);
+        p.setAntiAlias(true);
 
-            canvas.drawLine(0, getHeight() - bottomPadding + 10, getWidth(), getHeight() - bottomPadding + 10, p);
+        canvas.drawLine(0, getHeight() - bottomPadding + 10, getWidth(), getHeight() - bottomPadding + 10, p);
 
-            float barWidth = (getWidth() - (padding * 2) * getBars().size()) / getBars().size();
+        float barWidth = (getWidth() - (padding * 2) * getBars().size()) / getBars().size();
 
-            for (Bar p : getBars()) {
-                maxValue = Math.max(maxValue, p.getValue());
-            }
+        for (Bar p : getBars()) {
+            maxValue = Math.max(maxValue, p.getValue());
+        }
 
-            r = new Rect();
+        r = new Rect();
 
 //            path.reset();
 
-            int count = 0;
-            for (Bar p : getBars()) {
-                r.set((int) ((padding * 2) * count + padding + barWidth * count), (int) (getHeight() - bottomPadding - (usableHeight * (p.getValue() / maxValue))), (int) ((padding * 2) * count + padding + barWidth * (count + 1)), (int) (getHeight() - bottomPadding));
+        int count = 0;
+        for (Bar p : getBars()) {
+            r.set((int) ((padding * 2) * count + padding + barWidth * count), (int) (getHeight() - bottomPadding - (usableHeight * (p.getValue() / maxValue))), (int) ((padding * 2) * count + padding + barWidth * (count + 1)), (int) (getHeight() - bottomPadding));
 
 //                path.addRect(new RectF(r.left - selectPadding, r.top - selectPadding, r.right + selectPadding, r.bottom + selectPadding), Path.Direction.CW);
 //                p.setPath(path);
 //                p.setRegion(new Region(r.left - selectPadding, r.top - selectPadding, r.right + selectPadding, r.bottom + selectPadding));
 
-                this.p.setColor(p.getColor());
-                this.p.setAlpha(255);
-                canvas.drawRect(r, this.p);
-                this.p.setStyle(Paint.Style.STROKE);
-                this.p.setStrokeWidth(2);
-                this.p.setColor(Util.getStrokeColor(p.getColor()));
-                canvas.drawRect(r, this.p);
-                this.p.setStyle(Paint.Style.FILL);
-                this.p.setStrokeWidth(0);
-                this.p.setColor(p.getColor());
-                this.p.setTextSize(Util.dipToPixels(getContext(), 11));
-                canvas.drawText(p.getName(), (int) (((r.left + r.right) / 2) - (this.p.measureText(p.getName()) / 2)), getHeight() - 5, this.p);
-                if (showBarText) {
-                    this.p.setTextSize(40);
-                    this.p.setColor(Color.WHITE);
-                    this.p.getTextBounds(unit + df.format(p.getValue()), 0, 1, r2);
-                    if (popup != null)
-                        popup.setBounds((int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)) - 14, r.top + (r2.top - r2.bottom) - 26, (int) (((r.left + r.right) / 2) + (this.p.measureText(unit + df.format(p.getValue())) / 2)) + 14, r.top);
-                    popup.draw(canvas);
-                    if (isAppended())
-                        canvas.drawText(df.format(p.getValue()) + unit, (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)), r.top - 20, this.p);
-                    else
-                        canvas.drawText(unit + df.format(p.getValue()), (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)), r.top - 20, this.p);
-                }
-                count++;
+            this.p.setColor(p.getColor());
+            this.p.setAlpha(255);
+            canvas.drawRect(r, this.p);
+            this.p.setStyle(Paint.Style.STROKE);
+            this.p.setStrokeWidth(2);
+            this.p.setColor(Util.getStrokeColor(p.getColor()));
+            canvas.drawRect(r, this.p);
+            this.p.setStyle(Paint.Style.FILL);
+            this.p.setStrokeWidth(0);
+            this.p.setColor(p.getColor());
+            this.p.setTextSize(Util.dipToPixels(getContext(), 11));
+            canvas.drawText(p.getName(), (int) (((r.left + r.right) / 2) - (this.p.measureText(p.getName()) / 2)), getHeight() - 5, this.p);
+            if (showBarText) {
+                this.p.setTextSize(40);
+                this.p.setColor(Color.WHITE);
+                this.p.getTextBounds(unit + df.format(p.getValue()), 0, 1, r2);
+                if (popup != null)
+                    popup.setBounds((int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)) - 14, r.top + (r2.top - r2.bottom) - 26, (int) (((r.left + r.right) / 2) + (this.p.measureText(unit + df.format(p.getValue())) / 2)) + 14, r.top);
+                popup.draw(canvas);
+                if (isAppended())
+                    canvas.drawText(df.format(p.getValue()) + unit, (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)), r.top - 20, this.p);
+                else
+                    canvas.drawText(unit + df.format(p.getValue()), (int) (((r.left + r.right) / 2) - (this.p.measureText(unit + df.format(p.getValue())) / 2)), r.top - 20, this.p);
             }
+            count++;
+        }
+    }
+
+    public void onDraw(Canvas ca) {
+        if (!shouldCacheToBitmap) {
+            drawToCanvas(ca);
+            return;
+        }
+        if (fullImage == null || shouldUpdate) {
+            fullImage = Bitmap.createBitmap(getWidth(), getHeight(), Config.ARGB_8888);
+            Canvas canvas = new Canvas(fullImage);
+            drawToCanvas(canvas);
             shouldUpdate = false;
         }
 
@@ -191,6 +200,14 @@ public class BarGraph extends View {
 
     public void setOnBarClickedListener(OnBarClickedListener listener) {
         this.listener = listener;
+    }
+
+    public boolean isShouldCacheToBitmap() {
+        return shouldCacheToBitmap;
+    }
+
+    public void setShouldCacheToBitmap(boolean shouldCacheToBitmap) {
+        this.shouldCacheToBitmap = shouldCacheToBitmap;
     }
 
     public interface OnBarClickedListener {

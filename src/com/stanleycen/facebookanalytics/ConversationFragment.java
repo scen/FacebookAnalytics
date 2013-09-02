@@ -26,6 +26,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -40,10 +41,14 @@ public class ConversationFragment extends Fragment {
 
     public enum CardItems {
         TOTAL,
-        PIE,
+        PIE_MSG,
+        PIE_CHAR,
+        PIE_SENTFROM,
         LOADER,
-        BAR,
-        LINE
+        BAR_DOW,
+        BAR_CPM,
+        LINE_DAY,
+        LINE_NIGHT
     };
 
     public static Fragment newInstance(Context context, FBThread fbThread) {
@@ -102,9 +107,14 @@ public class ConversationFragment extends Fragment {
 
             Map<FBUser, MutableInt> charCount = new HashMap<FBUser, MutableInt>();
             Map<FBUser, MutableInt> msgCount = new HashMap<FBUser, MutableInt>();
+            Map<FBUser, int[]> userMsgsPerHour = new HashMap<FBUser, int[]>();
 
             int[] messagesPerDow = new int[8];
             int[] messagesPerHour = new int[24];
+
+            int mobileCount = 0;
+            int webCount = 0;
+            int otherCount = 0;
 
             for (FBMessage fbMessage : fbThread.messages) {
                 MutableInt cc = charCount.get(fbMessage.from);
@@ -116,13 +126,30 @@ public class ConversationFragment extends Fragment {
                 else mc.increment();
                 messagesPerDow[fbMessage.timestamp.getDayOfWeek()]++;
                 messagesPerHour[fbMessage.timestamp.getHourOfDay()]++;
+                int hour = fbMessage.timestamp.getHourOfDay();
+                int[] userMPH = userMsgsPerHour.get(fbMessage.from);
+                if (userMPH == null) {
+                    userMsgsPerHour.put(fbMessage.from, new int[24]);
+                }
+                userMsgsPerHour.get(fbMessage.from)[hour]++;
+
+                switch (fbMessage.source) {
+                    case MOBILE:
+                        mobileCount++;
+                        break;
+                    case WEB:
+                    case OTHER:
+                        webCount++;
+                        break;
+                    default:
+                }
             }
 
             ret.add(new CardTotal(CardItems.TOTAL.ordinal(), fbThread));
 
-            CardPieChart msgCard = new CardPieChart(CardItems.PIE.ordinal(), "Message distribution");
-            CardPieChart charCard = new CardPieChart(CardItems.PIE.ordinal(), "Character distribution");
-            CardBarChart charsPerMessage = new CardBarChart(CardItems.BAR.ordinal(), "Characters per message");
+            CardPieChart msgCard = new CardPieChart(CardItems.PIE_MSG.ordinal(), "Message distribution");
+            CardPieChart charCard = new CardPieChart(CardItems.PIE_CHAR.ordinal(), "Character distribution");
+            CardBarChart charsPerMessage = new CardBarChart(CardItems.BAR_CPM.ordinal(), "Characters per message");
             ArrayList<Bar> cpmBars = new ArrayList<Bar>();
             ArrayList<PieSlice> msgSlices = new ArrayList<PieSlice>(), charSlices = new ArrayList<PieSlice>();
 
@@ -161,7 +188,7 @@ public class ConversationFragment extends Fragment {
             charsPerMessage.setBars(cpmBars);
             ret.add(charsPerMessage);
 
-            CardBarChart mostActiveDow = new CardBarChart(CardItems.BAR.ordinal(), "Most active day of week");
+            CardBarChart mostActiveDow = new CardBarChart(CardItems.BAR_DOW.ordinal(), "Most active day of week");
             int firstDow = Util.getJodaFirstDayOfWeek();
             ArrayList<Bar> dowBars = new ArrayList<Bar>();
             final DateTime tmp = new DateTime();
@@ -175,34 +202,70 @@ public class ConversationFragment extends Fragment {
             mostActiveDow.setBars(dowBars);
             ret.add(mostActiveDow);
 
-            CardLineChart daytimeActivity = new CardLineChart(CardItems.LINE.ordinal(), "Daytime activity");
-            CardLineChart nighttimeActivity = new CardLineChart(CardItems.LINE.ordinal(), "Nighttime activity");
+            CardLineChart daytimeActivity = new CardLineChart(CardItems.LINE_DAY.ordinal(), "Daytime activity");
+            CardLineChart nighttimeActivity = new CardLineChart(CardItems.LINE_NIGHT.ordinal(), "Nighttime activity");
 
             final DateTimeFormatter hourFormatter = DateTimeFormat.forPattern("h a");
+
+
+            Map<FBUser, Line> userDaytimeLines = new HashMap<FBUser, Line>();
+            Map<FBUser, Line> userNighttimeLines = new HashMap<FBUser, Line>();
+            idx = 0;
+            for (FBUser user : fbThread.participants) {
+                String name = user == GlobalApp.get().fb.fbData.me ? "You" : user.name;
+                name = name.split(" ")[0];
+                if (msgCount.get(user) != null) {
+                    Line line = new Line();
+                    line.setName(name);
+                    line.setShowingPoints(true);
+                    line.setColor(Util.colors[idx % Util.colors.length]);
+                    userDaytimeLines.put(user, line);
+                    Line line2 = new Line();
+                    line2.setName(name);
+                    line2.setShowingPoints(true);
+                    line2.setColor(Util.colors[idx % Util.colors.length]);
+                    userNighttimeLines.put(user, line2);
+                    idx++;
+                }
+            }
             Line daytimeLine = new Line();
-            daytimeLine.setName("Daytime");
+            daytimeLine.setName("Total");
             daytimeLine.setShowingPoints(true);
-            daytimeLine.setColor(Util.colors[0]);
+            daytimeLine.setColor(Util.colors[idx]);
 
             Line nighttimeLine = new Line();
-            nighttimeLine.setName("Nighttime");
+            nighttimeLine.setName("Total");
             nighttimeLine.setShowingPoints(true);
-            nighttimeLine.setColor(Util.colors[0]);
+            nighttimeLine.setColor(Util.colors[idx]);
+
             int daytimemx = 0;
             int nighttimemx = 0;
-            for (int h = 0; h < 24; h++) {
-                if (h >= 6 && h <= 17) { //6am to 5pm
-                    daytimeLine.addPoint(new LinePoint(h, messagesPerHour[h]));
-                    daytimemx = Math.max(daytimemx, messagesPerHour[h]);
+            for (int h = 6; h <= 17; h++) {
+                //6am to 5pm
+                daytimeLine.addPoint(new LinePoint(h, messagesPerHour[h]));
+                for (Map.Entry<FBUser, Line> entry : userDaytimeLines.entrySet()) {
+                    int[] da = userMsgsPerHour.get(entry.getKey());
+                    entry.getValue().addPoint(new LinePoint(h, da == null ? 0 : da[h]));
                 }
+                daytimemx = Math.max(daytimemx, messagesPerHour[h]);
             }
             int iidx = 0;
             for (int h = 18; h <= 23; h++) {
-                nighttimeLine.addPoint(new LinePoint(iidx++, messagesPerHour[h]));
+                nighttimeLine.addPoint(new LinePoint(iidx, messagesPerHour[h]));
+                for (Map.Entry<FBUser, Line> entry : userNighttimeLines.entrySet()) {
+                    int[] da = userMsgsPerHour.get(entry.getKey());
+                    entry.getValue().addPoint(new LinePoint(iidx, da == null ? 0 : da[h]));
+                }
+                iidx++;
                 nighttimemx = Math.max(nighttimemx, messagesPerHour[h]);
             }
             for (int h = 0; h <= 5; h++) {
-                nighttimeLine.addPoint(new LinePoint(iidx++, messagesPerHour[h]));
+                nighttimeLine.addPoint(new LinePoint(iidx, messagesPerHour[h]));
+                for (Map.Entry<FBUser, Line> entry : userNighttimeLines.entrySet()) {
+                    int[] da = userMsgsPerHour.get(entry.getKey());
+                    entry.getValue().addPoint(new LinePoint(iidx, da == null ? 0 : da[h]));
+                }
+                iidx++;
                 nighttimemx = Math.max(nighttimemx, messagesPerHour[h]);
             }
             daytimeActivity.setxFormatter(new LineGraph.LabelFormatter() {
@@ -234,6 +297,12 @@ public class ConversationFragment extends Fragment {
             });
 
             ArrayList<Line> daytimeLines = new ArrayList<Line>(), nighttimeLines = new ArrayList<Line>();
+            for (Map.Entry<FBUser, Line> entry : userDaytimeLines.entrySet()) {
+                daytimeLines.add(entry.getValue());
+            }
+            for (Map.Entry<FBUser, Line> entry : userNighttimeLines.entrySet()) {
+                nighttimeLines.add(entry.getValue());
+            }
             daytimeLines.add(daytimeLine);
             nighttimeLines.add(nighttimeLine);
             daytimeActivity.setLines(daytimeLines);
@@ -244,6 +313,23 @@ public class ConversationFragment extends Fragment {
 
             ret.add(daytimeActivity);
             ret.add(nighttimeActivity);
+
+
+            CardPieChart sentFromCard = new CardPieChart(CardItems.PIE_SENTFROM.ordinal(), "Devices sent from");
+            PieSlice webSlice = new PieSlice();
+            webSlice.setColor(Util.colors[0]);
+            webSlice.setTitle("Web");
+            webSlice.setValue(webCount);
+            PieSlice mobileSlice = new PieSlice();
+            mobileSlice.setColor(Util.colors[1]);
+            mobileSlice.setTitle("Mobile");
+            mobileSlice.setValue(mobileCount);
+//            PieSlice otherSlice = new PieSlice();
+//            otherSlice.setColor(Util.colors[2]);
+//            otherSlice.setTitle("Other");
+//            otherSlice.setValue(otherCount);
+            sentFromCard.setSlices(new ArrayList<PieSlice>(Arrays.asList(webSlice, mobileSlice)));
+            ret.add(sentFromCard);
 
             return ret;
         }

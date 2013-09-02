@@ -41,6 +41,8 @@ public class LineGraph extends View {
     private int numVerticalGrids;
     Rect tmpRect = new Rect();
 
+    private boolean shouldCacheToBitmap;
+
     public LineGraph(Context context) {
         this(context, null);
     }
@@ -182,6 +184,10 @@ public class LineGraph extends View {
     }
 
     public void onDraw(Canvas ca) {
+        if (!shouldCacheToBitmap) {
+            drawToCanvas(ca);
+            return;
+        }
         if (fullImage == null || shouldUpdate) {
             if (fullImage != null) {
                 fullImage.recycle();
@@ -423,6 +429,14 @@ public class LineGraph extends View {
 
     public void setNumVerticalGrids(int numVerticalGrids) {
         this.numVerticalGrids = numVerticalGrids;
+    }
+
+    public boolean isShouldCacheToBitmap() {
+        return shouldCacheToBitmap;
+    }
+
+    public void setShouldCacheToBitmap(boolean shouldCacheToBitmap) {
+        this.shouldCacheToBitmap = shouldCacheToBitmap;
     }
 
     public interface OnPointClickedListener {

@@ -28,6 +28,7 @@ public class CardLineChart implements CardItem {
     private float maxY = Float.MAX_VALUE;
     private int numHorizontalGrids = 5;
     private int numVerticalGrids = 6;
+    private boolean shouldCacheToBitmap;
 
     public int getViewType() {
         return viewType;
@@ -64,6 +65,7 @@ public class CardLineChart implements CardItem {
         holder.lineChart.setNumHorizontalGrids(getNumHorizontalGrids());
         holder.lineChart.setXlabelFormatter(getxFormatter());
         holder.lineChart.setYlabelFormatter(getyFormatter());
+        holder.lineChart.setShouldCacheToBitmap(isShouldCacheToBitmap());
         if (minY != Float.MAX_VALUE) {
             holder.lineChart.setRangeY(minY, maxY);
         }
@@ -116,6 +118,14 @@ public class CardLineChart implements CardItem {
 
     public void setNumVerticalGrids(int numVerticalGrids) {
         this.numVerticalGrids = numVerticalGrids;
+    }
+
+    public boolean isShouldCacheToBitmap() {
+        return shouldCacheToBitmap;
+    }
+
+    public void setShouldCacheToBitmap(boolean shouldCacheToBitmap) {
+        this.shouldCacheToBitmap = shouldCacheToBitmap;
     }
 
     private class CardLineChartHolder {

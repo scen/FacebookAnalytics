@@ -61,6 +61,8 @@ public class PieGraph extends View {
     private final float spacingBetweenLegendText = Util.dipToPixels(getContext(), 8);
     private final float spacingBetweenLegendAndPie = Util.dipToPixels(getContext(), 10);
 
+    private boolean shouldCacheToBitmap;
+
     public PieGraph(Context context) {
         super(context);
     }
@@ -173,6 +175,11 @@ public class PieGraph extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
+        if (!shouldCacheToBitmap) {
+            drawToCanvas(canvas);
+            return;
+        }
+
         if (cache == null || cachedWidth != getWidth() || cachedHeight != getHeight()) {
             cache = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
             Canvas cacheCanvas = new Canvas(cache);
@@ -226,6 +233,14 @@ public class PieGraph extends View {
             getSlices().remove(i);
         }
         postInvalidate();
+    }
+
+    public boolean isShouldCacheToBitmap() {
+        return shouldCacheToBitmap;
+    }
+
+    public void setShouldCacheToBitmap(boolean shouldCacheToBitmap) {
+        this.shouldCacheToBitmap = shouldCacheToBitmap;
     }
 
     public static interface OnSliceClickedListener {

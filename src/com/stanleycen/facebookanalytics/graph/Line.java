@@ -29,7 +29,7 @@ public class Line {
 
     private ArrayList<LinePoint> points = new ArrayList<LinePoint>();
     private int color;
-    private boolean showPoints = true;
+    private boolean showPoints = false;
     private String name;
 
 

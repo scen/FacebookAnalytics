@@ -18,6 +18,7 @@ public class CardBarChart implements CardItem {
     public final String title;
     private int viewType;
     private ArrayList<Bar> bars;
+    private boolean shouldCacheToBitmap;
 
     public int getViewType() {
         return viewType;
@@ -51,6 +52,7 @@ public class CardBarChart implements CardItem {
 
         holder.title.setText(this.title);
         holder.barChart.setBars(bars);
+        holder.barChart.setShouldCacheToBitmap(isShouldCacheToBitmap());
 
         return v;
     }
@@ -61,6 +63,14 @@ public class CardBarChart implements CardItem {
 
     public void setBars(ArrayList<Bar> bars) {
         this.bars = bars;
+    }
+
+    public boolean isShouldCacheToBitmap() {
+        return shouldCacheToBitmap;
+    }
+
+    public void setShouldCacheToBitmap(boolean shouldCacheToBitmap) {
+        this.shouldCacheToBitmap = shouldCacheToBitmap;
     }
 
     private class CardBarChartHolder {

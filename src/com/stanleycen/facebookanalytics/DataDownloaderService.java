@@ -153,6 +153,7 @@ public class DataDownloaderService extends Service {
 
                                 Request req = new Request(Session.getActiveSession(), "/fql",
                                         opts, HttpMethod.GET);
+                                Log.v(TAG, "Sent batch");
                                 Response res = req.executeAndWait();
 
                                 if (res.getError() != null) {
@@ -294,7 +295,9 @@ public class DataDownloaderService extends Service {
     }
 
     private boolean handleFBResponseError(FacebookRequestError error) {
-        Log.e(TAG, error.getErrorMessage());
+        if (error.getErrorMessage() != null) Log.e(TAG, error.getErrorMessage());
+        if (error.getErrorType() != null) Log.e(TAG, error.getErrorType());
+        Log.e(TAG, "Error code: " + error.getErrorCode());
         int code = error.getErrorCode();
         switch (code) {
             case 1:
