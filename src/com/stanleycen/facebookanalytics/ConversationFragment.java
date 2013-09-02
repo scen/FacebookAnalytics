@@ -21,6 +21,7 @@ import com.stanleycen.facebookanalytics.graph.PieSlice;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,8 @@ public class ConversationFragment extends Fragment {
         TOTAL,
         PIE,
         LOADER,
-        BAR
+        BAR,
+        LINE
     };
 
     public static Fragment newInstance(Context context, FBThread fbThread) {
@@ -97,7 +99,6 @@ public class ConversationFragment extends Fragment {
             Map<FBUser, MutableInt> msgCount = new HashMap<FBUser, MutableInt>();
 
             int[] messagesPerDow = new int[8];
-            String[] dowName = new String[8];
 
             for (FBMessage fbMessage : fbThread.messages) {
                 MutableInt cc = charCount.get(fbMessage.from);
@@ -108,9 +109,7 @@ public class ConversationFragment extends Fragment {
                 if (mc == null) msgCount.put(fbMessage.from, new MutableInt());
                 else mc.increment();
 
-                int dint = fbMessage.timestamp.getDayOfWeek();
-                if (dowName[dint] == null) dowName[dint] = fbMessage.timestamp.dayOfWeek().getAsShortText();
-                messagesPerDow[dint]++;
+                messagesPerDow[fbMessage.timestamp.getDayOfWeek()]++;
             }
 
             ret.add(new CardTotal(CardItems.TOTAL.ordinal(), fbThread));
@@ -133,20 +132,23 @@ public class ConversationFragment extends Fragment {
                 name = name.split(" ")[0];
                 Bar b = new Bar();
                 b.setColor(Util.colors[idx % Util.colors.length]);
-                b.setValue(msgCount.get(person).get() == 0 ? 0 : (float)charCount.get(person).get() / (float)msgCount.get(person).get());
+                if (msgCount.get(person) != null) b.setValue(msgCount.get(person).get() == 0 ? 0 : (float)charCount.get(person).get() / (float)msgCount.get(person).get());
+                else b.setValue(0);
                 b.setName(name);
                 cpmBars.add(b);
 
                 PieSlice slice = new PieSlice();
                 slice.setColor(Util.colors[idx % Util.colors.length]);
                 slice.setTitle(name);
-                slice.setValue(msgCount.get(person).get());
+                if (msgCount.get(person) != null) slice.setValue(msgCount.get(person).get());
+                else slice.setValue(0);
                 msgSlices.add(slice);
 
                 slice = new PieSlice();
                 slice.setColor(Util.colors[idx % Util.colors.length]);
                 slice.setTitle(name);
-                slice.setValue(charCount.get(person).get());
+                if (charCount.get(person) != null) slice.setValue(charCount.get(person).get());
+                else slice.setValue(0);
                 charSlices.add(slice);
                 ++idx;
             }
@@ -154,17 +156,20 @@ public class ConversationFragment extends Fragment {
             ret.add(charsPerMessage);
 
             CardBarChart mostActiveDow = new CardBarChart(CardItems.BAR.ordinal(), "Most active day of week");
-            int firstDow = Util.getFirstDayOfWeek();
+            int firstDow = Util.getJodaFirstDayOfWeek();
             ArrayList<Bar> dowBars = new ArrayList<Bar>();
+            DateTime tmp = new DateTime();
             for (int offset = 0; offset < 7; offset++) {
                 Bar b = new Bar();
-                b.setName(dowName[(firstDow + offset) % 7 + 1]);
+                b.setName(tmp.withDayOfWeek((firstDow - 1 + offset) % 7 + 1).dayOfWeek().getAsShortText());
                 b.setColor(Util.colors[offset % Util.colors.length]);
-                b.setValue(messagesPerDow[(firstDow + offset) % 7 + 1]);
+                b.setValue(messagesPerDow[(firstDow - 1 + offset) % 7 + 1]);
                 dowBars.add(b);
             }
             mostActiveDow.setBars(dowBars);
             ret.add(mostActiveDow);
+
+            ret.add(new CardLineChart(CardItems.LINE.ordinal(), "Most active time of day"));
 
             return ret;
         }

@@ -46,7 +46,7 @@ public class Util {
         return getAttributeDimension(context, context.getTheme(), resId);
     }
 
-    public static final int getFirstDayOfWeek() {
+    public static final int getJodaFirstDayOfWeek() {
         return ((Calendar.getInstance().getFirstDayOfWeek() + 5) % 7) + 1;
     }
 

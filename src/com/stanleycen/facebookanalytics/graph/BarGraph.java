@@ -134,7 +134,7 @@ public class BarGraph extends View {
             float barWidth = (getWidth() - (padding * 2) * getBars().size()) / getBars().size();
 
             for (Bar p : getBars()) {
-                maxValue += p.getValue();
+                maxValue = Math.max(maxValue, p.getValue());
             }
 
             r = new Rect();
@@ -159,7 +159,7 @@ public class BarGraph extends View {
                 this.p.setStyle(Paint.Style.FILL);
                 this.p.setStrokeWidth(0);
                 this.p.setColor(p.getColor());
-                this.p.setTextSize(20);
+                this.p.setTextSize(Util.dipToPixels(getContext(), 11));
                 canvas.drawText(p.getName(), (int) (((r.left + r.right) / 2) - (this.p.measureText(p.getName()) / 2)), getHeight() - 5, this.p);
                 if (showBarText) {
                     this.p.setTextSize(40);
@@ -177,7 +177,7 @@ public class BarGraph extends View {
             }
             shouldUpdate = false;
         }
-        
+
         ca.drawBitmap(fullImage, 0, 0, null);
 
     }

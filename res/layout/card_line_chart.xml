@@ -15,14 +15,18 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:textSize="32dp"
+        android:textSize="26dp"
         android:textColor="@color/card_header" />
-    <com.stanleycen.facebookanalytics.graph.PieGraph android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
+
+    <com.stanleycen.facebookanalytics.graph.LineGraph
+        android:id="@+id/linechart"
+        android:layout_height="250dp"
+        android:layout_width="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:id="@+id/pie"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/title" />
+
 </RelativeLayout>
