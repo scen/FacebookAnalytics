@@ -98,7 +98,7 @@ public class Util {
 
     public static View getSeparatingHeaderView(final Context context, final LayoutInflater inflater, final ListView list) {
         View header = inflater.inflate(R.layout.listview_header_for_transparent_action_bar, list, false);
-        header.setPadding(0, (int)Util.getAttributeDimension(context, android.R.attr.actionBarSize) - context.getResources().getDimensionPixelSize(R.dimen.half_card_sep_height), 0, 0);
+        header.setPadding(0, (int)Util.getAttributeDimension(context, android.R.attr.actionBarSize) - context.getResources().getDimensionPixelSize(R.dimen.card_sep_height), 0, 0);
         return header;
     }
 

@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -202,10 +203,11 @@ public class LineGraph extends View {
 //        canvas.drawText("1400 messages", getWidth() / 2, getHeight() / 2, ylabelPaint);
         paint.reset();
 
-        boolean drawLegend = false;//lines.size() > 1;
+        boolean drawLegend = lines.size() > 1;
 
         final float ylabelFontSpacing = ylabelPaint.getFontSpacing() + ylabelPaint.descent() + Util.dipToPixels(getContext(), 1);
         final float xaxislabelFontSpacing = xaxisLabelPaint.descent() - xaxisLabelPaint.ascent();// xaxisLabelPaint.getFontSpacing();
+        final float paddingYLabelFromGrid = Util.dipToPixels(getContext(), 2);
 
         final float legendSize = drawLegend ? Util.dipToPixels(getContext(), 20) : 0;
 
@@ -214,43 +216,80 @@ public class LineGraph extends View {
         final float rightPadding = 0;//Util.dipToPixels(getContext(), 10);
         final float topPadding = legendSize;
 
+        final float circleRadius = Util.dipToPixels(getContext(), 5);
+
 
         final float drawableHeight = getHeight() - bottomPadding - ylabelFontSpacing - legendSize;
-        final float drawableWidth = getWidth() - leftPadding - rightPadding;
+        final float drawableWidth = getWidth() - leftPadding - rightPadding - 1;
 
         final float xaxisY = getHeight() - bottomPadding;
-
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(2);
-        paint.setAlpha(80);
-        paint.setAntiAlias(true);
-
-        //bottom grid
-        canvas.drawLine(leftPadding, xaxisY, getWidth() - rightPadding, xaxisY, paint);
-
-
 
         // Render grids
         paint.setStrokeWidth(1);
         paint.setAlpha(50);
 
-        //left grid
-        canvas.drawLine(leftPadding, xaxisY, leftPadding, xaxisY - drawableHeight, paint);
+        for (int i = 0; i < getNumVerticalGrids(); i++) {
+            float xpos = leftPadding + ((float)(i) * drawableWidth / (float)(getNumVerticalGrids() - 1));
+            canvas.drawLine(xpos, xaxisY, xpos, xaxisY - drawableHeight, paint);
+            String txt = getXlabelFormatter().format(i, getNumVerticalGrids(), getMinX(), getMaxX());
+            if (i == 0) {
+                xaxisLabelPaint.setTextAlign(Paint.Align.LEFT);
+            }
+            else if (i == getNumVerticalGrids() - 1) {
+                xaxisLabelPaint.setTextAlign(Paint.Align.RIGHT);
+            }
+            else {
+                xaxisLabelPaint.setTextAlign(Paint.Align.CENTER);
+            }
+            if (txt != null) canvas.drawText(txt, xpos, xaxisY + (xaxislabelFontSpacing), xaxisLabelPaint);
+        }
 
         int totHorizontalLines = getNumHorizontalGrids();
         for (int i = 0; i < totHorizontalLines; i++) {
-            float ypos = xaxisY - ((float)(i + 1) * drawableHeight / (float)totHorizontalLines);
+            float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(totHorizontalLines - 1));
+            if (i == 0) {
+                paint.setColor(Color.BLACK);
+                paint.setStrokeWidth(2);
+                paint.setAlpha(80);
+                paint.setAntiAlias(true);
+            }
+            else {
+                paint.setStrokeWidth(1);
+                paint.setAlpha(50);
+            }
             canvas.drawLine(leftPadding, ypos, getWidth() - rightPadding, ypos, paint);
-            canvas.drawText(getYlabelFormatter().format(i, totHorizontalLines, getMinX(), getMaxX()), leftPadding, ypos - ylabelPaint.descent() - 1, ylabelPaint);
+            String txt = getYlabelFormatter().format(i, totHorizontalLines, getMinY(), getMaxY());
+            if (txt != null) canvas.drawText(txt, leftPadding + paddingYLabelFromGrid, ypos - ylabelPaint.descent() - 1, ylabelPaint);
         }
 
-        for (int i = 0; i < getNumVerticalGrids(); i++) {
-            float xpos = leftPadding + ((float)(i + 1) * drawableWidth / (float)getNumVerticalGrids());
-            canvas.drawLine(xpos, xaxisY, xpos, xaxisY - drawableHeight, paint);
-            if (i != getNumVerticalGrids() - 1) canvas.drawText(getXlabelFormatter().format(i, getNumVerticalGrids(), getMinY(), getMaxY()), xpos, xaxisY + (ylabelFontSpacing / 2), xaxisLabelPaint);
+        float maxY = getMaxY();
+        float minY = getMinY();
+        float maxX = getMaxX();
+        float minX = getMinX();
+
+        paint.setStrokeWidth(Util.dipToPixels(getContext(), 2));
+
+        for (Line line : lines) {
+            float oldx = 0, oldy = 0;
+            int cnt = 0;
+            int len = line.getPoints().size();
+
+            paint.setColor(line.getColor());
+
+            for (LinePoint lp : line.getPoints()) {
+                float xpos = leftPadding + ((lp.getX() - minX) / (maxX - minX)) * drawableWidth;
+                float ypos = xaxisY - ((lp.getY() - minY) / (maxY - minY)) * drawableHeight;
+                if (cnt > 0) {
+                    canvas.drawLine(oldx, oldy, xpos, ypos, paint);
+                }
+                if (cnt != 0 && cnt != len - 1 && line.isShowingPoints()) {
+                    canvas.drawCircle(xpos, ypos, circleRadius, paint);
+                }
+                oldx = xpos;
+                oldy = ypos;
+                ++cnt;
+            }
         }
-
-
 
         //to help with debugging formatting
 //        {

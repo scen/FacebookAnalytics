@@ -2,6 +2,7 @@ package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.stanleycen.facebookanalytics.graph.LineGraph;
 import com.stanleycen.facebookanalytics.graph.LinePoint;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by scen on 8/31/13.
@@ -51,24 +53,27 @@ public class CardLineChart implements CardItem {
 
 
         Line l = new Line();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 12; i++) {
             l.addPoint(new LinePoint(i, i));
         }
-        l.setColor(Color.parseColor("#FFBB33"));
+        l.setColor(Util.colors[0]);
 
         holder.lineChart.addLine(l);
-        holder.lineChart.setRangeY(0, 10);
-        holder.lineChart.setNumHorizontalGrids(2);
-        holder.lineChart.setNumVerticalGrids(2);
+        holder.lineChart.setRangeY(0, 12);
+        holder.lineChart.setNumHorizontalGrids(5);
+        holder.lineChart.setNumVerticalGrids(5);
         holder.lineChart.setYlabelFormatter(new LineGraph.LabelFormatter() {
             @Override
-            public String format(int cur, int tot) {
-                return "1400" + (cur == tot - 1 ? " messages" : "");
+            public String format(int cur, int tot, float min, float max) {
+                Log.w("s", ""+max);
+                Log.w("min", "min" + min);
+                return (int)((max-min)*((float)cur/(float)(tot-1))+min) + (cur == tot - 1 ? " messages" : "");
             }
         });
         holder.lineChart.setXlabelFormatter(new LineGraph.LabelFormatter() {
             @Override
-            public String format(int idx, int tot) {
+            public String format(int idx, int tot, float min, float max) {
+                if (idx == tot - 1) return null;
                 return "12 AM";
             }
         });
