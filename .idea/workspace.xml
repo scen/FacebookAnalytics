@@ -39,8 +39,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0587b34f-022d-4281-9661-16136cb9587b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/Line.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/Line.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBThread.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBThread.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/LineGraph.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/LineGraph.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java" afterPath="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FacebookAnalytics.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -147,10 +152,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LineGraph.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="LineGraph.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/LineGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="157" column="30" selection-start="4060" selection-end="4060" vertical-scroll-proportion="0.37974682" vertical-offset="2115" max-vertical-offset="6675">
+            <state line="177" column="0" selection-start="4508" selection-end="4508" vertical-scroll-proportion="0.0" vertical-offset="2490" max-vertical-offset="6690">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#687#693#0" expanded="true" />
@@ -159,105 +164,110 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CardLineChart.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="71" selection-start="2137" selection-end="2137" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1935">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CardTotal.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardTotal.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="13" selection-start="414" selection-end="414" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CardUpdate.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardUpdate.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="13" selection-start="546" selection-end="546" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2760">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Line.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/Line.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="0" selection-start="3135" selection-end="3135" vertical-scroll-proportion="0.0" vertical-offset="1393" max-vertical-offset="2025">
-              <folding>
-                <element signature="e#0#3336#0" expanded="true" />
-                <element signature="e#1117#1128#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConversationFragment.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ConversationFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="234" column="0" selection-start="9581" selection-end="9581" vertical-scroll-proportion="0.0" vertical-offset="2083" max-vertical-offset="5235">
+            <state line="469" column="88" selection-start="18872" selection-end="18872" vertical-scroll-proportion="0.7901431" vertical-offset="6403" max-vertical-offset="8070">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2626#2636#0" expanded="true" />
-                <element signature="e#3506#3516#0" expanded="true" />
-                <element signature="e#3580#3600#0" expanded="true" />
-                <element signature="e#3662#3682#0" expanded="true" />
-                <element signature="e#5742#5752#0" expanded="true" />
-                <element signature="e#5782#5792#0" expanded="true" />
-                <element signature="e#8452#8466#0" expanded="true" />
-                <element signature="e#8532#8546#0" expanded="true" />
-                <element signature="e#11399#11675#0" expanded="true" />
-                <element signature="e#11660#11661#0" expanded="true" />
-                <element signature="e#11721#12020#0" expanded="true" />
-                <element signature="e#12005#12006#0" expanded="true" />
-                <element signature="e#12068#12358#0" expanded="true" />
-                <element signature="e#12343#12344#0" expanded="true" />
-                <element signature="e#12406#12705#0" expanded="true" />
-                <element signature="e#12690#12691#0" expanded="true" />
-                <element signature="e#12765#12771#0" expanded="true" />
-                <element signature="e#12805#12811#0" expanded="true" />
+                <element signature="e#1546#1672#0" expanded="true" />
+                <element signature="e#1665#1666#0" expanded="true" />
+                <element signature="e#1710#1856#0" expanded="true" />
+                <element signature="e#1849#1850#0" expanded="true" />
+                <element signature="e#3797#3807#0" expanded="true" />
+                <element signature="e#4677#4687#0" expanded="true" />
+                <element signature="e#4751#4771#0" expanded="true" />
+                <element signature="e#4833#4853#0" expanded="true" />
+                <element signature="e#6966#6976#0" expanded="true" />
+                <element signature="e#7006#7016#0" expanded="true" />
+                <element signature="e#9676#9690#0" expanded="true" />
+                <element signature="e#9756#9770#0" expanded="true" />
+                <element signature="e#13630#13929#0" expanded="true" />
+                <element signature="e#13914#13915#0" expanded="true" />
+                <element signature="e#13989#13995#0" expanded="true" />
+                <element signature="e#14029#14035#0" expanded="true" />
+                <element signature="e#17279#17293#0" expanded="true" />
+                <element signature="e#17581#17601#0" expanded="true" />
+                <element signature="e#19433#19439#0" expanded="true" />
+                <element signature="e#20177#20452#0" expanded="true" />
+                <element signature="e#20441#20442#0" expanded="true" />
+                <element signature="e#20482#20679#0" expanded="true" />
+                <element signature="e#20668#20669#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReceiverProgressBarView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ReceiverProgressBarView.java">
+      <file leaf-file-name="FBThread.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="13" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="945">
+            <state line="10" column="3" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FBMessage.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBMessage.java">
+      <file leaf-file-name="DateTime.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/joda-time-2.3.jar!/org/joda/time/DateTime.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="21" selection-start="268" selection-end="268" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+            <state line="144" column="38" selection-start="6712" selection-end="6712" vertical-scroll-proportion="-8.4" vertical-offset="1935" max-vertical-offset="4230">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CardPieChart.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardPieChart.java">
+      <file leaf-file-name="card_line_chart_spinner.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/card_line_chart_spinner.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="0" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1140">
+            <state line="52" column="49" selection-start="1919" selection-end="1919" vertical-scroll-proportion="-7.962963" vertical-offset="135" max-vertical-offset="930">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CardBarChart.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardBarChart.java">
+      <file leaf-file-name="CardLineChartSpinner.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChartSpinner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="70" selection-start="1547" selection-end="1547" vertical-scroll-proportion="0.0" vertical-offset="403" max-vertical-offset="1140">
+            <state line="79" column="52" selection-start="2594" selection-end="2594" vertical-scroll-proportion="0.0" vertical-offset="721" max-vertical-offset="2415">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Util.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="13" selection-start="577" selection-end="577" vertical-scroll-proportion="39.576923" vertical-offset="1134" max-vertical-offset="1740">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="arrays.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/arrays.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="222" column="18" selection-start="7294" selection-end="7294" vertical-scroll-proportion="0.0" vertical-offset="2588" max-vertical-offset="5700">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CardConversation.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardConversation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="13" selection-start="414" selection-end="414" vertical-scroll-proportion="0.0" vertical-offset="253" max-vertical-offset="1080">
               <folding />
             </state>
           </provider>
@@ -281,28 +291,28 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/values/attrs.xml" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ValueLabelAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/widget/ChartView.java" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/LineGraphOld.java" />
-        <option value="$PROJECT_DIR$/res/layout/card_line_chart.xml" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java" />
-        <option value="$PROJECT_DIR$/res/layout/card_pie_chart.xml" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataDownloaderService.java" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/PieGraph.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/BarGraph.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardBarChart.java" />
-        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardPieChart.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/Line.java" />
+        <option value="$PROJECT_DIR$/res/layout/card_line_chart.xml" />
+        <option value="$PROJECT_DIR$/res/values/arrays.xml" />
+        <option value="$PROJECT_DIR$/res/layout/card_line_chart_spinner.xml" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart2.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java" />
         <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/LineGraph.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChartSpinner.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBThread.java" />
+        <option value="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="82" />
-    <option name="y" value="41" />
+    <option name="x" value="53" />
+    <option name="y" value="49" />
     <option name="width" value="1782" />
     <option name="height" value="1090" />
   </component>
@@ -588,13 +598,13 @@
     <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.stanleycen.facebookanalytics" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/res/drawable-xhdpi" />
       <recent name="$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph" />
       <recent name="$PROJECT_DIR$/res/layout" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.stanleycen.facebookanalytics" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/res/layout" />
@@ -602,6 +612,9 @@
       <recent name="$PROJECT_DIR$/res/drawable-mdpi" />
       <recent name="$PROJECT_DIR$/res/drawable-hdpi" />
       <recent name="$PROJECT_DIR$/res/drawable" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.stanleycen.facebookanalytics" />
     </key>
   </component>
   <component name="RunManager" selected="Android Application.FacebookAnalytics">
@@ -761,7 +774,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="82" y="41" width="1782" height="1090" extended-state="0" />
+    <frame x="53" y="49" width="1782" height="1090" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -776,13 +789,13 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3396985" sideWeight="0.4997183" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33668342" sideWeight="0.6453423" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3396985" sideWeight="0.4997183" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33668342" sideWeight="0.6453423" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1627385" sideWeight="0.66633165" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17227834" sideWeight="0.6633166" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17227834" sideWeight="0.6603015" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14271356" sideWeight="0.4997183" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
@@ -830,26 +843,61 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/DataDownloaderService.java">
+    <entry file="jar:///Android/sdk/platforms/android-18/android.jar!/android/widget/Spinner.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="49" selection-start="7563" selection-end="7564" vertical-scroll-proportion="0.0" vertical-offset="1815" max-vertical-offset="5325">
+        <state line="73" column="0" selection-start="3114" selection-end="3114" vertical-scroll-proportion="0.0" vertical-offset="538" max-vertical-offset="1170">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_conversation.xml">
+    <entry file="jar:///Android/sdk/platforms/android-18/android.jar!/android/widget/AbsSpinner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="0" selection-start="1769" selection-end="1769" vertical-scroll-proportion="0.0" vertical-offset="43" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Android/sdk/platforms/android-18/android.jar!/android/widget/ArrayAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="0" selection-start="2526" selection-end="2526" vertical-scroll-proportion="0.0" vertical-offset="283" max-vertical-offset="915">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/card_line_chart.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="17" selection-start="568" selection-end="568" vertical-scroll-proportion="-9.444445" vertical-offset="0" max-vertical-offset="345">
+        <state line="2" column="0" selection-start="40" selection-end="1123" vertical-scroll-proportion="-1.1111112" vertical-offset="0" max-vertical-offset="555">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardAdapter.java">
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1335">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="26" selection-start="1857" selection-end="1857" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1935">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="222" column="18" selection-start="7294" selection-end="7294" vertical-scroll-proportion="0.0" vertical-offset="2588" max-vertical-offset="5700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/arrays.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
           <folding />
         </state>
       </provider>
@@ -861,115 +909,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBMessage.java">
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/Util.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="21" selection-start="268" selection-end="268" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+        <state line="22" column="13" selection-start="577" selection-end="577" vertical-scroll-proportion="39.576923" vertical-offset="1134" max-vertical-offset="1740">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/LineGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="177" column="0" selection-start="4508" selection-end="4508" vertical-scroll-proportion="0.0" vertical-offset="2490" max-vertical-offset="6690">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#687#693#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/card_line_chart_spinner.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="49" selection-start="1919" selection-end="1919" vertical-scroll-proportion="-7.962963" vertical-offset="135" max-vertical-offset="930">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/joda-time-2.3.jar!/org/joda/time/DateTime.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="144" column="38" selection-start="6712" selection-end="6712" vertical-scroll-proportion="-8.4" vertical-offset="1935" max-vertical-offset="4230">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/FBThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="3" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChartSpinner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="52" selection-start="2594" selection-end="2594" vertical-scroll-proportion="0.0" vertical-offset="721" max-vertical-offset="2415">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ConversationFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="234" column="0" selection-start="9581" selection-end="9581" vertical-scroll-proportion="0.0" vertical-offset="2083" max-vertical-offset="5235">
+        <state line="469" column="88" selection-start="18872" selection-end="18872" vertical-scroll-proportion="0.7901431" vertical-offset="6403" max-vertical-offset="8070">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2626#2636#0" expanded="true" />
-            <element signature="e#3506#3516#0" expanded="true" />
-            <element signature="e#3580#3600#0" expanded="true" />
-            <element signature="e#3662#3682#0" expanded="true" />
-            <element signature="e#5742#5752#0" expanded="true" />
-            <element signature="e#5782#5792#0" expanded="true" />
-            <element signature="e#8452#8466#0" expanded="true" />
-            <element signature="e#8532#8546#0" expanded="true" />
-            <element signature="e#11399#11675#0" expanded="true" />
-            <element signature="e#11660#11661#0" expanded="true" />
-            <element signature="e#11721#12020#0" expanded="true" />
-            <element signature="e#12005#12006#0" expanded="true" />
-            <element signature="e#12068#12358#0" expanded="true" />
-            <element signature="e#12343#12344#0" expanded="true" />
-            <element signature="e#12406#12705#0" expanded="true" />
-            <element signature="e#12690#12691#0" expanded="true" />
-            <element signature="e#12765#12771#0" expanded="true" />
-            <element signature="e#12805#12811#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/ReceiverProgressBarView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="945">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/BarGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="18" selection-start="6586" selection-end="6586" vertical-scroll-proportion="0.0" vertical-offset="2175" max-vertical-offset="3330">
-          <folding>
-            <element signature="e#0#7445#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/PieGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="19" selection-start="6821" selection-end="6821" vertical-scroll-proportion="0.56363636" vertical-offset="1635" max-vertical-offset="3255">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardBarChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="70" selection-start="1547" selection-end="1547" vertical-scroll-proportion="0.0" vertical-offset="403" max-vertical-offset="1140">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardLineChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="71" selection-start="2137" selection-end="2137" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1935">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardUpdate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="546" selection-end="546" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2760">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardTotal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="13" selection-start="414" selection-end="414" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/CardPieChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1140">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/Line.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="0" selection-start="3135" selection-end="3135" vertical-scroll-proportion="0.0" vertical-offset="1393" max-vertical-offset="2025">
-          <folding>
-            <element signature="e#0#3336#0" expanded="true" />
-            <element signature="e#1117#1128#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stanleycen/facebookanalytics/graph/LineGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="30" selection-start="4060" selection-end="4060" vertical-scroll-proportion="0.37974682" vertical-offset="2115" max-vertical-offset="6675">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#687#693#0" expanded="true" />
+            <element signature="e#1546#1672#0" expanded="true" />
+            <element signature="e#1665#1666#0" expanded="true" />
+            <element signature="e#1710#1856#0" expanded="true" />
+            <element signature="e#1849#1850#0" expanded="true" />
+            <element signature="e#3797#3807#0" expanded="true" />
+            <element signature="e#4677#4687#0" expanded="true" />
+            <element signature="e#4751#4771#0" expanded="true" />
+            <element signature="e#4833#4853#0" expanded="true" />
+            <element signature="e#6966#6976#0" expanded="true" />
+            <element signature="e#7006#7016#0" expanded="true" />
+            <element signature="e#9676#9690#0" expanded="true" />
+            <element signature="e#9756#9770#0" expanded="true" />
+            <element signature="e#13630#13929#0" expanded="true" />
+            <element signature="e#13914#13915#0" expanded="true" />
+            <element signature="e#13989#13995#0" expanded="true" />
+            <element signature="e#14029#14035#0" expanded="true" />
+            <element signature="e#17279#17293#0" expanded="true" />
+            <element signature="e#17581#17601#0" expanded="true" />
+            <element signature="e#19433#19439#0" expanded="true" />
+            <element signature="e#20177#20452#0" expanded="true" />
+            <element signature="e#20441#20442#0" expanded="true" />
+            <element signature="e#20482#20679#0" expanded="true" />
+            <element signature="e#20668#20669#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,8 +1,10 @@
 package com.stanleycen.facebookanalytics;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -22,6 +24,10 @@ import com.stanleycen.facebookanalytics.graph.LinePoint;
 import com.stanleycen.facebookanalytics.graph.PieSlice;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -31,13 +37,30 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by scen on 8/30/13.
  */
 public class ConversationFragment extends Fragment {
     public FBThread fbThread;
+    SpinnerClickReceiver receiver;
     CardAdapter ca;
+    ListView list;
+
+    AggregateCounter msgCounter = new AggregateCounter() {
+        @Override
+        public int count(FBMessage message) {
+            return 1;
+        }
+    };
+
+    AggregateCounter charCounter = new AggregateCounter() {
+        @Override
+        public int count(FBMessage message) {
+            return message.body.length();
+        }
+    };
 
     public enum CardItems {
         TOTAL,
@@ -48,13 +71,27 @@ public class ConversationFragment extends Fragment {
         BAR_DOW,
         BAR_CPM,
         LINE_DAY,
-        LINE_NIGHT
+        LINE_NIGHT,
+        HISTORY_MSG,
+        HISTORY_CHAR
     };
+
+    public ConversationFragment() {
+        Log.w("Created", "receiver");
+        receiver = new SpinnerClickReceiver();
+    }
 
     public static Fragment newInstance(Context context, FBThread fbThread) {
         ConversationFragment f = new ConversationFragment();
         f.fbThread = fbThread;
         return f;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.w("s", "onPause");
+            getActivity().unregisterReceiver(receiver);
     }
 
     @Override
@@ -64,6 +101,10 @@ public class ConversationFragment extends Fragment {
         getActivity().getActionBar().setSubtitle("" + DateUtils.getRelativeTimeSpanString(fbThread.lastUpdate.getMillis(),
                 DateTime.now().getMillis(), DateUtils.MINUTE_IN_MILLIS, 0));
         ((MainActivity)getActivity()).unselectAllFromNav();
+
+        IntentFilter filter = new IntentFilter("com.stanleycen.facebookanalytics.spinner.group");
+        filter.addCategory("android.intent.category.DEFAULT");
+        getActivity().registerReceiver(receiver, filter);
     }
 
     @Override
@@ -76,7 +117,7 @@ public class ConversationFragment extends Fragment {
 
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_conversation, null);
 
-        ListView list = (ListView)root.findViewById(R.id.listView);
+        list = (ListView)root.findViewById(R.id.listView);
         Util.addSeparatingHeaderView(getActivity(), inflater, list);
 
 
@@ -107,6 +148,9 @@ public class ConversationFragment extends Fragment {
 
             Map<FBUser, MutableInt> charCount = new HashMap<FBUser, MutableInt>();
             Map<FBUser, MutableInt> msgCount = new HashMap<FBUser, MutableInt>();
+
+            fbThread.msgCount = (HashMap)msgCount;
+
             Map<FBUser, int[]> userMsgsPerHour = new HashMap<FBUser, int[]>();
 
             int[] messagesPerDow = new int[8];
@@ -314,6 +358,14 @@ public class ConversationFragment extends Fragment {
             ret.add(daytimeActivity);
             ret.add(nighttimeActivity);
 
+            CardLineChartSpinner msghistory = new CardLineChartSpinner(CardItems.HISTORY_MSG.ordinal(), "Message history over time");
+            loadHistory(msghistory, 0, msgCounter, " messages");
+            ret.add(msghistory);
+
+//            CardLineChart charhistory = new CardLineChart(CardItems.HISTORY_CHAR.ordinal(), "Character history over time");
+//
+//            ret.add(charhistory);
+
 
             CardPieChart sentFromCard = new CardPieChart(CardItems.PIE_SENTFROM.ordinal(), "Devices sent from");
             PieSlice webSlice = new PieSlice();
@@ -331,6 +383,7 @@ public class ConversationFragment extends Fragment {
             sentFromCard.setSlices(new ArrayList<PieSlice>(Arrays.asList(webSlice, mobileSlice)));
             ret.add(sentFromCard);
 
+
             return ret;
         }
 
@@ -339,5 +392,150 @@ public class ConversationFragment extends Fragment {
             ca.clear();
             ca.addAll(result);
         }
+    }
+
+    DateTime getBucketEndpoint(DateTime start, int bucketSize) {
+        switch (bucketSize) {
+            case 0:
+                return start.plusDays(1);
+            case 1:
+                return start.plusWeeks(1);
+            case 2:
+                return start.plusMonths(1);
+            case 3:
+                return start.plusYears(1);
+            default:
+                Log.w("loadHistory", "unknown bucketSize");
+        }
+        return start;
+    }
+
+    void loadHistory(CardLineChartSpinner card, int bucketSize, AggregateCounter counter, final String suffix) {
+        /*
+            0=day
+            1=week
+            2=month
+            3=year
+         */
+        if (fbThread.messages.isEmpty()) return;
+        DateTime startDate = fbThread.messages.get(0).timestamp.withTimeAtStartOfDay();
+        DateTime bucketEndpoint = getBucketEndpoint(startDate, bucketSize);
+        Interval curBucket = new Interval(startDate, bucketEndpoint);
+        DateTime endDate = DateTime.now().withTimeAtStartOfDay();
+
+        Line totalLine = new Line();
+        Map<FBUser, Line> userLines = new HashMap<FBUser, Line>();
+        for (FBUser user : fbThread.participants) {
+            if (fbThread.msgCount.get(user) != null) userLines.put(user, new Line());
+        }
+
+        int msgIndex = 0;
+        int size = fbThread.messages.size();
+        Map<FBUser, MutableInt> curBucketUserCount = new HashMap<FBUser, MutableInt>();
+
+        int idx = 0;
+        int accum = 0;
+        int maxval = 0;
+
+        while (true) {
+            if (msgIndex >= size) break;
+
+            int curBucketTotal = 0;
+            curBucketUserCount.clear();
+
+            for (; msgIndex < size;) {
+                FBMessage msg = fbThread.messages.get(msgIndex);
+                DateTime normalized = msg.timestamp.withTimeAtStartOfDay();
+                if (curBucket.contains(normalized)) {
+                    int cnt = counter.count(msg);
+                    curBucketTotal += cnt;
+                    MutableInt i = curBucketUserCount.get(msg.from);
+                    if (i == null) {
+                        curBucketUserCount.put(msg.from, new MutableInt(cnt));
+                    }
+                    else {
+                        i.add(cnt);
+                    }
+
+                    msgIndex++;
+                }
+                else {
+                    break;
+                }
+            }
+
+            totalLine.addPoint(new LinePoint(idx, curBucketTotal));
+            for (Map.Entry<FBUser, Line> entry : userLines.entrySet()) {
+                MutableInt val = curBucketUserCount.get(entry.getKey());
+                entry.getValue().addPoint(new LinePoint(idx, val == null ? 0 : val.get()));
+            }
+            accum += curBucketTotal;
+            maxval = Math.max(maxval, curBucketTotal);
+//            Log.v("dbg", "idx = " + idx + " tot = " + curBucketTotal + " accum = " + accum);
+            idx++;
+            startDate = bucketEndpoint;
+            bucketEndpoint = getBucketEndpoint(startDate, bucketSize);
+            curBucket = new Interval(startDate, bucketEndpoint);
+            if (startDate.isAfter(endDate)) break;
+        }
+
+        boolean showPoints = false;
+
+        idx = 0;
+        ArrayList<Line> lines = new ArrayList<Line>();
+        for (Map.Entry<FBUser, Line> entry : userLines.entrySet()) {
+            Line l = entry.getValue();
+            String name = entry.getKey() == GlobalApp.get().fb.fbData.me ? "You" : entry.getKey().name;
+            name = name.split(" ")[0];
+            l.setColor(Util.colors[idx % Util.colors.length]);
+            l.setName(name);
+            l.setShowingPoints(false);
+            lines.add(l);
+            idx++;
+        }
+        totalLine.setColor(Util.colors[idx % Util.colors.length]);
+        totalLine.setName("Total");
+        totalLine.setShowingPoints(false);
+        lines.add(totalLine);
+        card.setLines(lines);
+        card.setRangeY(0, Util.roundUpNiceDiv4((float)maxval));
+        card.setyFormatter(new LineGraph.LabelFormatter() {
+            @Override
+            public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                return (int)((max - min)*((float)idx/(float)(tot - 1))+min) + (idx==tot-1? suffix : "");
+            }
+        });
+        card.setxFormatter(new LineGraph.LabelFormatter() {
+            @Override
+            public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                return "";
+            }
+        });
+    }
+
+    class SpinnerClickReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String title = intent.getStringExtra("title");
+            int value = intent.getIntExtra("value", 0);
+//            ca.remove(5);
+            if (title.equals("Message history over time")) {
+                int size = ca.getCount();
+                int idx = 0;
+                for (idx = 0; idx < size; idx++) {
+                    if (ca.getItem(idx) instanceof CardLineChartSpinner && ((CardLineChartSpinner) ca.getItem(idx)).title.equals("Message history over time")) {
+                        CardLineChartSpinner card = ((CardLineChartSpinner) ca.getItem(idx));
+                        loadHistory(card, value, msgCounter, " messages");
+                        card.refreshLineChart();
+                        break;
+                    }
+                }
+
+            }
+        }
+    }
+
+    private abstract interface AggregateCounter {
+        public abstract int count(FBMessage message);
     }
 }

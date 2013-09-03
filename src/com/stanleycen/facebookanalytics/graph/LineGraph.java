@@ -174,6 +174,7 @@ public class LineGraph extends View {
     }
 
     public void onDraw(Canvas ca) {
+        Log.w("draw", "onDraw");
         if (!shouldCacheToBitmap) {
             drawToCanvas(ca);
             return;
@@ -196,9 +197,9 @@ public class LineGraph extends View {
     }
 
     private void drawToCanvas(Canvas canvas) {
+        if (lines == null || lines.size() == 0) return;
 //        canvas.drawText("1400 messages", getWidth() / 2, getHeight() / 2, ylabelPaint);
         paint.reset();
-
         boolean drawLegend = lines.size() > 1;
 
         final float ylabelFontSpacing = ylabelPaint.getFontSpacing() + ylabelPaint.descent() + Util.dipToPixels(getContext(), 1);

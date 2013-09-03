@@ -28,6 +28,7 @@ public class Util {
     private static final DecimalFormat decimalFormat = new DecimalFormat();
 
     public static int[] colors = null;
+    public static String[] buckets = null;
 
     public static String getDate(DateTime dt) {
         return dateFormatter.print(dt);

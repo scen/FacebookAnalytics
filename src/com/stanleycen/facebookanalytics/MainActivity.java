@@ -226,6 +226,7 @@ public class MainActivity extends Activity {
 
             Util.colors = getResources().getIntArray(R.array.colors);
             Log.v(TAG, "Loaded colors: " + Util.colors.length);
+            Util.buckets = getResources().getStringArray(R.array.bucket_sizes);
 
 			return null;
 		}
@@ -362,7 +363,7 @@ public class MainActivity extends Activity {
     }
 
     public void loadFragmentNoBackstack(Fragment f) {
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
     }
 
     public void reloadPosition(int position) {

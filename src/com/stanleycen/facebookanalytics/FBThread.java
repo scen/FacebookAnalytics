@@ -3,6 +3,7 @@ package com.stanleycen.facebookanalytics;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -21,4 +22,5 @@ public class FBThread {
     // Statistics computed post-load
     public int charCount;
     FBUser other;
+    HashMap<FBUser, MutableInt> msgCount;
 }
