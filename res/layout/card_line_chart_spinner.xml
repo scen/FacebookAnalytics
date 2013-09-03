@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/card_bg"
+    android:paddingBottom="@dimen/card_default_padding"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:fontFamily="sans-serif-thin"
+        android:id="@+id/title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:textSize="26dp"
+        android:textColor="@color/card_header" />
+
+
+    <com.stanleycen.facebookanalytics.graph.LineGraph
+        android:id="@+id/linechart"
+        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/title" />
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/linechart"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/card_default_padding"
+        android:paddingLeft="@dimen/card_default_padding"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group data by"
+            android:id="@+id/textView"
+            android:fontFamily="sans-serif-light"
+            android:layout_gravity="center_vertical" />
+
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:entries="@array/bucket_sizes"
+            android:layout_weight="1.0" />
+    </LinearLayout>
+
+</RelativeLayout>
