@@ -68,6 +68,7 @@ public class CardLineChartSpinner implements CardItem {
         refreshLineChart();
 
         holder.title.setText(this.title);
+        holder.spinner.setSelection(1); // week
 
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -104,7 +105,12 @@ public class CardLineChartSpinner implements CardItem {
         if (minY != Float.MAX_VALUE) {
             holder.lineChart.setRangeY(minY, maxY);
         }
-        holder.lineChart.invalidate();
+    }
+
+    public void invalidateChart() {
+        if (holder != null && holder.lineChart != null) {
+            holder.lineChart.invalidate();
+        }
     }
 
     public ArrayList<Line> getLines() {
@@ -160,7 +166,7 @@ public class CardLineChartSpinner implements CardItem {
         this.shouldCacheToBitmap = shouldCacheToBitmap;
     }
 
-    private class CardLineChartHolder {
+    public class CardLineChartHolder {
         TextView title;
         LineGraph lineChart;
         Spinner spinner;

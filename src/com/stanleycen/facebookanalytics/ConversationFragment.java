@@ -359,12 +359,12 @@ public class ConversationFragment extends Fragment {
             ret.add(nighttimeActivity);
 
             CardLineChartSpinner msghistory = new CardLineChartSpinner(CardItems.HISTORY_MSG.ordinal(), "Message history over time");
-            loadHistory(msghistory, 0, msgCounter, " messages");
+            loadHistory(msghistory, 1, msgCounter, " messages");
             ret.add(msghistory);
 
-//            CardLineChart charhistory = new CardLineChart(CardItems.HISTORY_CHAR.ordinal(), "Character history over time");
-//
-//            ret.add(charhistory);
+            CardLineChartSpinner charhistory = new CardLineChartSpinner(CardItems.HISTORY_CHAR.ordinal(), "Character history over time");
+            loadHistory(charhistory, 1, charCounter, " characters");
+            ret.add(charhistory);
 
 
             CardPieChart sentFromCard = new CardPieChart(CardItems.PIE_SENTFROM.ordinal(), "Devices sent from");
@@ -409,6 +409,7 @@ public class ConversationFragment extends Fragment {
         }
         return start;
     }
+
 
     void loadHistory(CardLineChartSpinner card, int bucketSize, AggregateCounter counter, final String suffix) {
         /*
@@ -479,7 +480,7 @@ public class ConversationFragment extends Fragment {
             if (startDate.isAfter(endDate)) break;
         }
 
-        boolean showPoints = false;
+        boolean showPoints = totalLine.getPoints().size() <= 30;
 
         idx = 0;
         ArrayList<Line> lines = new ArrayList<Line>();
@@ -489,15 +490,16 @@ public class ConversationFragment extends Fragment {
             name = name.split(" ")[0];
             l.setColor(Util.colors[idx % Util.colors.length]);
             l.setName(name);
-            l.setShowingPoints(false);
+            l.setShowingPoints(showPoints);
             lines.add(l);
             idx++;
         }
         totalLine.setColor(Util.colors[idx % Util.colors.length]);
         totalLine.setName("Total");
-        totalLine.setShowingPoints(false);
+        totalLine.setShowingPoints(showPoints);
         lines.add(totalLine);
         card.setLines(lines);
+        card.setShouldCacheToBitmap(true);
         card.setRangeY(0, Util.roundUpNiceDiv4((float)maxval));
         card.setyFormatter(new LineGraph.LabelFormatter() {
             @Override
@@ -505,13 +507,54 @@ public class ConversationFragment extends Fragment {
                 return (int)((max - min)*((float)idx/(float)(tot - 1))+min) + (idx==tot-1? suffix : "");
             }
         });
-        card.setxFormatter(new LineGraph.LabelFormatter() {
-            @Override
-            public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                return "";
-            }
-        });
+
+        final DateTime s = fbThread.messages.get(0).timestamp.withTimeAtStartOfDay();
+        switch(bucketSize) {
+            case 0:
+                card.setxFormatter(new LineGraph.LabelFormatter() {
+                    @Override
+                    public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                        if (idx == 0) return initialDayFormatter.print(s.plusDays(idx*ptsPerDelta));
+                        else
+                            return dayFormatter.print(s.plusDays(idx*ptsPerDelta));
+                    }
+                });
+                break;
+            case 1:
+                card.setxFormatter(new LineGraph.LabelFormatter() {
+                    @Override
+                    public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                        if (idx == 0) return initialDayFormatter.print(s.plusWeeks(idx * ptsPerDelta));
+                        else
+                            return dayFormatter.print(s.plusWeeks(idx * ptsPerDelta));
+                    }
+                });
+                break;
+            case 2:
+                card.setxFormatter(new LineGraph.LabelFormatter() {
+                    @Override
+                    public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                        if (idx == 0) return initialMonthFormatter.print(s.plusMonths(idx*ptsPerDelta));
+                        else return monthFormatter.print(s.plusMonths(idx*ptsPerDelta));
+                    }
+                });
+                break;
+            case 3:
+                card.setxFormatter(new LineGraph.LabelFormatter() {
+                    @Override
+                    public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
+                        return yearFormatter.print(s.plusYears(idx*ptsPerDelta));
+                    }
+                });
+                break;
+        }
     }
+
+    DateTimeFormatter initialDayFormatter = DateTimeFormat.forPattern("MMM d ''yy");
+    DateTimeFormatter dayFormatter = DateTimeFormat.forPattern("MMM d");
+    DateTimeFormatter initialMonthFormatter = DateTimeFormat.forPattern("MMM ''yy");
+    DateTimeFormatter monthFormatter = DateTimeFormat.forPattern("MMM");
+    DateTimeFormatter yearFormatter = DateTimeFormat.forPattern("yyyy");
 
     class SpinnerClickReceiver extends BroadcastReceiver {
         @Override
@@ -527,6 +570,21 @@ public class ConversationFragment extends Fragment {
                         CardLineChartSpinner card = ((CardLineChartSpinner) ca.getItem(idx));
                         loadHistory(card, value, msgCounter, " messages");
                         card.refreshLineChart();
+                        card.invalidateChart();
+                        break;
+                    }
+                }
+
+            }
+            if (title.equals("Character history over time")) {
+                int size = ca.getCount();
+                int idx = 0;
+                for (idx = 0; idx < size; idx++) {
+                    if (ca.getItem(idx) instanceof CardLineChartSpinner && ((CardLineChartSpinner) ca.getItem(idx)).title.equals("Character history over time")) {
+                        CardLineChartSpinner card = ((CardLineChartSpinner) ca.getItem(idx));
+                        loadHistory(card, value, charCounter, " characters");
+                        card.refreshLineChart();
+                        card.invalidateChart();
                         break;
                     }
                 }

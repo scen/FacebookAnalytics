@@ -33,7 +33,7 @@ public class LineGraph extends View {
     private boolean isMaxYUserSet = false;
     private int lineToFill = -1;
     private OnPointClickedListener listener;
-    private Bitmap fullImage;
+    public Bitmap fullImage;
     private boolean shouldUpdate = false;
     private LabelFormatter xlabelFormatter;
     private LabelFormatter ylabelFormatter;
@@ -174,7 +174,6 @@ public class LineGraph extends View {
     }
 
     public void onDraw(Canvas ca) {
-        Log.w("draw", "onDraw");
         if (!shouldCacheToBitmap) {
             drawToCanvas(ca);
             return;
@@ -187,8 +186,12 @@ public class LineGraph extends View {
             Canvas canvas = new Canvas(fullImage);
 
             drawToCanvas(canvas);
+            Log.w("k", "caching");
 
             shouldUpdate = false;
+        }
+        else {
+            Log.w("k", "Drawn from cache");
         }
 
         ca.drawBitmap(fullImage, 0, 0, null);
@@ -208,7 +211,7 @@ public class LineGraph extends View {
 
         final float legendSize = drawLegend ? Util.dipToPixels(getContext(), 20) : 0;
 
-        final float bottomPadding = xaxislabelFontSpacing + Util.dipToPixels(getContext(), 2);
+        final float bottomPadding = xaxislabelFontSpacing + Util.dipToPixels(getContext(), 3);
         final float leftPadding = 0;//Util.dipToPixels(getContext(), 10);
         final float rightPadding = 0;//Util.dipToPixels(getContext(), 10);
         final float topPadding = legendSize;
@@ -392,6 +395,16 @@ public class LineGraph extends View {
 
     public LabelFormatter getXlabelFormatter() {
         return xlabelFormatter;
+    }
+
+    @Override
+    public void invalidate() {
+        if (fullImage != null) {
+            fullImage.recycle();
+            fullImage = null;
+            shouldUpdate = true;
+        }
+        super.invalidate();
     }
 
     public void setXlabelFormatter(LabelFormatter xlabelFormatter) {
