@@ -1,15 +1,12 @@
 package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stanleycen.facebookanalytics.graph.PieGraph;
 import com.stanleycen.facebookanalytics.graph.PieSlice;
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.util.ArrayList;
 
@@ -25,6 +22,7 @@ public class CardPieChart implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardPieChart(int viewType, String title) {
         this.viewType = viewType;
         this.title = title;
@@ -42,14 +40,13 @@ public class CardPieChart implements CardItem {
         CardPieChartHolder holder = new CardPieChartHolder();
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_pie_chart, null);
+            v = (View) inflater.inflate(R.layout.card_pie_chart, null);
 
-            holder.title = (TextView)v.findViewById(R.id.title);
-            holder.pieChart = (PieGraph)v.findViewById(R.id.pie);
+            holder.title = (TextView) v.findViewById(R.id.title);
+            holder.pieChart = (PieGraph) v.findViewById(R.id.pie);
             v.setTag(holder);
-        }
-        else {
-            holder = (CardPieChartHolder)v.getTag();
+        } else {
+            holder = (CardPieChartHolder) v.getTag();
         }
 
         holder.title.setText(this.title);

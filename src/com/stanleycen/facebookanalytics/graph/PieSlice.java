@@ -25,7 +25,6 @@ package com.stanleycen.facebookanalytics.graph;
 
 import android.graphics.Color;
 import android.graphics.Path;
-import android.graphics.Region;
 
 public class PieSlice {
 

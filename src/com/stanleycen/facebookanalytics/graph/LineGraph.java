@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.stanleycen.facebookanalytics.R;
 import com.stanleycen.facebookanalytics.Typefaces;
 import com.stanleycen.facebookanalytics.Util;
 
@@ -62,7 +61,6 @@ public class LineGraph extends View {
         xaxisLabelPaint.setAlpha(200);
         xaxisLabelPaint.setTextAlign(Paint.Align.CENTER);
     }
-
 
 
     public void setTextColor(int color) {
@@ -189,8 +187,7 @@ public class LineGraph extends View {
             Log.w("k", "caching");
 
             shouldUpdate = false;
-        }
-        else {
+        } else {
             Log.w("k", "Drawn from cache");
         }
 
@@ -241,23 +238,20 @@ public class LineGraph extends View {
 
 
         for (int i = 0; i < getNumVerticalGrids(); i++) {
-            float vxpos = leftPadding + (float)i * ((float)ptDeltaPerLine * (drawableWidth / (float)(dataCount - 1)));
+            float vxpos = leftPadding + (float) i * ((float) ptDeltaPerLine * (drawableWidth / (float) (dataCount - 1)));
             if (i != 0) canvas.drawLine(vxpos, xaxisY, vxpos, xaxisY - drawableHeight, paint);
-            String txt = getXlabelFormatter().format(i, getNumVerticalGrids(), getMinX(), getMaxX(),ptDeltaPerLine);
+            String txt = getXlabelFormatter().format(i, getNumVerticalGrids(), getMinX(), getMaxX(), ptDeltaPerLine);
             if (txt != null) {
                 if (i == 0) {
                     xaxisLabelPaint.setTextAlign(Paint.Align.LEFT);
-                }
-                else if (i == getNumVerticalGrids() - 1) {
+                } else if (i == getNumVerticalGrids() - 1) {
                     float width = xaxisLabelPaint.measureText(txt);
                     if (vxpos + (width / 2) > leftPadding + drawableWidth - 1) {
                         xaxisLabelPaint.setTextAlign(Paint.Align.RIGHT);
                         vxpos = leftPadding + drawableWidth - 1;
-                    }
-                    else
+                    } else
                         xaxisLabelPaint.setTextAlign(Paint.Align.CENTER);
-                }
-                else {
+                } else {
                     xaxisLabelPaint.setTextAlign(Paint.Align.CENTER);
                 }
                 canvas.drawText(txt, vxpos, xaxisY + (xaxislabelFontSpacing), xaxisLabelPaint);
@@ -265,7 +259,7 @@ public class LineGraph extends View {
         }
 
         for (int i = 1; i < getNumHorizontalGrids(); i++) {
-            float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(getNumHorizontalGrids() - 1));
+            float ypos = xaxisY - ((float) (i) * drawableHeight / (float) (getNumHorizontalGrids() - 1));
 
             paint.setStrokeWidth(1);
             paint.setAlpha(50);
@@ -333,7 +327,7 @@ public class LineGraph extends View {
 //        }
 
         for (int i = 0; i < getNumHorizontalGrids(); i++) {
-            float ypos = xaxisY - ((float)(i) * drawableHeight / (float)(getNumHorizontalGrids() - 1));
+            float ypos = xaxisY - ((float) (i) * drawableHeight / (float) (getNumHorizontalGrids() - 1));
             String txt = getYlabelFormatter().format(i, getNumHorizontalGrids(), getMinY(), getMaxY(), ptDeltaPerLine);
             if (i == 0) {
                 paint.setColor(Color.BLACK);
@@ -342,7 +336,8 @@ public class LineGraph extends View {
                 paint.setAntiAlias(true);
                 canvas.drawLine(leftPadding, ypos, getWidth() - rightPadding, ypos, paint);
             }
-            if (txt != null) canvas.drawText(txt, leftPadding, ypos - ylabelPaint.descent() - 1, ylabelPaint);
+            if (txt != null)
+                canvas.drawText(txt, leftPadding, ypos - ylabelPaint.descent() - 1, ylabelPaint);
         }
     }
 

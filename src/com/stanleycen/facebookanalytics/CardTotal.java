@@ -1,16 +1,12 @@
 package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-
-import org.joda.time.DateTime;
 
 /**
  * Created by scen on 8/30/13.
@@ -22,6 +18,7 @@ public class CardTotal implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardTotal(int viewType, FBThread fbThread) {
         this.viewType = viewType;
         this.fbThread = fbThread;
@@ -39,23 +36,22 @@ public class CardTotal implements CardItem {
         CardTotalHolder holder = new CardTotalHolder();
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_total, null);
+            v = (View) inflater.inflate(R.layout.card_total, null);
 
 
-            holder.name = (TextView)v.findViewById(R.id.name);
-            holder.profilePic = (ImageView)v.findViewById(R.id.profilePicture);
-            holder.messages = (TextView)v.findViewById(R.id.messages);
-            holder.chars = (TextView)v.findViewById(R.id.chars);
-            holder.since = (TextView)v.findViewById(R.id.since);
+            holder.name = (TextView) v.findViewById(R.id.name);
+            holder.profilePic = (ImageView) v.findViewById(R.id.profilePicture);
+            holder.messages = (TextView) v.findViewById(R.id.messages);
+            holder.chars = (TextView) v.findViewById(R.id.chars);
+            holder.since = (TextView) v.findViewById(R.id.since);
 
             v.setTag(holder);
-        }
-        else {
-            holder = (CardTotalHolder)v.getTag();
+        } else {
+            holder = (CardTotalHolder) v.getTag();
         }
 
         int w = Math.max(holder.profilePic.getWidth(), 500);
-        UrlImageViewHelper.setUrlDrawable(holder.profilePic, "http://graph.facebook.com/" + fbThread.other.id + "/picture?width="+w+"&height="+w,R.drawable.default_profile);
+        UrlImageViewHelper.setUrlDrawable(holder.profilePic, "http://graph.facebook.com/" + fbThread.other.id + "/picture?width=" + w + "&height=" + w, R.drawable.default_profile);
         holder.name.setText((fbThread.other == null) ? ("") : ((fbThread.other.name == null || fbThread.other.name == "") ? "" : fbThread.other.name));
         holder.messages.setText(Util.getFormattedInt(fbThread.messageCount) + " messages &");
         holder.chars.setText(Util.getFormattedInt(fbThread.charCount) + " characters");

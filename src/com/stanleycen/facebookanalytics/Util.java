@@ -44,18 +44,17 @@ public class Util {
 
     public static float roundUpNiceDiv4(float num) {
         if (num == 0) return 4;
-        if (num < 100) return (float)Math.ceil(num / 4.0) * 4f;
-        float t = (float)Math.pow(10.0, Math.ceil(Math.log10(num)));
+        if (num < 100) return (float) Math.ceil(num / 4.0) * 4f;
+        float t = (float) Math.pow(10.0, Math.ceil(Math.log10(num)));
         for (float i = 4; i <= 100; i += 4) {
             float g = t * (i / 100f);
-            if (g >= num && ((int)g % (int)(t / 100f) == 0))
+            if (g >= num && ((int) g % (int) (t / 100f) == 0))
                 return g;
         }
-        return (float)Math.ceil(num / 4.0) * 4f;
+        return (float) Math.ceil(num / 4.0) * 4f;
     }
 
-    public static float getAttributeDimension(final Context context, final int resId)
-    {
+    public static float getAttributeDimension(final Context context, final int resId) {
         return getAttributeDimension(context, context.getTheme(), resId);
     }
 
@@ -69,23 +68,23 @@ public class Util {
      * For example, this method can resolve the resource ID <code>android.R.attr.listPreferredItemHeight</code> and return the value as a dimension to be used in
      * programmatically constructing a layout.
      * </p>
+     *
      * @param context The current context.
-     * @param theme The theme for which an attribute should be resolved.
-     * @param resid The resource identifier of the desired theme attribute.
+     * @param theme   The theme for which an attribute should be resolved.
+     * @param resid   The resource identifier of the desired theme attribute.
      * @return The theme attribute as a display dimension.
      * @throws NotFoundException if the given resource is not found or is not of the appropriate type.
      * @see Resources#getDisplayMetrics()
      * @see Theme#resolveAttribute(int, TypedValue, boolean)
      */
-    public static float getAttributeDimension(final Context context, final Resources.Theme theme, final int resId)
-    {
+    public static float getAttributeDimension(final Context context, final Resources.Theme theme, final int resId) {
         final TypedValue typedValue = new TypedValue(); //create a new typed value to received the resolved attribute value
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        if(!theme.resolveAttribute(resId, typedValue, true)) //if we can't resolve the value
+        if (!theme.resolveAttribute(resId, typedValue, true)) //if we can't resolve the value
         {
             throw new Resources.NotFoundException("Resource ID #0x" + Integer.toHexString(resId));
         }
-        if(typedValue.type != TypedValue.TYPE_DIMENSION) //if the value isn't of the correct type
+        if (typedValue.type != TypedValue.TYPE_DIMENSION) //if the value isn't of the correct type
         {
             throw new Resources.NotFoundException("Resource ID #0x" + Integer.toHexString(resId) + " type #0x" + Integer.toHexString(typedValue.type) + " is not valid");
         }
@@ -94,14 +93,14 @@ public class Util {
 
     /**
      * Returns the list preferred item height theme attribute as a dimension of the display.
+     *
      * @param context The current context.
      * @return The list preferred item height for the current context theme.
      * @throws NotFoundException if the given resource is not found or is not of the appropriate type.
      * @see <a href="http://stackoverflow.com/questions/5982132/android-how-to-get-value-of-listpreferreditemheight-attribute-in-code">Android: how to get value
-     *      of “listPreferredItemHeight” attribute in code?</a>
+     * of “listPreferredItemHeight” attribute in code?</a>
      */
-    public static float getListPreferredItemHeightDimension(final Context context)
-    {
+    public static float getListPreferredItemHeightDimension(final Context context) {
         return getAttributeDimension(context, android.R.attr.listPreferredItemHeight);
     }
 
@@ -111,7 +110,7 @@ public class Util {
 
     public static View getSeparatingHeaderView(final Context context, final LayoutInflater inflater, final ListView list) {
         View header = inflater.inflate(R.layout.listview_header_for_transparent_action_bar, list, false);
-        header.setPadding(0, (int)Util.getAttributeDimension(context, android.R.attr.actionBarSize) - context.getResources().getDimensionPixelSize(R.dimen.card_sep_height), 0, 0);
+        header.setPadding(0, (int) Util.getAttributeDimension(context, android.R.attr.actionBarSize) - context.getResources().getDimensionPixelSize(R.dimen.card_sep_height), 0, 0);
         return header;
     }
 

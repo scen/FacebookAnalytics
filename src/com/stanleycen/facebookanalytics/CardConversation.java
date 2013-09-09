@@ -2,7 +2,6 @@ package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +21,7 @@ public class CardConversation implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardConversation(int viewType, FBThread fbThread) {
         this.viewType = viewType;
         this.fbThread = fbThread;
@@ -39,23 +39,22 @@ public class CardConversation implements CardItem {
         CardConversationHolder holder = new CardConversationHolder();
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_conversation, null);
+            v = (View) inflater.inflate(R.layout.card_conversation, null);
 
 
-            holder.name = (TextView)v.findViewById(R.id.name);
-            holder.profilePic = (ImageView)v.findViewById(R.id.profilePicture);
-            holder.messages = (TextView)v.findViewById(R.id.messages);
-            holder.chars = (TextView)v.findViewById(R.id.chars);
-            holder.last = (TextView)v.findViewById(R.id.last);
+            holder.name = (TextView) v.findViewById(R.id.name);
+            holder.profilePic = (ImageView) v.findViewById(R.id.profilePicture);
+            holder.messages = (TextView) v.findViewById(R.id.messages);
+            holder.chars = (TextView) v.findViewById(R.id.chars);
+            holder.last = (TextView) v.findViewById(R.id.last);
 
             v.setTag(holder);
-        }
-        else {
-            holder = (CardConversationHolder)v.getTag();
+        } else {
+            holder = (CardConversationHolder) v.getTag();
         }
 
         int w = Math.max(holder.profilePic.getWidth(), 500);
-        UrlImageViewHelper.setUrlDrawable(holder.profilePic, "http://graph.facebook.com/" + fbThread.other.id + "/picture?width="+w+"&height="+w,R.drawable.default_profile);
+        UrlImageViewHelper.setUrlDrawable(holder.profilePic, "http://graph.facebook.com/" + fbThread.other.id + "/picture?width=" + w + "&height=" + w, R.drawable.default_profile);
 //        holder.profilePic.setImageUrl("http://graph.facebook.com/" + fbThread.other.id + "/picture?width=800&height=800",R.drawable.default_profile);
         holder.name.setText((fbThread.other == null) ? ("") : ((fbThread.other.name == null || fbThread.other.name == "") ? "" : fbThread.other.name));
         holder.messages.setText(Util.getFormattedInt(fbThread.messageCount) + " messages sent & received");

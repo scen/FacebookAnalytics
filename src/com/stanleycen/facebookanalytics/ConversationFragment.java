@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
@@ -24,20 +22,15 @@ import com.stanleycen.facebookanalytics.graph.LinePoint;
 import com.stanleycen.facebookanalytics.graph.PieSlice;
 
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by scen on 8/30/13.
@@ -74,7 +67,9 @@ public class ConversationFragment extends Fragment {
         LINE_NIGHT,
         HISTORY_MSG,
         HISTORY_CHAR
-    };
+    }
+
+    ;
 
     public ConversationFragment() {
         Log.w("Created", "receiver");
@@ -91,7 +86,7 @@ public class ConversationFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.w("s", "onPause");
-            getActivity().unregisterReceiver(receiver);
+        getActivity().unregisterReceiver(receiver);
     }
 
     @Override
@@ -100,7 +95,7 @@ public class ConversationFragment extends Fragment {
         getActivity().getActionBar().setTitle(fbThread.title);
         getActivity().getActionBar().setSubtitle("" + DateUtils.getRelativeTimeSpanString(fbThread.lastUpdate.getMillis(),
                 DateTime.now().getMillis(), DateUtils.MINUTE_IN_MILLIS, 0));
-        ((MainActivity)getActivity()).unselectAllFromNav();
+        ((MainActivity) getActivity()).unselectAllFromNav();
 
         IntentFilter filter = new IntentFilter("com.stanleycen.facebookanalytics.spinner.group");
         filter.addCategory("android.intent.category.DEFAULT");
@@ -111,13 +106,13 @@ public class ConversationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         FBData fbData = GlobalApp.get().fb.fbData;
         if (fbData == null || fbData.lastUpdate == null) {
-            return (ViewGroup)inflater.inflate(R.layout.fragment_error_data, null);
+            return (ViewGroup) inflater.inflate(R.layout.fragment_error_data, null);
         }
 
 
-        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_conversation, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_conversation, null);
 
-        list = (ListView)root.findViewById(R.id.listView);
+        list = (ListView) root.findViewById(R.id.listView);
         Util.addSeparatingHeaderView(getActivity(), inflater, list);
 
 
@@ -149,7 +144,7 @@ public class ConversationFragment extends Fragment {
             Map<FBUser, MutableInt> charCount = new HashMap<FBUser, MutableInt>();
             Map<FBUser, MutableInt> msgCount = new HashMap<FBUser, MutableInt>();
 
-            fbThread.msgCount = (HashMap)msgCount;
+            fbThread.msgCount = (HashMap) msgCount;
 
             Map<FBUser, int[]> userMsgsPerHour = new HashMap<FBUser, int[]>();
 
@@ -162,7 +157,8 @@ public class ConversationFragment extends Fragment {
 
             for (FBMessage fbMessage : fbThread.messages) {
                 MutableInt cc = charCount.get(fbMessage.from);
-                if (cc == null) charCount.put(fbMessage.from, new MutableInt(fbMessage.body.length()));
+                if (cc == null)
+                    charCount.put(fbMessage.from, new MutableInt(fbMessage.body.length()));
                 else cc.add(fbMessage.body.length());
 
                 MutableInt mc = msgCount.get(fbMessage.from);
@@ -209,7 +205,8 @@ public class ConversationFragment extends Fragment {
                 name = name.split(" ")[0];
                 Bar b = new Bar();
                 b.setColor(Util.colors[idx % Util.colors.length]);
-                if (msgCount.get(person) != null) b.setValue(msgCount.get(person).get() == 0 ? 0 : (float)charCount.get(person).get() / (float)msgCount.get(person).get());
+                if (msgCount.get(person) != null)
+                    b.setValue(msgCount.get(person).get() == 0 ? 0 : (float) charCount.get(person).get() / (float) msgCount.get(person).get());
                 else b.setValue(0);
                 b.setName(name);
                 cpmBars.add(b);
@@ -315,28 +312,28 @@ public class ConversationFragment extends Fragment {
             daytimeActivity.setxFormatter(new LineGraph.LabelFormatter() {
                 @Override
                 public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                    return hourFormatter.print(tmp.withHourOfDay((idx*ptsPerDelta) + 6));
+                    return hourFormatter.print(tmp.withHourOfDay((idx * ptsPerDelta) + 6));
                 }
             });
 
             daytimeActivity.setyFormatter(new LineGraph.LabelFormatter() {
                 @Override
                 public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                    return (int)((max - min)*((float)idx/(float)(tot - 1))+min) + (idx==tot-1?" messages" : "");
+                    return (int) ((max - min) * ((float) idx / (float) (tot - 1)) + min) + (idx == tot - 1 ? " messages" : "");
                 }
             });
 
             nighttimeActivity.setxFormatter(new LineGraph.LabelFormatter() {
                 @Override
                 public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                    return hourFormatter.print(tmp.withHourOfDay((idx*ptsPerDelta) + 6).plusHours(12));
+                    return hourFormatter.print(tmp.withHourOfDay((idx * ptsPerDelta) + 6).plusHours(12));
                 }
             });
 
             nighttimeActivity.setyFormatter(new LineGraph.LabelFormatter() {
                 @Override
                 public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                    return (int)((max - min)*((float)idx/(float)(tot - 1))+min) + (idx==tot-1?" messages" : "");
+                    return (int) ((max - min) * ((float) idx / (float) (tot - 1)) + min) + (idx == tot - 1 ? " messages" : "");
                 }
             });
 
@@ -444,7 +441,7 @@ public class ConversationFragment extends Fragment {
             int curBucketTotal = 0;
             curBucketUserCount.clear();
 
-            for (; msgIndex < size;) {
+            for (; msgIndex < size; ) {
                 FBMessage msg = fbThread.messages.get(msgIndex);
                 DateTime normalized = msg.timestamp.withTimeAtStartOfDay();
                 if (curBucket.contains(normalized)) {
@@ -453,14 +450,12 @@ public class ConversationFragment extends Fragment {
                     MutableInt i = curBucketUserCount.get(msg.from);
                     if (i == null) {
                         curBucketUserCount.put(msg.from, new MutableInt(cnt));
-                    }
-                    else {
+                    } else {
                         i.add(cnt);
                     }
 
                     msgIndex++;
-                }
-                else {
+                } else {
                     break;
                 }
             }
@@ -500,23 +495,24 @@ public class ConversationFragment extends Fragment {
         lines.add(totalLine);
         card.setLines(lines);
         card.setShouldCacheToBitmap(true);
-        card.setRangeY(0, Util.roundUpNiceDiv4((float)maxval));
+        card.setRangeY(0, Util.roundUpNiceDiv4((float) maxval));
         card.setyFormatter(new LineGraph.LabelFormatter() {
             @Override
             public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                return (int)((max - min)*((float)idx/(float)(tot - 1))+min) + (idx==tot-1? suffix : "");
+                return (int) ((max - min) * ((float) idx / (float) (tot - 1)) + min) + (idx == tot - 1 ? suffix : "");
             }
         });
 
         final DateTime s = fbThread.messages.get(0).timestamp.withTimeAtStartOfDay();
-        switch(bucketSize) {
+        switch (bucketSize) {
             case 0:
                 card.setxFormatter(new LineGraph.LabelFormatter() {
                     @Override
                     public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                        if (idx == 0) return initialDayFormatter.print(s.plusDays(idx*ptsPerDelta));
+                        if (idx == 0)
+                            return initialDayFormatter.print(s.plusDays(idx * ptsPerDelta));
                         else
-                            return dayFormatter.print(s.plusDays(idx*ptsPerDelta));
+                            return dayFormatter.print(s.plusDays(idx * ptsPerDelta));
                     }
                 });
                 break;
@@ -524,7 +520,8 @@ public class ConversationFragment extends Fragment {
                 card.setxFormatter(new LineGraph.LabelFormatter() {
                     @Override
                     public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                        if (idx == 0) return initialDayFormatter.print(s.plusWeeks(idx * ptsPerDelta));
+                        if (idx == 0)
+                            return initialDayFormatter.print(s.plusWeeks(idx * ptsPerDelta));
                         else
                             return dayFormatter.print(s.plusWeeks(idx * ptsPerDelta));
                     }
@@ -534,8 +531,9 @@ public class ConversationFragment extends Fragment {
                 card.setxFormatter(new LineGraph.LabelFormatter() {
                     @Override
                     public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                        if (idx == 0) return initialMonthFormatter.print(s.plusMonths(idx*ptsPerDelta));
-                        else return monthFormatter.print(s.plusMonths(idx*ptsPerDelta));
+                        if (idx == 0)
+                            return initialMonthFormatter.print(s.plusMonths(idx * ptsPerDelta));
+                        else return monthFormatter.print(s.plusMonths(idx * ptsPerDelta));
                     }
                 });
                 break;
@@ -543,7 +541,7 @@ public class ConversationFragment extends Fragment {
                 card.setxFormatter(new LineGraph.LabelFormatter() {
                     @Override
                     public String format(int idx, int tot, float min, float max, int ptsPerDelta) {
-                        return yearFormatter.print(s.plusYears(idx*ptsPerDelta));
+                        return yearFormatter.print(s.plusYears(idx * ptsPerDelta));
                     }
                 });
                 break;

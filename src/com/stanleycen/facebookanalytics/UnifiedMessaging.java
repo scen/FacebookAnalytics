@@ -5,13 +5,11 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 
@@ -220,8 +218,7 @@ public class UnifiedMessaging {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         db.beginTransaction();
-        try
-        {
+        try {
             dbHelper.clearAllTables(db);
 
             dbHelper.insertKeyVal(db, "lastupdate", String.valueOf(fbData.lastUpdate.getMillis()));
@@ -249,9 +246,9 @@ public class UnifiedMessaging {
     }
 
     public static void commitThread(SQLiteDatabase db, FBThread fbThread) {
-        db.delete(DatabaseHandler.TABLE_THREADS, DatabaseHandler.COLUMN_ID + "=?", new String[] { fbThread.id });
-        db.delete(DatabaseHandler.TABLE_MESSAGES, DatabaseHandler.COLUMN_THREAD + "=?", new String[] { fbThread.id });
-        db.delete(DatabaseHandler.TABLE_ATTACHMENTS, DatabaseHandler.COLUMN_THREAD + "=?", new String[] { fbThread.id });
+        db.delete(DatabaseHandler.TABLE_THREADS, DatabaseHandler.COLUMN_ID + "=?", new String[]{fbThread.id});
+        db.delete(DatabaseHandler.TABLE_MESSAGES, DatabaseHandler.COLUMN_THREAD + "=?", new String[]{fbThread.id});
+        db.delete(DatabaseHandler.TABLE_ATTACHMENTS, DatabaseHandler.COLUMN_THREAD + "=?", new String[]{fbThread.id});
 
         ContentValues cv = new ContentValues();
         cv.put(DatabaseHandler.COLUMN_ID, fbThread.id);

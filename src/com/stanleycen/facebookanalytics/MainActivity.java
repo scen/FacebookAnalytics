@@ -1,18 +1,14 @@
 package com.stanleycen.facebookanalytics;
 
-import java.util.ArrayList;
-import java.util.TimeZone;
-
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.database.Cursor;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,28 +25,30 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.widget.ProfilePictureView;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.util.ArrayList;
+import java.util.TimeZone;
+
 
 public class MainActivity extends Activity {
     public static final int DRAWER_DATA_COLLECT = 1;
 
     private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
-	private ActionBarDrawerToggle mDrawerToggle;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DrawerEntry> mEntries;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private View mHeaderView;
 
     private final String TAG = "MAIN";
-	
-	final static int PREFERENCESACTIVITY_CODE = 1;
+
+    final static int PREFERENCESACTIVITY_CODE = 1;
 
     public class DrawerEntry {
         String text;
@@ -61,7 +59,7 @@ public class MainActivity extends Activity {
             this.icon = icon;
         }
     }
-	
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,33 +68,32 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView)findViewById(R.id.left_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         mTitle = mDrawerTitle = getString(R.string.app_name);
 //        Log.d(TAG, (String) mDrawerTitle);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
-        		R.string.drawer_open, R.string.drawer_close) {
-        	public void onDrawerClosed(View view) {
+                R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
 //                getActionBar().setTitle(mTitle);
-        	}
-        	
-        	public void onDrawerOpened(View drawerView) {
+            }
+
+            public void onDrawerOpened(View drawerView) {
 //                setTitle(mDrawerTitle);
-        	}
+            }
         };
-        
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
 //        getActionBar().setHomeButtonEnabled(true);
         initDrawer();
         GlobalApp app = GlobalApp.get();
         if (app != null && app.fb != null && app.fb.fbData != null && app.fb.fbData.lastUpdate != null && app.fb.me != null) {
             loadProfilePic();
-        }
-        else {
+        } else {
             new InitializeTask().execute();
         }
     }
@@ -122,42 +119,42 @@ public class MainActivity extends Activity {
     }
 
     private class DrawerRowAdapter extends ArrayAdapter<String> {
-    	private ArrayList<DrawerEntry> entries = new ArrayList<DrawerEntry>();
-    	Context context;
+        private ArrayList<DrawerEntry> entries = new ArrayList<DrawerEntry>();
+        Context context;
 
 
-
-    	public DrawerRowAdapter(Context context, ArrayList<DrawerEntry> entries) {
-    		super(context, R.layout.drawer_list_item, getStringsFromEntries(entries));
-    		this.context = context;
+        public DrawerRowAdapter(Context context, ArrayList<DrawerEntry> entries) {
+            super(context, R.layout.drawer_list_item, getStringsFromEntries(entries));
+            this.context = context;
             this.entries = entries;
-    	}
-    	
-    	@Override
-    	public View getView(int position, View convertView, ViewGroup parent) {
-    		View rowView = convertView;
-    		
-    		RowHolder holder = new RowHolder();
-    		if (convertView == null) {
-    			LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(context);
-    			rowView = inflater.inflate(R.layout.drawer_list_item, parent, false);
-    			TextView text = (TextView) rowView.findViewById(R.id.text);
-    			ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
-    			
-    			holder.icon = icon;
-    			holder.text = text;
+        }
 
-    			rowView.setTag(holder);
-    		}
-    		else {
-    			holder = (RowHolder)rowView.getTag();
-    		}
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View rowView = convertView;
 
-    		holder.text.setText(entries.get(position).text);
-    		holder.icon.setImageResource(entries.get(position).icon);
-			return rowView;
-    	}
-    };
+            RowHolder holder = new RowHolder();
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(context);
+                rowView = inflater.inflate(R.layout.drawer_list_item, parent, false);
+                TextView text = (TextView) rowView.findViewById(R.id.text);
+                ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
+
+                holder.icon = icon;
+                holder.text = text;
+
+                rowView.setTag(holder);
+            } else {
+                holder = (RowHolder) rowView.getTag();
+            }
+
+            holder.text.setText(entries.get(position).text);
+            holder.icon.setImageResource(entries.get(position).icon);
+            return rowView;
+        }
+    }
+
+    ;
 
     public void openConversationView(FBThread fbThread) {
         if (fbThread == null) return;
@@ -165,10 +162,10 @@ public class MainActivity extends Activity {
         Fragment f = ConversationFragment.newInstance(this, fbThread);
         getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commit();
     }
-    
+
     private void initDrawer() {
-    	LayoutInflater inflater = getLayoutInflater();
-        View top = (View)inflater.inflate(R.layout.profile, mDrawerList, false);
+        LayoutInflater inflater = getLayoutInflater();
+        View top = (View) inflater.inflate(R.layout.profile, mDrawerList, false);
         mHeaderView = top;
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.addHeaderView(top, null, false);
@@ -180,36 +177,36 @@ public class MainActivity extends Activity {
         mEntries.add(new DrawerEntry("Group chats", R.drawable.ic_social_group));
 
         mDrawerList.setAdapter(new DrawerRowAdapter(this, mEntries));
-        
+
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
-    
+
     private static class RowHolder {
-		public TextView text;
-		public ImageView icon;
-	}
-    
+        public TextView text;
+        public ImageView icon;
+    }
+
     private class InitializeTask extends AsyncTask<Void, Void, Void> {
-		ProgressDialog dialog;
-		
-		@Override
-		protected void onPreExecute() {
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
             dialog = new ProgressDialog(MainActivity.this);
             dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             dialog.setIndeterminate(true);
-			dialog.setMessage("Initializing");
+            dialog.setMessage("Initializing");
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
-			dialog.show();
-			super.onPreExecute();
-		}
-		
-		@Override
-		protected Void doInBackground(Void... arg0) {
-            GlobalApp app = (GlobalApp)getApplication();
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            GlobalApp app = (GlobalApp) getApplication();
             if (app.fb == null) app.fb = new FBAccount();
-			app.fb.init();
-			if (app.db == null) app.db = new DatabaseHandler(MainActivity.this);
+            app.fb.init();
+            if (app.db == null) app.db = new DatabaseHandler(MainActivity.this);
 
             // random code to initialize timezones
             DateTime dt = DateTime.now();
@@ -219,8 +216,7 @@ public class MainActivity extends Activity {
 
             if (app.fb.fbData != null && app.fb.fbData.lastUpdate != null) {
 
-            }
-            else {
+            } else {
                 app.fb.fbData = UnifiedMessaging.readAllFromDatabase(MainActivity.this, dialog);
             }
 
@@ -228,34 +224,33 @@ public class MainActivity extends Activity {
             Log.v(TAG, "Loaded colors: " + Util.colors.length);
             Util.buckets = getResources().getStringArray(R.array.bucket_sizes);
 
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void result) {
-			dialog.dismiss();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            dialog.dismiss();
             loadProfilePic();
             Fragment f = null;
             if (GlobalApp.get().fb.fbData.lastUpdate != null) {
                 f = ConversationsFragment.newInstance(MainActivity.this);
                 mDrawerList.setItemChecked(3, true);
-            }
-            else {
+            } else {
                 f = DataFragment.newInstance(MainActivity.this);
                 mDrawerList.setItemChecked(1, true);
             }
             if (f != null) loadFragmentNoBackstack(f);
-			super.onPostExecute(result);
-		}
-		
-	}
+            super.onPostExecute(result);
+        }
+
+    }
 
     private void loadProfilePic() {
-        ProfilePictureView myProfilePic = (ProfilePictureView)mHeaderView.findViewById(R.id.profilepic);
-        GlobalApp app = (GlobalApp)getApplication();
+        ProfilePictureView myProfilePic = (ProfilePictureView) mHeaderView.findViewById(R.id.profilepic);
+        GlobalApp app = (GlobalApp) getApplication();
         myProfilePic.setProfileId(app.fb.me.getId());
         myProfilePic.setPresetSize(ProfilePictureView.SMALL);
-        TextView userName = (TextView)mHeaderView.findViewById(R.id.username);
+        TextView userName = (TextView) mHeaderView.findViewById(R.id.username);
         userName.setText(app.fb.me.getName());
     }
 
@@ -273,48 +268,48 @@ public class MainActivity extends Activity {
     }
 
     private void logoutFacebook() {
-        GlobalApp app = (GlobalApp)getApplication();
-    	app.fb.logout();
-		finish();
-		Intent i = new Intent(this, LoginActivity.class);
-		startActivity(i);
+        GlobalApp app = (GlobalApp) getApplication();
+        app.fb.logout();
+        finish();
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
-          return true;
+            return true;
         }
-        switch(item.getItemId()) {
-        case R.id.action_settings:
+        switch (item.getItemId()) {
+            case R.id.action_settings:
 //        	Toast.makeText(this,  "Settings", Toast.LENGTH_SHORT).show();
-        	Intent i = new Intent(this, PreferencesActivity.class);
-        	startActivityForResult(i, PREFERENCESACTIVITY_CODE);
-        	break;
-        case R.id.action_help:
-        	break;
-        case R.id.action_logout:
-        	logoutFacebook();
-        	break;
-        case R.id.action_about:
-        	break;
-    	default:
-    		break;
+                Intent i = new Intent(this, PreferencesActivity.class);
+                startActivityForResult(i, PREFERENCESACTIVITY_CODE);
+                break;
+            case R.id.action_help:
+                break;
+            case R.id.action_logout:
+                logoutFacebook();
+                break;
+            case R.id.action_about:
+                break;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	switch(requestCode) {
-    	case PREFERENCESACTIVITY_CODE:
-    		if (resultCode == PreferencesActivity.FACEBOOK_LOGOUT) {
-    			logoutFacebook();
-    		}
-    		break;
-    	}
+        switch (requestCode) {
+            case PREFERENCESACTIVITY_CODE:
+                if (resultCode == PreferencesActivity.FACEBOOK_LOGOUT) {
+                    logoutFacebook();
+                }
+                break;
+        }
     }
 
     @Override
@@ -326,33 +321,27 @@ public class MainActivity extends Activity {
         if (name == null) return;
         if (name.equals("Data collection")) {
             mDrawerList.setItemChecked(1, true);
-        }
-        else if (name.equals("Overview")) {
+        } else if (name.equals("Overview")) {
             mDrawerList.setItemChecked(2, true);
-        }
-        else if (name.equals("Conversations")) {
+        } else if (name.equals("Conversations")) {
             mDrawerList.setItemChecked(3, true);
-        }
-        else if (name.equals("Group chats")) {
+        } else if (name.equals("Group chats")) {
             mDrawerList.setItemChecked(4, true);
         }
     }
-    
+
     public void drawerSelect(int position) {
-    	mDrawerList.setItemChecked(position, true);
+        mDrawerList.setItemChecked(position, true);
         --position; // ignore header
         DrawerEntry entry = mEntries.get(position);
         Fragment f = null;
         if (entry.text.equals("Data collection")) {
             f = DataFragment.newInstance(this);
-        }
-        else if (entry.text.equals("Overview")) {
+        } else if (entry.text.equals("Overview")) {
             f = OverviewFragment.newInstance(this);
-        }
-        else if (entry.text.equals("Conversations")) {
+        } else if (entry.text.equals("Conversations")) {
             f = ConversationsFragment.newInstance(this);
-        }
-        else if (entry.text.equals("Group chats")) {
+        } else if (entry.text.equals("Group chats")) {
 
         }
 
@@ -376,14 +365,14 @@ public class MainActivity extends Activity {
             mDrawerLayout.closeDrawer(mDrawerList);
         }
     }
-    
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
-    	@Override
-    	public void onItemClick(AdapterView parent, View view, int position, long id) {
-    		drawerSelect(position);
-    	}
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            drawerSelect(position);
+        }
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -404,5 +393,4 @@ public class MainActivity extends Activity {
     }
 
 
-    
 }

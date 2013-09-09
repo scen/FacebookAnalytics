@@ -14,7 +14,6 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.util.MalformedJsonException;
 
 import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
@@ -39,7 +38,9 @@ public class DataDownloaderService extends Service {
     enum MessageType {
         UPDATE_PROGRESSBAR,
         FINISHED_DOWNLOAD
-    };
+    }
+
+    ;
 
     private Messenger messenger = null;
     private boolean startedDownload = false;
@@ -174,8 +175,8 @@ public class DataDownloaderService extends Service {
                                         JSONObject coordinates = curMessage.optJSONObject("coordinates");
                                         if (coordinates != null) {
                                             fbMessage.hasCoordinates = true;
-                                            fbMessage.latitude = (float)coordinates.getDouble("latitude");
-                                            fbMessage.longitude = (float)coordinates.getDouble("longitude");
+                                            fbMessage.latitude = (float) coordinates.getDouble("latitude");
+                                            fbMessage.longitude = (float) coordinates.getDouble("longitude");
                                         }
                                     }
                                     fbMessage.body = curMessage.getString("body");
@@ -225,8 +226,7 @@ public class DataDownloaderService extends Service {
                                             String tag = tags.getString(k);
                                             if (tag.startsWith("source:mobile")) {
                                                 fbMessage.source = FBMessage.Source.MOBILE;
-                                            }
-                                            else if (tag.startsWith("source:chat")) {
+                                            } else if (tag.startsWith("source:chat")) {
                                                 fbMessage.source = FBMessage.Source.WEB;
                                             }
                                         }

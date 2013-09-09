@@ -25,29 +25,31 @@ public class CardUpdate implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardUpdate(int viewType) {
         this.viewType = viewType;
     }
+
     @Override
     public boolean isEnabled() {
         return false;
     }
+
     @Override
     public View getView(LayoutInflater inflater, View convertView, int position, final Context context) {
         View v = convertView;
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_update, null);
+            v = (View) inflater.inflate(R.layout.card_update, null);
             holder = new CardUpdateHolder();
-            holder.status = (TextView)v.findViewById(R.id.status);
-            holder.update = (Button)v.findViewById(R.id.button_update);
-            holder.delete = (Button)v.findViewById(R.id.button_delete);
-            holder.bar = (ProgressBar)v.findViewById(R.id.progressBar);
+            holder.status = (TextView) v.findViewById(R.id.status);
+            holder.update = (Button) v.findViewById(R.id.button_update);
+            holder.delete = (Button) v.findViewById(R.id.button_delete);
+            holder.bar = (ProgressBar) v.findViewById(R.id.progressBar);
             holder.context = context;
             v.setTag(holder);
-        }
-        else {
-            holder = (CardUpdateHolder)v.getTag();
+        } else {
+            holder = (CardUpdateHolder) v.getTag();
         }
 
         GlobalApp.get().updateState.holder = holder;
@@ -81,8 +83,7 @@ public class CardUpdate implements CardItem {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             db.beginTransaction();
-            try
-            {
+            try {
                 dbHelper.clearAllTables(db);
                 db.setTransactionSuccessful();
             } catch (Exception e) {
@@ -101,7 +102,9 @@ public class CardUpdate implements CardItem {
             reloadFragment(holder.context);
         }
 
-    };
+    }
+
+    ;
 
     private void setClearClickListener(final Context context) {
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -137,10 +140,10 @@ public class CardUpdate implements CardItem {
             if (pbu != null) {
                 h.status.setText(pbu.content);
                 h.bar.setIndeterminate(pbu.ongoing);
-                if (!pbu.ongoing) h.bar.setProgress((int)(100.0F * (double)pbu.progress / (double)pbu.mx));
+                if (!pbu.ongoing)
+                    h.bar.setProgress((int) (100.0F * (double) pbu.progress / (double) pbu.mx));
             }
-        }
-        else {
+        } else {
             h.bar.setVisibility(View.GONE);
             h.status.setText(R.string.manage_data);
             h.update.setEnabled(true);
@@ -165,10 +168,9 @@ public class CardUpdate implements CardItem {
                                     @Override
                                     public void handleMessage(Message msg) {
                                         if (msg.what == DataDownloaderService.MessageType.UPDATE_PROGRESSBAR.ordinal()) {
-                                            GlobalApp.get().updateState.pbu = (DataDownloaderService.ProgressBarUpdate)msg.obj;
+                                            GlobalApp.get().updateState.pbu = (DataDownloaderService.ProgressBarUpdate) msg.obj;
                                             reloadControlState();
-                                        }
-                                        else if (msg.what == DataDownloaderService.MessageType.FINISHED_DOWNLOAD.ordinal()) {
+                                        } else if (msg.what == DataDownloaderService.MessageType.FINISHED_DOWNLOAD.ordinal()) {
                                             GlobalApp.get().updateState.updating = false;
                                             reloadControlState();
                                             reloadFragment(holder.context);
@@ -191,7 +193,7 @@ public class CardUpdate implements CardItem {
 
     private void reloadFragment(Context context) {
         try {
-            MainActivity ma = (MainActivity)context;
+            MainActivity ma = (MainActivity) context;
             if (ma != null) ma.reloadPosition(MainActivity.DRAWER_DATA_COLLECT);
         } catch (Exception e) {
 

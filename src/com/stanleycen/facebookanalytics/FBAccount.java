@@ -9,43 +9,42 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
 public class FBAccount {
-	public GraphUser me;
-	public boolean initialized = false;
+    public GraphUser me;
+    public boolean initialized = false;
     public FBData fbData;
 
-	static final String TAG = "FBAccount";
+    static final String TAG = "FBAccount";
 
     public Session session() {
-        Session ret =  Session.getActiveSession();
+        Session ret = Session.getActiveSession();
         if (ret == null || !ret.isOpened()) {
             Log.wtf("FBAccount", "session null or not open");
         }
         return ret;
     }
 
-	public void init() {
+    public void init() {
 
-		Request.newMeRequest(session(), new GraphUserCallback() {
-			
-			@Override
-			public void onCompleted(GraphUser user, Response response) {
-				if (response.getError() != null)
-				{
-					Log.e(TAG, response.getError().toString());
-				}
-				me = user;
-				Log.d(TAG, me.getId());
-			}
-		}).executeAndWait();
+        Request.newMeRequest(session(), new GraphUserCallback() {
 
-		initialized = true;
-	}
+            @Override
+            public void onCompleted(GraphUser user, Response response) {
+                if (response.getError() != null) {
+                    Log.e(TAG, response.getError().toString());
+                }
+                me = user;
+                Log.d(TAG, me.getId());
+            }
+        }).executeAndWait();
 
-	public void logout() {
-		if (!session().isClosed()) {
-			session().closeAndClearTokenInformation();
-		}
-		initialized = false;
-	}
+        initialized = true;
+    }
+
+    public void logout() {
+        if (!session().isClosed()) {
+            session().closeAndClearTokenInformation();
+        }
+        initialized = false;
+    }
 
 }

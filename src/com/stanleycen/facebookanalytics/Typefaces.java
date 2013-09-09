@@ -1,6 +1,5 @@
 package com.stanleycen.facebookanalytics;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
 
@@ -12,7 +11,7 @@ import java.util.HashMap;
 public class Typefaces {
     private static final String TAG = "Typefaces";
 
-//    private static final HashMap<String, Typeface> cach e = new HashMap<String, Typeface>();
+    //    private static final HashMap<String, Typeface> cach e = new HashMap<String, Typeface>();
     private static final HashMap<String, Typeface[]> cache = new HashMap<String, Typeface[]>();
 
     public static Typeface get(String name, int type) {

@@ -5,9 +5,23 @@ package com.stanleycen.facebookanalytics;
  */
 public class MutableInt {
     int value = 1; // note that we start at 1 since we're counting
-    public MutableInt(int v) { value = v; }
-    public MutableInt() {}
-    public void increment () { ++value;      }
-    public int  get ()       { return value; }
-    public void add(int val) { value += val; }
+
+    public MutableInt(int v) {
+        value = v;
+    }
+
+    public MutableInt() {
+    }
+
+    public void increment() {
+        ++value;
+    }
+
+    public int get() {
+        return value;
+    }
+
+    public void add(int val) {
+        value += val;
+    }
 }

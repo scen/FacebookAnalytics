@@ -35,14 +35,14 @@ public class ConversationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         FBData fbData = GlobalApp.get().fb.fbData;
         if (fbData == null || fbData.lastUpdate == null) {
-            return (ViewGroup)inflater.inflate(R.layout.fragment_error_data, null);
+            return (ViewGroup) inflater.inflate(R.layout.fragment_error_data, null);
         }
         //TODO
         // IF FBDATA is BAD/NULL, inflate a different layout with "please collect data"
 
-        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_conversations, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_conversations, null);
 
-        ListView list = (ListView)root.findViewById(R.id.listView);
+        ListView list = (ListView) root.findViewById(R.id.listView);
         Util.addSeparatingHeaderView(getActivity(), inflater, list);
 
         List<CardItem> items = new ArrayList<CardItem>();
@@ -61,7 +61,7 @@ public class ConversationsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0) return; // this is the header item
-                ((MainActivity)getActivity()).openConversationView(((CardConversation)ca.getItem(i - 1)).fbThread);
+                ((MainActivity) getActivity()).openConversationView(((CardConversation) ca.getItem(i - 1)).fbThread);
             }
         });
 

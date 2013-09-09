@@ -3,8 +3,6 @@ package com.stanleycen.facebookanalytics;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 /**
@@ -19,6 +17,7 @@ public class CardDateTime implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardDateTime(int viewType, String title, String date, String time) {
         this.title = title;
         this.date = date;
@@ -38,20 +37,19 @@ public class CardDateTime implements CardItem {
         CardDateTimeHolder holder = new CardDateTimeHolder();
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_date_time, null);
+            v = (View) inflater.inflate(R.layout.card_date_time, null);
 
-            TextView titleView = (TextView)v.findViewById(R.id.title);
-            TextView dateView = (TextView)v.findViewById(R.id.date);
-            TextView timeView = (TextView)v.findViewById(R.id.time);
+            TextView titleView = (TextView) v.findViewById(R.id.title);
+            TextView dateView = (TextView) v.findViewById(R.id.date);
+            TextView timeView = (TextView) v.findViewById(R.id.time);
 
             holder.titleView = titleView;
             holder.dateView = dateView;
             holder.timeView = timeView;
 
             v.setTag(holder);
-        }
-        else {
-            holder = (CardDateTimeHolder)v.getTag();
+        } else {
+            holder = (CardDateTimeHolder) v.getTag();
         }
         holder.titleView.setText(title);
         holder.dateView.setText(date);

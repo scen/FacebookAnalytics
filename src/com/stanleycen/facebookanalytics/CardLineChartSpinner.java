@@ -3,7 +3,6 @@ package com.stanleycen.facebookanalytics;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +36,7 @@ public class CardLineChartSpinner implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardLineChartSpinner(int viewType, String title) {
         this.viewType = viewType;
         this.title = title;
@@ -54,15 +54,14 @@ public class CardLineChartSpinner implements CardItem {
         holder = new CardLineChartHolder();
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_line_chart_spinner, null);
+            v = (View) inflater.inflate(R.layout.card_line_chart_spinner, null);
 
-            holder.title = (TextView)v.findViewById(R.id.title);
-            holder.lineChart = (LineGraph)v.findViewById(R.id.linechart);
-            holder.spinner = (Spinner)v.findViewById(R.id.spinner);
+            holder.title = (TextView) v.findViewById(R.id.title);
+            holder.lineChart = (LineGraph) v.findViewById(R.id.linechart);
+            holder.spinner = (Spinner) v.findViewById(R.id.spinner);
             v.setTag(holder);
-        }
-        else {
-            holder = (CardLineChartHolder)v.getTag();
+        } else {
+            holder = (CardLineChartHolder) v.getTag();
         }
 
         refreshLineChart();

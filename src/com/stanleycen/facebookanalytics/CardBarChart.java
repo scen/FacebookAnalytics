@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.stanleycen.facebookanalytics.graph.Bar;
 import com.stanleycen.facebookanalytics.graph.BarGraph;
-import com.stanleycen.facebookanalytics.graph.PieSlice;
 
 import java.util.ArrayList;
 
@@ -23,6 +22,7 @@ public class CardBarChart implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardBarChart(int viewType, String title) {
         this.viewType = viewType;
         this.title = title;
@@ -40,14 +40,13 @@ public class CardBarChart implements CardItem {
         CardBarChartHolder holder = new CardBarChartHolder();
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_bar_graph, null);
+            v = (View) inflater.inflate(R.layout.card_bar_graph, null);
 
-            holder.title = (TextView)v.findViewById(R.id.title);
-            holder.barChart = (BarGraph)v.findViewById(R.id.bar);
+            holder.title = (TextView) v.findViewById(R.id.title);
+            holder.barChart = (BarGraph) v.findViewById(R.id.bar);
             v.setTag(holder);
-        }
-        else {
-            holder = (CardBarChartHolder)v.getTag();
+        } else {
+            holder = (CardBarChartHolder) v.getTag();
         }
 
         holder.title.setText(this.title);

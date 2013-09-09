@@ -32,7 +32,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -88,7 +87,7 @@ public class PieGraph extends View {
 
         fontSpacing = paint.getFontSpacing();
         int totalLegendHeight = (int) (getSlices().size() * fontSpacing) +
-                (int)((getSlices().size() - 1) * spacingBetweenLegendText);
+                (int) ((getSlices().size() - 1) * spacingBetweenLegendText);
 
         setMeasuredDimension(widthSize, Math.max(heightPie, totalLegendHeight));
     }
@@ -108,7 +107,7 @@ public class PieGraph extends View {
         midY = getHeight() / 2;
 
         radius = getWidth() / 4;
-        thickness = (int)radius / 4;
+        thickness = (int) radius / 4;
         radius -= PADDING;
         innerRadius = radius - thickness;
 
@@ -150,7 +149,7 @@ public class PieGraph extends View {
         float k = (paint.descent() - paint.ascent()) / 2;
 
         int totalLegendHeight = (int) ((getSlices().size()) * fontSpacing) +
-                (int)((getSlices().size() - 1) * spacingBetweenLegendText) - (int)k;
+                (int) ((getSlices().size() - 1) * spacingBetweenLegendText) - (int) k;
 
         float rx = midX + radius + spacingBetweenLegendAndPie;
         float ry = (getHeight() / 2) - (totalLegendHeight / 2) + (fontSpacing / 2);

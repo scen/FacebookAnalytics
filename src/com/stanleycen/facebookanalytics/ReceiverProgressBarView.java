@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ProgressBar;
 
 /**
@@ -53,8 +52,7 @@ public class ReceiverProgressBarView extends ProgressBar {
                 String s = e.getString("action", "");
                 if (s.equals("indeterminate")) {
                     setIndeterminate(true);
-                }
-                else if (s.equals("update")) {
+                } else if (s.equals("update")) {
                     setIndeterminate(false);
                     setProgress(e.getInt("progress", 0));
                 }

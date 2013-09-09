@@ -10,20 +10,17 @@ import android.widget.ListView;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
-import org.joda.time.Instant;
-import org.joda.time.DateTime;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class DataFragment extends Fragment {
     public enum CardItems {
         CardDateTimeItem,
         CardUpdateItem,
-    };
+    }
+
+    ;
 
     public static Fragment newInstance(Context context) {
         DataFragment f = new DataFragment();
@@ -42,9 +39,9 @@ public class DataFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
-        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_data, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_data, null);
 
-        ListView list = (ListView)root.findViewById(R.id.listView);
+        ListView list = (ListView) root.findViewById(R.id.listView);
         Util.addSeparatingHeaderView(getActivity(), inflater, list);
 
 
@@ -54,9 +51,8 @@ public class DataFragment extends Fragment {
         String dataAmount = "0";
         if (fbData.lastUpdate == null) {
             items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update",
-                    "N/A","Begin by pressing update!"));
-        }
-        else {
+                    "N/A", "Begin by pressing update!"));
+        } else {
             items.add(new CardDateTime(CardItems.CardDateTimeItem.ordinal(), "Latest data update",
                     Util.getDate(fbData.lastUpdate), Util.getTimeWithTZ(fbData.lastUpdate)));
             try {

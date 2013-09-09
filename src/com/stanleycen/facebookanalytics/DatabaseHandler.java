@@ -35,7 +35,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_ISGROUP = "isgroup";
     public static final String COLUMN_PARTICIPANTS = "participants";
-//    private static final String COLUMN_MESSAGES = "messages";
+    //    private static final String COLUMN_MESSAGES = "messages";
     public static final String COLUMN_MESSAGECOUNT = "messagecount";
     public static final String COLUMN_BODY = "body";
     public static final String COLUMN_FROM = "_from";
@@ -50,16 +50,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             "CREATE TABLE " + TABLE_KEYVAL + "(" + COLUMN_KEY + " TEXT," + COLUMN_VAL + " TEXT)";
     private static final String CREATE_TABLE_ATTACHMENTS =
             "CREATE TABLE " + TABLE_ATTACHMENTS + "(" + COLUMN_ID + " TEXT," + COLUMN_WIDTH + " INTEGER," +
-            COLUMN_HEIGHT + " INTEGER," + COLUMN_URL + " TEXT," + COLUMN_PREVIEWURL + " TEXT," +
-            COLUMN_MIMETYPE + " TEXT," + COLUMN_TYPE + " INTEGER," + COLUMN_MESSAGE + " TEXT," + COLUMN_THREAD + " TEXT)";
+                    COLUMN_HEIGHT + " INTEGER," + COLUMN_URL + " TEXT," + COLUMN_PREVIEWURL + " TEXT," +
+                    COLUMN_MIMETYPE + " TEXT," + COLUMN_TYPE + " INTEGER," + COLUMN_MESSAGE + " TEXT," + COLUMN_THREAD + " TEXT)";
     private static final String CREATE_TABLE_THREADS =
             "CREATE TABLE " + TABLE_THREADS + "(" + COLUMN_ID + " TEXT," + COLUMN_TITLE + " TEXT," +
-            COLUMN_TIMESTAMP + " INTEGER," + COLUMN_ISGROUP + " INTEGER," + COLUMN_PARTICIPANTS + " TEXT," +
-            COLUMN_MESSAGECOUNT + " INTEGER)";
+                    COLUMN_TIMESTAMP + " INTEGER," + COLUMN_ISGROUP + " INTEGER," + COLUMN_PARTICIPANTS + " TEXT," +
+                    COLUMN_MESSAGECOUNT + " INTEGER)";
     private static final String CREATE_TABLE_MESSAGES =
             "CREATE TABLE " + TABLE_MESSAGES + "(" + COLUMN_ID + " TEXT," + COLUMN_FROM + " TEXT," + COLUMN_TIMESTAMP + " INTEGER," +
-            COLUMN_BODY + " TEXT," + COLUMN_THREAD + " TEXT," + COLUMN_HASCOORD + " INTEGER," + COLUMN_LATITUDE + " REAL," +
-            COLUMN_LONGITUDE + " REAL," + COLUMN_ATTACHMENTS + " TEXT," + COLUMN_SOURCE + " INTEGER)";
+                    COLUMN_BODY + " TEXT," + COLUMN_THREAD + " TEXT," + COLUMN_HASCOORD + " INTEGER," + COLUMN_LATITUDE + " REAL," +
+                    COLUMN_LONGITUDE + " REAL," + COLUMN_ATTACHMENTS + " TEXT," + COLUMN_SOURCE + " INTEGER)";
     private static final String CREATE_TABLE_USERS =
             "CREATE TABLE " + TABLE_USERS + "(" + COLUMN_ID + " TEXT," + COLUMN_NAME + " TEXT)";
 

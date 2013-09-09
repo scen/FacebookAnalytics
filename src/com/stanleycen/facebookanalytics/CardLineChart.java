@@ -1,20 +1,14 @@
 package com.stanleycen.facebookanalytics;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.stanleycen.facebookanalytics.graph.Line;
 import com.stanleycen.facebookanalytics.graph.LineGraph;
-import com.stanleycen.facebookanalytics.graph.LinePoint;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by scen on 8/31/13.
@@ -35,6 +29,7 @@ public class CardLineChart implements CardItem {
     public int getViewType() {
         return viewType;
     }
+
     public CardLineChart(int viewType, String title) {
         this.viewType = viewType;
         this.title = title;
@@ -52,14 +47,13 @@ public class CardLineChart implements CardItem {
         CardLineChartHolder holder = new CardLineChartHolder();
 
         if (v == null) {
-            v = (View)inflater.inflate(R.layout.card_line_chart, null);
+            v = (View) inflater.inflate(R.layout.card_line_chart, null);
 
-            holder.title = (TextView)v.findViewById(R.id.title);
-            holder.lineChart = (LineGraph)v.findViewById(R.id.linechart);
+            holder.title = (TextView) v.findViewById(R.id.title);
+            holder.lineChart = (LineGraph) v.findViewById(R.id.linechart);
             v.setTag(holder);
-        }
-        else {
-            holder = (CardLineChartHolder)v.getTag();
+        } else {
+            holder = (CardLineChartHolder) v.getTag();
         }
 
         holder.lineChart.setLines(lines);

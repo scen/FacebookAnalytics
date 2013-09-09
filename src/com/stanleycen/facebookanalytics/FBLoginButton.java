@@ -8,11 +8,11 @@ import android.view.Gravity;
 import android.widget.Button;
 
 public class FBLoginButton extends Button {
-	
-	public FBLoginButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		
-		this.setGravity(Gravity.CENTER);
+
+    public FBLoginButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        this.setGravity(Gravity.CENTER);
         this.setTextColor(getResources().getColor(R.color.com_facebook_loginview_text_color));
         this.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.com_facebook_loginview_text_size));
@@ -33,6 +33,6 @@ public class FBLoginButton extends Button {
                     getResources().getDimensionPixelSize(R.dimen.com_facebook_loginview_padding_bottom));
         }
         setText("Log in with Facebook");
-	}
+    }
 
 }
