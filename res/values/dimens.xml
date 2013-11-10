@@ -5,6 +5,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="icon_button_padding">8dip</dimen>
     <dimen name="card_default_padding">16dip</dimen>
-    <dimen name="card_sep_height">20dip</dimen>
+    <dimen name="card_sep_height">15dip</dimen>
     <dimen name="half_card_sep_height">10dip</dimen>
 </resources>
